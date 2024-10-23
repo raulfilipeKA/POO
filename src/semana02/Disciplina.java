@@ -116,7 +116,8 @@ public class Disciplina {
 
 	@Override
 	public String toString() {
-		String aux = nome + " (" + sigla + ") - cap: " + capacidade + "\n";
+		//String aux = nome + " (" + sigla + ") - cap: " + capacidade + "\n";
+		String aux = nome + "\n" + capacidade + "\n";
 		for (Inscricao insc : inscricoes)
 			aux += insc + "\n";
 		return aux;

@@ -32,8 +32,8 @@ public class Inscricao {
 	@Override
 	public String toString() {
 		if (temNota())
-			return aluno + " - " + nota + " valores";
-		return aluno + " - ainda não tem nota";
+			return aluno.getNumero() + " " + nota;
+		return aluno.getNumero() + " NA";
 	}
 	
 }
