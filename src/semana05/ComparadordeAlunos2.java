@@ -36,6 +36,7 @@ public class ComparadordeAlunos2 {
         }
         System.out.println("--------Ordenando por nome1--------");
 
+
         alunos.sort((o1, o2) -> {return o1.getNome().compareTo(o2.getNome());});
         alunos.sort((o1, o2) -> o1.getNome().compareTo(o2.getNome()));
 

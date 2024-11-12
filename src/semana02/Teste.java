@@ -45,6 +45,7 @@ public class Teste {
 				String sigla = fs.next();
 				int cap = fs.nextInt();
 				String nome = fs.nextLine();
+
 				
 				Disciplina d = new Disciplina(nome, sigla, cap);
 				disciplinas.add(d);
@@ -52,7 +53,7 @@ public class Teste {
 			}
 			fs.close();	
 		
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException _) {
 			System.err.println("Problemas na abertura do ficheiro");
 		}
 		
