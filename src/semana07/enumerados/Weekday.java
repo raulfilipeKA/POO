@@ -6,6 +6,7 @@ public enum Weekday {
 	THURSDAY("5F"), FRIDAY("6F"), SATURDAY("SAB"), SUNDAY("DOM");
 	
 	private String descPT;
+	private boolean isWeekend;
 	
 	private Weekday(String descPT) {
 		this.descPT = descPT;
@@ -19,9 +20,8 @@ public enum Weekday {
 		
 		if ( this.equals(SUNDAY) || this.equals(SATURDAY))
 			return true;
-		
+
 		return false;
-		
 	}
 	
 	public Weekday next() {	

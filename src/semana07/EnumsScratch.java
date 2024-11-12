@@ -1,5 +1,7 @@
 package semana07;
 
+import java.sql.SQLOutput;
+
 public enum EnumsScratch {
     MONDAY, TUESDAY, WEDNESDAY,
     THURSDAY, FRIDAY, SATURDAY, SUNDAY;
@@ -14,8 +16,10 @@ public enum EnumsScratch {
     }
 
     public static void main(String[] args) {
-        EnumsScratch day = EnumsScratch.SUNDAY;
+        EnumsScratch day = EnumsScratch.MONDAY;
+        System.out.println(day.ordinal());
         System.out.println(day);
         System.out.println(day.nextDay());
+        System.out.println(day);
     }
 }
