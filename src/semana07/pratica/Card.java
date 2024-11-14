@@ -25,6 +25,12 @@ public final class Card {
         System.out.println("Carta não encontrada");
         return null;
     }
+    Rank getValor(){
+        return valor;
+    }
+    Suit getNaipe(){
+        return naipe;
+    }
 
     private Card(Suit suit, Rank rank){
         this.valor= rank;
