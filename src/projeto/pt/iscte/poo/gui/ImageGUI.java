@@ -70,7 +70,7 @@ public class ImageGUI extends Observed {
 
 	private static ImageGUI INSTANCE;
 
-    private final String IMAGE_DIR = "C:\\Users\\raulf\\.intellijava\\POO\\src\\projeto\\images";
+    private final String IMAGE_DIR = "images";
 
     private int tileWidth = 48;
     private int tileHeight = 48;
