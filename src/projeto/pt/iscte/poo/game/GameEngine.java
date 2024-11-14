@@ -26,6 +26,7 @@ public class GameEngine implements Observer {
 			}
 		}
 		int t = ImageGUI.getInstance().getTicks();
+		//inserir o moviemnto do kong
 		while (lastTickProcessed < t) {
 			processTick();
 		}
