@@ -25,7 +25,17 @@ public class JumpMan extends Character {
 //	}
 
 	public void move(Direction direction) {
-		this.position = position.plus(direction.asVector());
+		if (isValidMove(position.plus(direction.asVector()))) {
+			this.position = position.plus(direction.asVector());
+		}
+		if(!isValidMove(position.plus(direction.asVector()))){
+			//verificar se a posicao é de um inimigo ou de um obstaculo (podemos colocar todos na mesma layer)
+			//se for de um inimigo, ele ataca
+			//no codigo do inimigo, o jumpman é atacado
+			//se for um item ele apanha
+			//se for um obstaculo ele nao se move
+			//super.getObjects()
+		}
 	}
 
 }

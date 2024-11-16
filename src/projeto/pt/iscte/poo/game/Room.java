@@ -19,6 +19,7 @@ public class Room {
 	private static ArrayList<char[][]> roomListMatrix = new ArrayList<>();
 	private static ArrayList<Room> roomList = new ArrayList<>();
 	private static int currentRoom = 0;
+	private ArrayList<GameObject> roomObjectsList;
 	
 
 	static {
@@ -39,7 +40,13 @@ public class Room {
 //
 //	}
 
+
+	public ArrayList<GameObject> getRoomObjectsList() {
+		return roomObjectsList;
+	}
+
 	public Room(){
+		roomObjectsList = new ArrayList<>();
 		char[][] room = roomListMatrix.get(currentRoom);
 		for (int i = 0; i < room.length; i++) {
 			for (int j = 0; j < room[i].length; j++) {
@@ -52,9 +59,12 @@ public class Room {
 	//podemos depois multiplicar o numero da sala aos atributos de alguns personagens
 	public void roomObjects(char object, int i, int j){
 		Point2D position = new Point2D(i, j);
+		GameObject obj;
 		switch (object) {
 			case 'W':
-				ImageGUI.getInstance().addImage(new Wall(position));
+				obj = new Wall(position);
+				ImageGUI.getInstance().addImage(obj);
+				roomObjectsList.add(obj);
 				return;
 			case 'H':
 				jumpMan = new JumpMan(position, 100, 10);
@@ -104,6 +114,7 @@ public class Room {
 
 
 	public void moveManel(int k) {
+
 		jumpMan.move(Direction.directionFor(k));
 	}
 
