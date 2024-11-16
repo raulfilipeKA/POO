@@ -63,28 +63,38 @@ public class Room {
 		switch (object) {
 			case 'W':
 				obj = new Wall(position);
-				ImageGUI.getInstance().addImage(obj);
+				//ImageGUI.getInstance().addImage(obj);
 				roomObjectsList.add(obj);
 				return;
 			case 'H':
-				jumpMan = new JumpMan(position, 100, 10);
-				ImageGUI.getInstance().addImage(jumpMan);
+				jumpMan = new JumpMan(position);
+				//ImageGUI.getInstance().addImage(jumpMan);
 				return;
 			case 'G':
-				ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
+				obj = new Kong(position);
+				roomObjectsList.add(obj);
+				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 			case 'S':
+				obj = new Stairs(position);
+				roomObjectsList.add(obj);
 				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 
 			case 'm':
+				obj = new GoodMeat(position);
+				roomObjectsList.add(obj);
 				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 			case '0':
+				obj = new DoorClosed(position);
+				roomObjectsList.add(obj);
 				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 
 			case 't':
+				obj = new Trap(position);
+				roomObjectsList.add(obj);
 				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 			case ' ':
@@ -110,6 +120,13 @@ public class Room {
 				i++;
 		}
 		return matrix;
+	}
+
+	public void moveKong() {
+		//if level is <4, move randomly
+		//roomObjectsList.get()
+		//this.position = getPosition().plus(Direction.random().asVector());
+		//position = position.plus(Direction.random().asVector());
 	}
 
 

@@ -27,10 +27,21 @@ public class GameEngine implements Observer {
 		}
 		int t = ImageGUI.getInstance().getTicks();
 		//inserir o moviemnto do kong
+		//a funcao ja faz update sozinha entao nao podemos fazer
+		//loops aqui
+		currentRoom.moveKong();
+
 		while (lastTickProcessed < t) {
 			processTick();
 		}
 		ImageGUI.getInstance().update();
+	}
+
+	private boolean gameFinished() {
+		//if(kongIsDead() || manelIsDead()) {
+			//inserir logica
+		//}
+		return false;
 	}
 
 	private void processTick() {

@@ -1,3 +1,6 @@
+import projeto.objects.GameObject;
+import projeto.pt.iscte.poo.gui.ImageGUI;
+
 //package projeto.objects;
 //
 //import projeto.pt.iscte.poo.gui.ImageTile;
@@ -8,6 +11,10 @@
 //	public Floor(Point2D p) {
 //		super(p);
 //	}
+//@Override
+//public void createImage(GameObject object){
+//    ImageGUI.getInstance().addImage(object);
+//}
 //
 //	@Override
 //	public String getName() {
@@ -16,8 +23,4 @@
 //
 //	@Override
 //	public int getLayer() {
-//		return 0;
-//	}
-//
-//
-//}
+//		retu

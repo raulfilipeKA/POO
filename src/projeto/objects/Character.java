@@ -16,7 +16,6 @@ public abstract class Character extends GameObject {
         }
     }
 
-
     public Character(Point2D position, int health, int attack){
         super(position);
         this.health = health;
