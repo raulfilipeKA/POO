@@ -3,17 +3,15 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageTile;
 import projeto.pt.iscte.poo.utils.Point2D;
 import projeto.pt.iscte.poo.gui.ImageGUI;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class GameObject implements ImageTile{
 
-    private Point2D position;
+    private final Point2D initialPosition;
     private ArrayList<GameObject> objects = new ArrayList<>();
 
     public GameObject(Point2D initialPosition){
-        position = initialPosition;
+        this.initialPosition = initialPosition;
         objects.add(this);
     }
 
@@ -42,7 +40,7 @@ public abstract class GameObject implements ImageTile{
 
     @Override
     public Point2D getPosition() {
-        return position;
+        return initialPosition;
     }
 
     @Override
