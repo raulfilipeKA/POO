@@ -1,7 +1,6 @@
 package projeto.pt.iscte.poo.game;
 
 import projeto.objects.*;
-import projeto.objects.Character;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;

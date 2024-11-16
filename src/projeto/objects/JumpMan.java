@@ -1,8 +1,7 @@
 package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
-import projeto.pt.iscte.poo.utils.Direction;
-import projeto.pt.iscte.poo.utils.Point2D;
+import projeto.pt.iscte.poo.utils.*;
 
 public class JumpMan extends Character {
 	private static int ATTACK = 10;

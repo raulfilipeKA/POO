@@ -1,8 +1,7 @@
 package projeto.pt.iscte.poo.game;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
-import projeto.pt.iscte.poo.observer.Observed;
-import projeto.pt.iscte.poo.observer.Observer;
+import projeto.pt.iscte.poo.observer.*;
 import projeto.pt.iscte.poo.utils.Direction;
 
 public class GameEngine implements Observer {
