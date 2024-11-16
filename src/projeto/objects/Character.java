@@ -11,7 +11,7 @@ public abstract class Character extends GameObject {
     static {
         if(health == 0){
            // remover a imagem do personagem
-            ImageGUI.getInstance().removeImage(this);
+            //ImageGUI.getInstance().removeImage(this);
             // ImageGUI.getInstance().clearImages();
         }
     }
