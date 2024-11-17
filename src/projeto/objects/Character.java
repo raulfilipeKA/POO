@@ -4,12 +4,12 @@ import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
 public abstract class Character extends GameObject {
-    private static int health;
-    private int attack;
+    private static int HP;
+    private int ATC;
     protected Point2D position;
 
     static {
-        if(health == 0){
+        if(HP == 0){
            // remover a imagem do personagem
             //ImageGUI.getInstance().removeImage(this);
             // ImageGUI.getInstance().clearImages();
@@ -18,8 +18,8 @@ public abstract class Character extends GameObject {
 
     public Character(Point2D position, int health, int attack){
         super(position);
-        this.health = health;
-        this.attack = attack;
+        HP = health;
+        ATC = attack;
         this.position = position;
 
     }
@@ -39,7 +39,7 @@ public abstract class Character extends GameObject {
     }
 
     protected void getsHit(int damage){
-        health = Math.max(0, health - damage);
+        HP = Math.max(0, HP - damage);
     }
 
 

@@ -105,18 +105,18 @@ public class Room {
 	}
 
 
-	public static char[][] createMatrix(File file) throws FileNotFoundException{
+	public static char[][] createMatrix(File file) throws FileNotFoundException{ //matriz para imagem em xy
 		char[][] matrix = new char[10][10];
 		Scanner sc = new Scanner(file);
 		config.add(sc.nextLine());
 
-		int i = 0;
-		while (sc.hasNextLine() && i < matrix.length) {
+		int y = 0;
+		while (sc.hasNextLine() && y < matrix.length) {
 				String line = sc.nextLine();
-				for (int j = 0; j < matrix[i].length; j++) {
-					matrix[j][i] = line.charAt(j);  //j e i invertidos porque sim?
+				for (int x = 0; x < matrix[y].length; x++) {
+					matrix[x][y] = line.charAt(x);
 				}
-				i++;
+				y++;
 		}
 		return matrix;
 	}
