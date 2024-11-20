@@ -48,6 +48,4 @@ public class GameEngine implements Observer {
 		lastTickProcessed++;
 	}
 
-
-
 }

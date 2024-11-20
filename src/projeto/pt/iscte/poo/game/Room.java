@@ -89,8 +89,7 @@ public class Room {
 				obj = new Trap(position);
 				roomObjectsList.add(obj);
 				return;
-			case ' ':
-				return;
+
 						}
 
 
@@ -123,7 +122,26 @@ public class Room {
 
 	public void moveManel(int k) {
 
+		for (GameObject object : roomObjectsList) {
+			if (!isValidMove(jumpMan.getPosition().plus(Direction.directionFor(k).asVector()))
+				//|| object.getPosition().equals(jumpMan.getPosition().plus(Direction.directionFor(k).asVector()))
+			) {return;}
+		}
 		jumpMan.move(Direction.directionFor(k));
+
+	}
+
+	protected boolean isValidMove(Point2D newPosition){
+		for(GameObject object : roomObjectsList){
+			if((object instanceof Wall && object.getPosition().equals(newPosition))
+			|| newPosition.getX() < 0 || newPosition.getX() >= 10
+			|| newPosition.getY() < 0 || newPosition.getY() >= 10
+
+			) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static void changeRoom(int newRoomIndex) {

@@ -12,11 +12,6 @@ public class JumpMan extends Character {
 		this.createImage();
 	}
 
-//	@Override
-//	public void createImage(GameObject object) {
-//		ImageGUI.getInstance().addImage(object);
-//	}
-
 	@Override
 	public void createImage(){
 		ImageGUI.getInstance().addImage(this);
@@ -27,10 +22,6 @@ public class JumpMan extends Character {
 		return "JumpMan";
 	}
 
-//	@Override
-//	public Point2D getPosition() {
-//		return position;
-//	}
 
 //	@Override
 //	public int getLayer() {
@@ -38,17 +29,8 @@ public class JumpMan extends Character {
 //	}
 
 	public void move(Direction direction) {
-		if (isValidMove(position.plus(direction.asVector()))) {
-			position = position.plus(direction.asVector());
-		}
-		if(!isValidMove(position.plus(direction.asVector()))){
-			//verificar se a posicao é de um inimigo ou de um obstaculo (podemos colocar todos na mesma layer)
-			//se for de um inimigo, ele ataca
-			//no codigo do inimigo, o jumpman é atacado
-			//se for um item ele apanha
-			//se for um obstaculo ele nao se move
-			//super.getObjects()
-		}
+		Point2D position = super.getPosition().plus(direction.asVector());
+			super.setPosition(position);
 	}
 
 }

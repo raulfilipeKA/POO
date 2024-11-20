@@ -16,4 +16,7 @@ public class Stairs extends GameObject {
     @Override
     public String getName() {return "Stairs";}
 
+    @Override
+    public int getLayer() {return 0;}
+
 }

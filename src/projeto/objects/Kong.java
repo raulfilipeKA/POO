@@ -26,7 +26,7 @@ public class Kong extends Character {
 
     public void move() {
         //if level is <4, move randomly
-        this.position = getPosition().plus(Direction.random().asVector());
+        //super.getPosition() = getPosition().plus(Direction.random().asVector());
         //implementar na classe Room
         //position = position.plus(Direction.random().asVector());
     }
