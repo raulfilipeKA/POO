@@ -62,42 +62,34 @@ public class Room {
 		switch (object) {
 			case 'W':
 				obj = new Wall(position);
-				//ImageGUI.getInstance().addImage(obj);
 				roomObjectsList.add(obj);
 				return;
 			case 'H':
 				jumpMan = new JumpMan(position);
-				//ImageGUI.getInstance().addImage(jumpMan);
 				return;
 			case 'G':
 				obj = new Kong(position);
 				roomObjectsList.add(obj);
-				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 			case 'S':
 				obj = new Stairs(position);
 				roomObjectsList.add(obj);
-				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 
 			case 'm':
 				obj = new GoodMeat(position);
 				roomObjectsList.add(obj);
-				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 			case '0':
 				obj = new DoorClosed(position);
 				roomObjectsList.add(obj);
-				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 
 			case 't':
 				obj = new Trap(position);
 				roomObjectsList.add(obj);
-				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 			case ' ':
-				//ImageGUI.getInstance().addImage(new Kong(position, 100, 10));
 				return;
 						}
 
