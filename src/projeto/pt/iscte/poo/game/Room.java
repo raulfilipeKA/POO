@@ -14,23 +14,23 @@ public class Room {
 	
 	//private Point2D heroStartingPosition = new Point2D(1, 1);
 	private JumpMan jumpMan;
-	private static ArrayList<String> config = new ArrayList<>();
-	private static ArrayList<char[][]> roomListMatrix = new ArrayList<>();
-	private static ArrayList<Room> roomList = new ArrayList<>();
-	private static int currentRoom = 0;
+	// config fica na porta
+	//private static ArrayList<char[][]> roomListMatrix = new ArrayList<>();
+	//private static ArrayList<Room> roomList = new ArrayList<>();
+	//private static int currentRoom = 0; todo: meter no engine
 	private ArrayList<GameObject> roomObjectsList;
 	
 
-	static {
-		try {
-			File[] files = new File("rooms").listFiles();
-			for (File file : files) {
-				roomListMatrix.add(createMatrix(file));
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+//	static {
+//		try {
+//			File[] files = new File("rooms").listFiles();
+//			for (File file : files) {
+//				roomListMatrix.add(createMatrix(file));
+//			}
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	//	public Room() {
 //		jumpMan = new JumpMan(heroStartingPosition, 100, 10);
@@ -44,18 +44,18 @@ public class Room {
 		return roomObjectsList;
 	}
 
-	public Room(){
+	public Room(int n) throws FileNotFoundException {
 		roomObjectsList = new ArrayList<>();
-		char[][] room = roomListMatrix.get(currentRoom);
+		File[] files = new File("rooms").listFiles();
+		char[][] room = createMatrix(files[n]);
 		for (int i = 0; i < room.length; i++) {
 			for (int j = 0; j < room[i].length; j++) {
 				roomObjects(room[i][j], i, j);
 			}
 		}
-		roomList.add(this);
+		//roomList.add(this); todo meter no engine?
 	}
 
-	//podemos depois multiplicar o numero da sala aos atributos de alguns personagens
 	public void roomObjects(char object, int i, int j){
 		Point2D position = new Point2D(i, j);
 		GameObject obj;
@@ -99,7 +99,8 @@ public class Room {
 	public static char[][] createMatrix(File file) throws FileNotFoundException{ //matriz para imagem em xy
 		char[][] matrix = new char[10][10];
 		Scanner sc = new Scanner(file);
-		config.add(sc.nextLine());
+		sc.nextLine(); //config.add(sc.nextLine());
+
 
 		int y = 0;
 		while (sc.hasNextLine() && y < matrix.length) {
@@ -144,38 +145,16 @@ public class Room {
 		return true;
 	}
 
-	public static void changeRoom(int newRoomIndex) {
-		if (newRoomIndex >= 0 && newRoomIndex < roomListMatrix.size()) {
-			currentRoom = newRoomIndex;
-			new Room();
-		} else {
-			throw new IllegalArgumentException("Índice de sala inválido!");
-		}
-	}
+//	public static void changeRoom(int newRoomIndex) {
+//		if (newRoomIndex >= 0 && newRoomIndex < roomListMatrix.size()) {
+//			currentRoom = newRoomIndex;
+//			new Room();
+//		} else {
+//			throw new IllegalArgumentException("Índice de sala inválido!");
+//		}
+//	} todo: meter no engine
 
-//	public static void main(String[] args) {
-//    // Print the number of columns of each line in the files in the rooms directory
-//    System.out.println("0");
-//    File[] files = new File("rooms").listFiles();
-//    if (files == null) {
-//        System.out.println("No files found in the 'rooms' directory.");
-//        return;
-//    }
-//    System.out.println("1");
-//    for (File file : files) {
-//        try (Scanner sc = new Scanner(file)) {
-//            System.out.println("File: " + file.getName());
-//            int lineNumber = 1;
-//            while (sc.hasNextLine()) {
-//                String line = sc.nextLine();
-//                int columns = line.length();
-//                System.out.println("Line " + lineNumber + " Columns: " + columns);
-//                lineNumber++;
-//            }
-//        } catch (FileNotFoundException e) {
-//            System.out.println("File not found: " + file.getName());
-//            e.printStackTrace();
-//        }
+//
 //    }
 //}
 	

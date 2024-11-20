@@ -4,12 +4,15 @@ import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.*;
 import projeto.pt.iscte.poo.utils.Direction;
 
-public class GameEngine implements Observer {
+import java.io.FileNotFoundException;
 
-	private Room currentRoom = new Room();
+public class GameEngine implements Observer {
+	private int room=1;
+	private Room currentRoom;
 	private int lastTickProcessed = 0;
 
-	public GameEngine() {
+	public GameEngine() throws FileNotFoundException {
+		currentRoom = new Room(room);
 		ImageGUI.getInstance().update();
 	}
 
