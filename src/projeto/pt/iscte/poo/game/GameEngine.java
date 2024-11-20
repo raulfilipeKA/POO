@@ -25,7 +25,7 @@ public class GameEngine implements Observer {
 			}
 		}
 		int t = ImageGUI.getInstance().getTicks();
-		//inserir o moviemnto do kong
+		//inserir o movimento do kong
 		//a funcao ja faz update sozinha entao nao podemos fazer
 		//loops aqui
 		currentRoom.moveKong();
@@ -37,7 +37,7 @@ public class GameEngine implements Observer {
 	}
 
 	private boolean gameFinished() {
-		//if(kongIsDead() || manelIsDead()) {
+		//if(kongIsDead() no kongisdead se calhar temos um kongcount ==0 || manelIsDead()) {
 			//inserir logica
 		//}
 		return false;
