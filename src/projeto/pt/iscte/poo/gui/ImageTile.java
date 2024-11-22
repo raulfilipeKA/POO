@@ -1,7 +1,5 @@
 package projeto.pt.iscte.poo.gui;
 
-import java.awt.Dimension;
-
 import projeto.pt.iscte.poo.utils.Point2D;
 
 /**

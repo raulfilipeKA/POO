@@ -24,7 +24,7 @@ public class GameEngine implements Observer {
 			System.out.println("Keypressed " + k);
 			if (Direction.isDirection(k)) {
 				System.out.println("Direction! ");
-				currentRoom.moveManel(k);
+				currentRoom.moveJumpMan(k);
 			}
 		}
 		int t = ImageGUI.getInstance().getTicks();
@@ -40,7 +40,7 @@ public class GameEngine implements Observer {
 	}
 
 	private boolean gameFinished() {
-		//if(kongIsDead() no kongisdead se calhar temos um kongcount ==0 || manelIsDead()) {
+		//if(manel.getposition() == portaAberta) || manelIsDead()) {
 			//inserir logica
 		//}
 		return false;

@@ -62,6 +62,6 @@ public enum Direction implements Serializable {
 		for (Direction d : values())
 			if (v.equals(d.asVector()))
 				return d;
-		throw new IllegalArgumentException();	
+		throw new IllegalArgumentException();
 	}
 }

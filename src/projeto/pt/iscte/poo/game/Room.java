@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class Room {
 	
@@ -18,8 +19,10 @@ public class Room {
 	//private static ArrayList<Room> roomList = new ArrayList<>();
 	//private static int currentRoom = 0; todo: meter no engine
 	private ArrayList<GameObject> roomObjectsList;
-	
 
+	public Point2D getJumpManPosition() {
+		return jumpMan.getPosition();
+	}
 
 	public ArrayList<GameObject> getRoomObjectsList() {
 		return roomObjectsList;
@@ -94,20 +97,36 @@ public class Room {
 		return matrix;
 	}
 
-	public void moveKong() {
-		//if level is <4, move randomly
-		//roomObjectsList.get()
-		//this.position = getPosition().plus(Direction.random().asVector());
-		//position = position.plus(Direction.random().asVector());
+	public void moveKong() {//if level is <4, move randomly
+		for (GameObject possibleKong : roomObjectsList) {
+			if(possibleKong instanceof Kong) {
+				((Kong) possibleKong).move(); //se tiver assim, nao da para aceder a posicao e nao consigo invocar isValidMove
+			}
+		}
 	}
 
 
-	public void moveManel(int k) {
+	public void moveKong(Point2D p) {
+		Kong kong;
+		for (GameObject possibleKong : roomObjectsList) {
+			if(possibleKong instanceof Kong) {
+				kong = (Kong) possibleKong;
+				//for (GameObject obstaculos : roomObjectsList) {
+				if (!isValidMove(p)) {return;}
+				//}
+				kong.move(p);
+				//kong.setPosition(p); //tinha que colocar setPosition public em GameObject
+			}
+		}
+	}
+
+
+	public void moveJumpMan(int k) {
 
 		for (GameObject object : roomObjectsList) {
-			if (!isValidMove(jumpMan.getPosition().plus(Direction.directionFor(k).asVector()))
+			if (!isValidMove(jumpMan.getPosition().plus(Direction.directionFor(k).asVector())))
 				//|| object.getPosition().equals(jumpMan.getPosition().plus(Direction.directionFor(k).asVector()))
-			) {return;}
+			{return;}
 		}
 		jumpMan.move(Direction.directionFor(k));
 
@@ -119,9 +138,7 @@ public class Room {
 			|| newPosition.getX() < 0 || newPosition.getX() >= 10
 			|| newPosition.getY() < 0 || newPosition.getY() >= 10
 
-			) {
-				return false;
-			}
+			) {	return false;}
 		}
 		return true;
 	}

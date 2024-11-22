@@ -29,8 +29,7 @@ public class JumpMan extends Character {
 //	}
 
 	public void move(Direction direction) {
-		Point2D position = super.getPosition().plus(direction.asVector());
-			super.setPosition(position);
+		setPosition(getPosition().plus(direction.asVector()));
 	}
 
 }
