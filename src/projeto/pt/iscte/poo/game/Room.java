@@ -15,29 +15,10 @@ public class Room {
 	//private Point2D heroStartingPosition = new Point2D(1, 1);
 	private JumpMan jumpMan;
 	// config fica na porta
-	//private static ArrayList<char[][]> roomListMatrix = new ArrayList<>();
 	//private static ArrayList<Room> roomList = new ArrayList<>();
 	//private static int currentRoom = 0; todo: meter no engine
 	private ArrayList<GameObject> roomObjectsList;
 	
-
-//	static {
-//		try {
-//			File[] files = new File("rooms").listFiles();
-//			for (File file : files) {
-//				roomListMatrix.add(createMatrix(file));
-//			}
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	//	public Room() {
-//		jumpMan = new JumpMan(heroStartingPosition, 100, 10);
-//		ImageGUI.getInstance().addImage(jumpMan);
-//		ImageGUI.getInstance().addImage(new Wall(new Point2D(2, 2)));
-//
-//	}
 
 
 	public ArrayList<GameObject> getRoomObjectsList() {
