@@ -101,7 +101,7 @@ public class Room {
 		for (GameObject possibleKong : roomObjectsList) {
 			if(possibleKong instanceof Kong) {
 				((Kong) possibleKong).move(); //se tiver assim, nao da para aceder a posicao e nao consigo invocar isValidMove
-			}
+			} //todo isValidMove
 		}
 	}
 
