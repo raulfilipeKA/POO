@@ -171,10 +171,11 @@ public class Room {
 		return true;
 	}
 
-
-
-//
-//    }
-//}
-	
+	public boolean isFinished() {
+		for (GameObject object : roomObjectsList) {
+			if (object instanceof DoorOpen && object.getPosition().equals(jumpMan.getPosition())) {
+				return true;
+			}
+		} return false;
+	}
 }
