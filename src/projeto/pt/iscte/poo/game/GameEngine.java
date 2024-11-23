@@ -3,20 +3,23 @@ package projeto.pt.iscte.poo.game;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.*;
 import projeto.pt.iscte.poo.utils.Direction;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class GameEngine implements Observer {
-	private int roomNum=0;  //todo static ?
-	private Room currentRoom; //todo static ?
+	private static int roomNum=0;  // todo static?
+	private Room currentRoom;
 	private int lastTickProcessed = 0;
-	private static ArrayList<Room> roomList = new ArrayList<>(); // todo static ?
+	//private static ArrayList<Room> roomList = new ArrayList<>(); // todo static ?
 
 	public GameEngine()  {
-		//posso criar logo as salas todas ? fica tudo sobreposto com o getInstance().update
+		//posso criar logo as salas todas ?
+		// fica tudo sobreposto com o getInstance().update
 		currentRoom = new Room(roomNum);
 		ImageGUI.getInstance().update();
 	}
-
+//com os valores a static nao deve dar para fazer upadate
 //	public static void changeRoom(int newRoomIndex) {
 //		if (newRoomIndex >= 0 && newRoomIndex < roomList.size()) {
 //			roomNum = newRoomIndex;
@@ -25,23 +28,20 @@ public class GameEngine implements Observer {
 //			throw new IllegalArgumentException("Índice de sala inválido!");
 //		}
 //	}
+
 	public static void changeRoom(int newRoomIndex) {
-		if (newRoomIndex >= 0 && newRoomIndex < roomList.size()) {
+		if (newRoomIndex >= 0 && newRoomIndex < numberOfRoomFiles()) {
 			new Room(newRoomIndex);
+			//alterar o numero da sala
+			roomNum = newRoomIndex;
 		} else {
 			throw new IllegalArgumentException("Índice de sala inválido!");
 		}
 	}
 
-	private int setRoomNum(int n) {
-		return roomNum = n;
+	public static int numberOfRoomFiles() {
+		return new File("rooms").listFiles().length;
 	}
-
-	private int getRoomNum() {
-		return roomNum;
-	}
-
-
 
 	@Override
 	public void update(Observed source) {
@@ -78,9 +78,9 @@ public class GameEngine implements Observer {
 		lastTickProcessed++;
 	}
 
-	private int roomListSize() {
-		return roomList.size();
-	}
+//	private int roomListSize() {
+//		return roomList.size();
+//	}
 
 	public static boolean isEven(int n) {
 		return n % 2 == 0;
