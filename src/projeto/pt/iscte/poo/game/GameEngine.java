@@ -3,17 +3,26 @@ package projeto.pt.iscte.poo.game;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.*;
 import projeto.pt.iscte.poo.utils.Direction;
-
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class GameEngine implements Observer {
-	private int room=1;
-	private Room currentRoom;
+	private static int roomNum=0;  //todo static ?
+	private static Room currentRoom; //todo static ?
 	private int lastTickProcessed = 0;
+	private static ArrayList<Room> roomList = new ArrayList<>(); // todo static ?
 
-	public GameEngine() throws FileNotFoundException {
-		currentRoom = new Room(room);
+	public GameEngine()  {
+		currentRoom = new Room(roomNum);
 		ImageGUI.getInstance().update();
+	}
+
+	public static void changeRoom(int newRoomIndex) {
+		if (newRoomIndex >= 0 && newRoomIndex < roomList.size()) {
+			roomNum = newRoomIndex;
+			new Room(roomNum);
+		} else {
+			throw new IllegalArgumentException("Índice de sala inválido!");
+		}
 	}
 
 	@Override
@@ -49,6 +58,10 @@ public class GameEngine implements Observer {
 	private void processTick() {
 		System.out.println("Tic Tac : " + lastTickProcessed);
 		lastTickProcessed++;
+	}
+
+	private int roomListSize() {
+		return roomList.size();
 	}
 
 	public static boolean isEven(int n) {

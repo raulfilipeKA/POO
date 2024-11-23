@@ -28,7 +28,8 @@ public class Room {
 		return roomObjectsList;
 	}
 
-	public Room(int n) throws FileNotFoundException {
+	public Room(int n) {
+		try{
 		roomObjectsList = new ArrayList<>();
 		File[] files = new File("rooms").listFiles();
 		char[][] room = createMatrix(files[n]);
@@ -36,6 +37,9 @@ public class Room {
 			for (int j = 0; j < room[i].length; j++) {
 				roomObjects(room[i][j], i, j);
 			}
+		}
+		}catch (FileNotFoundException _) {
+			System.out.println("Ficheiro não encontrado");
 		}
 		//roomList.add(this); todo meter no engine?
 	}
@@ -167,14 +171,7 @@ public class Room {
 		return true;
 	}
 
-//	public static void changeRoom(int newRoomIndex) {
-//		if (newRoomIndex >= 0 && newRoomIndex < roomListMatrix.size()) {
-//			currentRoom = newRoomIndex;
-//			new Room();
-//		} else {
-//			throw new IllegalArgumentException("Índice de sala inválido!");
-//		}
-//	} todo: meter no engine
+
 
 //
 //    }

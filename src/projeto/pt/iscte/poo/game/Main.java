@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 
 public class Main {
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) {
 		ImageGUI gui = ImageGUI.getInstance();
 		GameEngine engine = new GameEngine();
 		gui.setStatusMessage("Good luck!");
