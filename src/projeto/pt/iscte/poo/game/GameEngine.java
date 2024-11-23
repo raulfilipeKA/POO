@@ -3,9 +3,8 @@ package projeto.pt.iscte.poo.game;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.*;
 import projeto.pt.iscte.poo.utils.Direction;
-
 import java.io.File;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class GameEngine implements Observer {
 	private static int roomNum=0;  // todo static?
@@ -58,7 +57,8 @@ public class GameEngine implements Observer {
 		//inserir o movimento do kong
 		//a funcao ja faz update sozinha entao nao podemos fazer
 		//loops aqui
-		if(isEven(lastTickProcessed)) {currentRoom.moveKong();}
+		if(isEven(lastTickProcessed)) {
+			currentRoom.moveKong();}
 
 		while (lastTickProcessed < t) {
 			processTick();
