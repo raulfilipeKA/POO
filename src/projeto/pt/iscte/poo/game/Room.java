@@ -97,11 +97,30 @@ public class Room {
 		return matrix;
 	}
 
+//	public void moveKong() {//if level is <4, move randomly
+//		for (GameObject possibleKong : roomObjectsList) {
+//			if(possibleKong instanceof Kong) {
+//				((Kong) possibleKong).move(); //se tiver assim, nao da para aceder a posicao e nao consigo invocar isValidMove
+//			} //todo isValidMove
+//		}
+//	}
+
 	public void moveKong() {//if level is <4, move randomly
+		Kong kong;
+		Point2D p;
 		for (GameObject possibleKong : roomObjectsList) {
 			if(possibleKong instanceof Kong) {
-				((Kong) possibleKong).move(); //se tiver assim, nao da para aceder a posicao e nao consigo invocar isValidMove
-			} //todo isValidMove
+				kong = (Kong) possibleKong;
+				p = kong.getPosition().plus(Direction.random().asVector());
+				//for (GameObject obstaculos : roomObjectsList) {
+				try {
+					if (isValidMove(p)) kong.move(p);
+				} catch (IllegalArgumentException _) {
+					System.out.println("Kong: THUND");
+				}
+				//}
+				//kong.setPosition(p); //tinha que colocar setPosition public em GameObject
+			}
 		}
 	}
 
@@ -112,7 +131,12 @@ public class Room {
 			if(possibleKong instanceof Kong) {
 				kong = (Kong) possibleKong;
 				//for (GameObject obstaculos : roomObjectsList) {
-				if (!isValidMove(p)) {return;}
+				//todo fazer a mesma logica do movimento em cima com o try catch para nao rebentar com o movimento invalido
+				try {
+					if (isValidMove(p)) kong.move(p);
+				} catch (IllegalArgumentException _) {
+					System.out.println("O Kong bateu com a cabeça");
+				}
 				//}
 				kong.move(p);
 				//kong.setPosition(p); //tinha que colocar setPosition public em GameObject
@@ -123,11 +147,11 @@ public class Room {
 
 	public void moveJumpMan(int k) {
 
-		for (GameObject object : roomObjectsList) {
+		//for (GameObject object : roomObjectsList) {
 			if (!isValidMove(jumpMan.getPosition().plus(Direction.directionFor(k).asVector())))
 				//|| object.getPosition().equals(jumpMan.getPosition().plus(Direction.directionFor(k).asVector()))
 			{return;}
-		}
+		//}
 		jumpMan.move(Direction.directionFor(k));
 
 	}

@@ -31,7 +31,7 @@ public class GameEngine implements Observer {
 		//inserir o movimento do kong
 		//a funcao ja faz update sozinha entao nao podemos fazer
 		//loops aqui
-		currentRoom.moveKong();
+		if(isEven(lastTickProcessed)) {currentRoom.moveKong();}
 
 		while (lastTickProcessed < t) {
 			processTick();
@@ -49,6 +49,10 @@ public class GameEngine implements Observer {
 	private void processTick() {
 		System.out.println("Tic Tac : " + lastTickProcessed);
 		lastTickProcessed++;
+	}
+
+	public static boolean isEven(int n) {
+		return n % 2 == 0;
 	}
 
 }

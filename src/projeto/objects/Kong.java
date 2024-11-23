@@ -24,12 +24,12 @@ public class Kong extends Character {
         return "DonkeyKong";
     }
 
-    public void move() { //move randomly lvl 1-4 //todo Point2D ou Direction? É indiferente?
-        Direction d = Direction.random();
-        //Point2D p = this.getPosition().plus(Direction.random().asVector());
-        //this.move(p);
-        setPosition(getPosition().plus(d.asVector()));
-    }
+//    public void move() { //move randomly lvl 1-4 //todo Point2D ou Direction? É indiferente?
+//        //Direction d = Direction.random();
+//        Point2D p = this.getPosition().plus(Direction.random().asVector());
+//        this.move(p);
+//        //setPosition(getPosition().plus(d.asVector()));
+//    }
 
     public void move(Point2D p) { //todo passar direcao em vez de Point 2D
         Point2D position  = new Point2D(p.getX(), this.getPosition().getY());
@@ -38,7 +38,8 @@ public class Kong extends Character {
         // posicao inicial mais vetor  this.getPosition().plus(VETOR)
         // a direcao é this.getposition().directionTo(position)
         // o VETOR é this.directionTo(position).asVector()
-
-        this.setPosition(this.getPosition().plus(this.getPosition().directionTo(position).asVector()));
+        Direction direction = this.getPosition().directionTo(position);
+        setPosition(getPosition().plus(direction.asVector()));
+        //setPosition(getPosition().plus(getPosition().directionTo(position).asVector()));
     }
 }
