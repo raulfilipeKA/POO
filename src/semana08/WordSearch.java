@@ -11,8 +11,8 @@ public class WordSearch {
     SortedSet<String> subSet;
 
 
-    WordSearch(String arg, String a, String b)throws FileNotFoundException {
-        File file = new File(arg);
+    WordSearch(String path, String a, String b)throws FileNotFoundException {
+        File file = new File(path);
         Scanner sc = new Scanner(file, "UTF-8");
         sc.useDelimiter("[,\\.;:\\-\\?!»«\\(\\)0-9\\s]+");
         while(sc.hasNext()){
@@ -38,7 +38,7 @@ public class WordSearch {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        WordSearch ws = new WordSearch("C:\\Users\\raulf\\IdeaProjects\\POO\\src\\semana08\\text.txt", "a", "z");
+        WordSearch ws = new WordSearch("OsMaias-Cap1.txt", "lisboa", "livre");
         SortedSet<String> interval = ws.getInterval();
         System.out.println("The file has " + ws.getWordCount()  + " words.");
         for(String word : interval){
