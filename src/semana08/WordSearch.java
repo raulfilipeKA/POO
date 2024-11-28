@@ -19,20 +19,13 @@ public class WordSearch {
             String word = sc.next();
             this.asc.add(word.toLowerCase());
         }
-        if (!(asc.contains(a.toLowerCase()) && asc.contains(b.toLowerCase()))) {
-            throw new IllegalArgumentException("One or both words are not in the file");
-        }
-        if(a.compareTo(b) > 0){
-            subSet = asc.subSet(b.toLowerCase(), a.toLowerCase());
-        }
-        else {
-            subSet = asc.subSet(a.toLowerCase(), b.toLowerCase());
-        }
+        subSet= asc.subSet(a.toLowerCase(), b.toLowerCase());
     }
 
     public int getWordCount(){
         return subSet.size();
     }
+
     SortedSet<String> getInterval(){
         return subSet;
     }

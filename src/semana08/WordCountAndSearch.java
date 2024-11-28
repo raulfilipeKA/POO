@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class WordCountAndSearch {
-    HashMap<String, Integer> wordCount = new HashMap<>();
-    HashMap<String, Integer> topNSearch = new HashMap<>();
+    Map<String, Integer> wordCount = new HashMap<>();
+    Map<String, Integer> topNSearch = new HashMap<>();
 
     public WordCountAndSearch(File file, int minWordLength, int topN) {
         try {
@@ -19,6 +19,19 @@ public class WordCountAndSearch {
                 }
             }
             topNWords(topN);
+        } catch (  FileNotFoundException _) {
+            System.out.println("Ficheiro não encontrado");
+        }
+    }
+
+    public WordCountAndSearch(String path , String firstWord, String lastWord){
+        try {
+            WordSearch ws = new WordSearch("OsMaias-Cap1.txt", "lisboa", "livre");
+            SortedSet<String> interval = ws.getInterval();
+            for(String word : interval){
+
+            }
+
         } catch (  FileNotFoundException _) {
             System.out.println("Ficheiro não encontrado");
         }
@@ -64,11 +77,11 @@ public class WordCountAndSearch {
             }
             System.out.println(w + " " + max);
             clone.topNSearch.remove(w);
+
         }
 
-
-
     }
+
 
 
 }

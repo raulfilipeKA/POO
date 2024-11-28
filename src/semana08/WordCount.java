@@ -9,7 +9,7 @@ public class WordCount {
     Set<String> words = new HashSet<>();
     //HashMap<String, Integer> wordCount = new HashMap<>();
 
-    public WordCount(String path) throws FileNotFoundException {
+    public WordCount(String path) {
         try {
             File file = new File(path);
             Scanner sc = new Scanner(file, "UTF-8");
@@ -23,7 +23,7 @@ public class WordCount {
         }
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
            WordCount wc = new WordCount("OsMaias-Cap1.txt");
            System.out.println("The file has " + wc.getWordCount() + " words.");
 
