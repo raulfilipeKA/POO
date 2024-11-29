@@ -1,6 +1,7 @@
 package projeto.pt.iscte.poo.game;
 
 import projeto.objects.*;
+import projeto.objects.Character;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
@@ -151,24 +152,40 @@ public class Room {
 
 	public void moveJumpMan(int k) {
 
-		//for (GameObject object : roomObjectsList) {
-			if (!isValidMove(jumpMan.getPosition().plus(Direction.directionFor(k).asVector())))
-				//|| object.getPosition().equals(jumpMan.getPosition().plus(Direction.directionFor(k).asVector()))
-			{return;}
-		//}
-		jumpMan.move(Direction.directionFor(k));
+		Direction d = Direction.directionFor(k);
+		if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
+			jumpMan.move(d);
+			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
+		}
+		else if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
+			jumpMan.attack((Character) whatsThere(jumpMan.getPosition().plus(d.asVector())));
+			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
+		}
 
+		else if (isValidMove(jumpMan.getPosition().plus(d.asVector()))) {
+			jumpMan.move(Direction.directionFor(k));
+		}
 	}
 
 	protected boolean isValidMove(Point2D newPosition){
 		for(GameObject object : roomObjectsList){
-			if((object instanceof Wall && object.getPosition().equals(newPosition))
+			if(((object instanceof Wall || object instanceof Character || object instanceof Trap)
+					&& object.getPosition().equals(newPosition))
 			|| newPosition.getX() < 0 || newPosition.getX() >= 10
 			|| newPosition.getY() < 0 || newPosition.getY() >= 10
 
 			) {	return false;}
 		}
 		return true;
+	}
+
+	protected GameObject whatsThere(Point2D position) {
+		for (GameObject object : roomObjectsList) {
+			if (object.getPosition().equals(position)) {
+				return object;
+			}
+		}
+		return null;
 	}
 
 	public boolean isFinished() {

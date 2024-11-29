@@ -16,4 +16,9 @@ public class Princess extends GameObject {
     @Override
     public String getName() {return "Princess";}
 
+    @Override
+    public int getLayer() {
+        return 5;
+    }
+
 }

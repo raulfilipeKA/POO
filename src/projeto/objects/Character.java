@@ -22,5 +22,16 @@ public abstract class Character extends GameObject {
         HP = Math.max(0, HP - damage);
     }
 
+    public void attack(Character c){
+        c.getsHit(ATC);
+    }
+
+    public boolean isDead(){
+        if(HP == 0) {
+            this.removeImage();
+        }
+        return HP == 0;
+    }
+
 
 }
