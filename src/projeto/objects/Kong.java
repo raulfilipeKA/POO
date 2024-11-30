@@ -31,6 +31,10 @@ public class Kong extends Character {
 //        //setPosition(getPosition().plus(d.asVector()));
 //    }
 
+    public void deployProjectile(Projectile proj){
+
+    }
+
     public void move(Point2D p) { //todo passar direcao em vez de Point 2D
         Point2D position  = new Point2D(p.getX(), this.getPosition().getY());
         // positon é a posicao em x do jumpman e a posicao em y do kong

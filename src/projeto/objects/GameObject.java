@@ -18,6 +18,8 @@ public abstract class GameObject implements ImageTile{
 
     public void removeImage(){
         ImageGUI.getInstance().removeImage(this);
+        //remover a imagem e apagar o objeto
+
     }
 
 

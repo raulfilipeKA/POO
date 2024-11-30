@@ -3,10 +3,9 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-public class GoodMeat extends Item {
-    private static int HEALTHBONUS = 10;
+public class Key extends Item {
 
-    public GoodMeat(Point2D position) {
+    public Key(Point2D position) {
         super(position);
         this.createImage();
     }
@@ -15,6 +14,6 @@ public class GoodMeat extends Item {
     public void createImage(){ImageGUI.getInstance().addImage(this);}
 
     @Override
-    public String getName() {return "GoodMeat";}
+    public String getName() {return "Key";}
 
 }

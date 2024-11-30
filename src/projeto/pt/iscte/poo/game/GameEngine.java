@@ -7,7 +7,7 @@ import java.io.File;
 //import java.util.ArrayList;
 
 public class GameEngine implements Observer {
-	private static int roomNum=0;  // todo static?
+	private int roomNum=0;  // todo static?
 	private Room currentRoom;
 	private int lastTickProcessed = 0;
 	//private static ArrayList<Room> roomList = new ArrayList<>(); // todo static ?
@@ -28,7 +28,7 @@ public class GameEngine implements Observer {
 //		}
 //	}
 
-	public static void changeRoom(int newRoomIndex) {
+	public void changeRoom(int newRoomIndex) {
 		if (newRoomIndex >= 0 && newRoomIndex < numberOfRoomFiles()) {
 			new Room(newRoomIndex);
 			//alterar o numero da sala
@@ -64,6 +64,13 @@ public class GameEngine implements Observer {
 			processTick();
 		}
 		ImageGUI.getInstance().update();
+		 // Testar coleta de chave
+        currentRoom.catchKey();
+        System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan());
+
+        // Testar troca de porta
+        currentRoom.trocarPorta();
+        System.out.println("Porta aberta? " + currentRoom.isFinished());
 	}
 
 	private boolean gameFinished() {
