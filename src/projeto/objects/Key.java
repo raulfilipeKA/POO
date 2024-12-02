@@ -3,10 +3,12 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-public class Key extends Item {
+import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
+
+public class Key extends GameObject {//} extends Item {
 
     public Key(Point2D position) {
-        super(position);
+        super(position, DESTRUCTIBLE);
         this.createImage();
     }
 

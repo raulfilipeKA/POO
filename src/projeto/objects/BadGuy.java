@@ -3,10 +3,10 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-public class BadGuy extends GameObject {
+public class BadGuy extends Mob {
 
-    public BadGuy(Point2D position, int healthBonus) {
-        super(position);
+    public BadGuy(Point2D position, int health, int attack) {
+        super(position, health, attack);
         this.createImage();
     }
 

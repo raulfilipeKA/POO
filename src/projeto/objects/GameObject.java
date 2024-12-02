@@ -1,35 +1,33 @@
 package projeto.objects;
 
-import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 import projeto.pt.iscte.poo.gui.*;
-import java.util.ArrayList;
 
 public abstract class GameObject implements ImageTile{
 
     private Point2D position;
+    private final boolean isDestructible;
 
-    public GameObject(Point2D initialPosition){
+    public GameObject(Point2D initialPosition, boolean isDestructible){
         position = initialPosition;
+        this.isDestructible = isDestructible;
     }
 
-    public abstract void createImage(); //se implementar aqui e nao tenho os get
-    //name ele vai tentar criar a imagem antes de ter o nome
+    public abstract void createImage();
 
     public void removeImage(){
         ImageGUI.getInstance().removeImage(this);
-        //remover a imagem e apagar o objeto
-
+        //remover a imagem e ( todo apagar o objeto? removendo todas as referências a ele?)
     }
+
+    public boolean isDestructible(){return isDestructible;}
 
 
     @Override
     public abstract String getName();
 
     @Override
-    public Point2D getPosition() {
-        return position;
-    }
+    public Point2D getPosition() {return position;}
 
     @Override
     public int getLayer() {

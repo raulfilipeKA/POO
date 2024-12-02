@@ -7,7 +7,7 @@ public class GoodMeat extends Item {
     private static int HEALTHBONUS = 10;
 
     public GoodMeat(Point2D position) {
-        super(position);
+        super(position, HEALTHBONUS, 0);
         this.createImage();
     }
 

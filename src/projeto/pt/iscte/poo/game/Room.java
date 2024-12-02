@@ -152,6 +152,7 @@ public class Room {
 
 	public void moveJumpMan(int k) {
 
+		jumpMan.setWayIsFacing(k);
 		Direction d = Direction.directionFor(k);
 		if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
 			jumpMan.move(d);

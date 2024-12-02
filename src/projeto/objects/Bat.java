@@ -3,10 +3,10 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-public class Bat extends GameObject {
+public class Bat extends Mob {
 
-    public Bat(Point2D position) {
-        super(position);
+    public Bat(Point2D position, int health, int damage) {
+        super(position, health, damage);
         this.createImage();
     }
 

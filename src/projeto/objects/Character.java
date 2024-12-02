@@ -2,13 +2,14 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
+import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
 
 public abstract class Character extends GameObject {
     private int HP;
     private int ATC;
 
     public Character(Point2D position, int health, int attack){
-        super(position);
+        super(position, !DESTRUCTIBLE);
         HP = health;
         ATC = attack;
     }

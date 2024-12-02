@@ -1,20 +1,25 @@
 package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
+import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
+import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
 
 public abstract class Projectile extends GameObject {
     private int damage;
 
+
     public Projectile(Point2D position, int damage) {
-        super(position);
+        super(position, DESTRUCTIBLE);
         this.damage = damage;
     }
 
     @Override
-    public void createImage() {
-        ImageGUI.getInstance().addImage(this);
-    }
+    public void createImage() {ImageGUI.getInstance().addImage(this);}
+
+    public void movement(Direction d){this.setPosition(this.getPosition().plus(d.asVector()));}
+
+    public abstract void removeImage();
 
 
     public void hit(JumpMan j) {

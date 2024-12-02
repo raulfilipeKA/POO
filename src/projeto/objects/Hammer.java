@@ -3,10 +3,11 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-public class Hammer extends GameObject {
+public class Hammer extends Item {
+    private static int DAMAGE = 10;
 
     public Hammer(Point2D position) {
-        super(position);
+        super(position, 0, DAMAGE);
         this.createImage();
     }
 

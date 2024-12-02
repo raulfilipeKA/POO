@@ -2,11 +2,12 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
+import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
 
 public class Trap extends GameObject {
 
     public Trap(Point2D position) {
-        super(position);
+        super(position, !DESTRUCTIBLE);
         this.createImage();
     }
 

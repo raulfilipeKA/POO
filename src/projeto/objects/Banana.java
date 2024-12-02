@@ -15,9 +15,19 @@ public class Banana extends Projectile implements Gravity {
         this.applyGravity();
     }
 
+
+
     @Override
     public void createImage() {
         ImageGUI.getInstance().addImage(this);
+    }
+
+    @Override
+    public void removeImage() {ImageGUI.getInstance().removeImage(this);}
+
+
+    public void trajectory(Direction direction) {
+        applyGravity();
     }
 
     @Override
