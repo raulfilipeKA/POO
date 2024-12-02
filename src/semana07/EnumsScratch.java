@@ -1,7 +1,5 @@
 package semana07;
 
-import java.sql.SQLOutput;
-
 public enum EnumsScratch {
     MONDAY, TUESDAY, WEDNESDAY,
     THURSDAY, FRIDAY, SATURDAY, SUNDAY;

@@ -1,7 +1,5 @@
 package semana08;
 
-import semana08.Aluno;
-
 public class Marcacao extends Aluno implements Comparable<Marcacao> {
     protected boolean marcacao;
     public Marcacao(Aluno a, boolean marcacao) {

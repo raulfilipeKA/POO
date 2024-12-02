@@ -1,35 +1,21 @@
 package projeto.pt.iscte.poo.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.TrayIcon.MessageType;
+import projeto.pt.iscte.poo.observer.Observed;
+import projeto.pt.iscte.poo.utils.Point2D;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-// import java.awt.event.MouseEvent;
-// import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import projeto.pt.iscte.poo.observer.Observed;
-import projeto.pt.iscte.poo.utils.Point2D;
 
 /**
  * @author POO 2024

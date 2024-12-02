@@ -1,6 +1,6 @@
 package semana08;
+
 import java.util.PriorityQueue;
-import semana08.Time;
 public class TestTimePriorityQueue {
     public static void main(String[] args) {
         PriorityQueue<Time> queue = new PriorityQueue<>();

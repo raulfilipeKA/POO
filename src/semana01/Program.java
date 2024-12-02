@@ -1,6 +1,4 @@
 package semana1;
-import static java.lang.System.out;
-import static java.lang.System.setOut;
 
 public class Program {
     public static void main(String[] args) {

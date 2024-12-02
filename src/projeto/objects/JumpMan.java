@@ -2,11 +2,13 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.game.Gravity;
 import projeto.pt.iscte.poo.gui.ImageGUI;
-import projeto.pt.iscte.poo.utils.*;
+import projeto.pt.iscte.poo.utils.Direction;
+import projeto.pt.iscte.poo.utils.Point2D;
 
 public class JumpMan extends Character implements Gravity {
 	private static int ATTACK = 10;
 	private static int HEALTH = 100;
+	private int lives = 3;
 	private boolean hasKey;
 	private int wayIsFacing;
 
@@ -36,7 +38,12 @@ public class JumpMan extends Character implements Gravity {
 	@Override
 	public void applyGravity() {this.move(Direction.DOWN);}
 
+	public void deployBomb(){new Bomb(this);}
+
+	public int getLives() {return this.lives;}
+
 	public void setWayIsFacing(int wayIsFacing) {this.wayIsFacing = wayIsFacing;}
 	public int getWayIsFacing() {return this.wayIsFacing;}
+
 
 }

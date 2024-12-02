@@ -1,7 +1,8 @@
 package projeto.objects;
 
+import projeto.pt.iscte.poo.gui.ImageGUI;
+import projeto.pt.iscte.poo.gui.ImageTile;
 import projeto.pt.iscte.poo.utils.Point2D;
-import projeto.pt.iscte.poo.gui.*;
 
 public abstract class GameObject implements ImageTile{
 

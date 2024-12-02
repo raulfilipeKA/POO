@@ -2,7 +2,10 @@ package semana08;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.SortedSet;
 
 public class WordCountAndSearch {
     Map<String, Integer> wordCount = new HashMap<>();

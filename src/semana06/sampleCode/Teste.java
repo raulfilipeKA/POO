@@ -1,10 +1,8 @@
 package semana06.sampleCode;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
-import semana06.sampleCode.Pessoa;
 
 public class Teste {
 

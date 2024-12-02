@@ -1,5 +1,6 @@
 package semana05;
-import semana03.pratica.*;
+
+import semana03.pratica.Aluno;
 
 import java.util.ArrayList;
 import java.util.Comparator;

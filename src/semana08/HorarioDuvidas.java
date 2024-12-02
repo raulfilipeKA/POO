@@ -1,6 +1,7 @@
 package semana08;
 
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class HorarioDuvidas {
     Queue<Marcacao> queue = new PriorityQueue<>();

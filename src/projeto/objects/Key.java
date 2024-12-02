@@ -5,7 +5,7 @@ import projeto.pt.iscte.poo.utils.Point2D;
 
 import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
 
-public class Key extends GameObject {//} extends Item {
+public class Key extends GameObject {
 
     public Key(Point2D position) {
         super(position, DESTRUCTIBLE);

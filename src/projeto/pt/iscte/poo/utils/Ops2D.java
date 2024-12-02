@@ -1,6 +1,6 @@
 package projeto.pt.iscte.poo.utils;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 public class Ops2D {
 

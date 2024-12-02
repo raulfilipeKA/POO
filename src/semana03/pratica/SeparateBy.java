@@ -1,7 +1,6 @@
 package semana03.pratica;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SeparateBy {
     private String str;

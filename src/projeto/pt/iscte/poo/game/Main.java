@@ -2,8 +2,6 @@ package projeto.pt.iscte.poo.game;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
 
-import java.io.FileNotFoundException;
-
 public class Main {
 
 	public static void main(String[] args) {

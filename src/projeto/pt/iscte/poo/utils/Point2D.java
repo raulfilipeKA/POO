@@ -1,7 +1,6 @@
 package projeto.pt.iscte.poo.utils;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;

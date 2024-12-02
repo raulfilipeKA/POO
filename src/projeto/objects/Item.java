@@ -1,7 +1,7 @@
 package projeto.objects;
 
-import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
+
 import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
 
 public abstract class Item extends GameObject {

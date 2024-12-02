@@ -1,5 +1,5 @@
 package semana03.pratica;
-import java.util.ArrayList;
+
 public class FilterWords implements CriterioDeSelecao<String> {
 
     private String prefix;

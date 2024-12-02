@@ -1,7 +1,7 @@
 package projeto.pt.iscte.poo.game;
 
-import projeto.objects.*;
 import projeto.objects.Character;
+import projeto.objects.*;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.function.Predicate;
 
 public class Room {
 	
@@ -167,6 +166,8 @@ public class Room {
 			jumpMan.move(Direction.directionFor(k));
 		}
 	}
+
+
 
 	protected boolean isValidMove(Point2D newPosition){
 		for(GameObject object : roomObjectsList){

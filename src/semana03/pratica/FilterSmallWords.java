@@ -1,7 +1,5 @@
 package semana03.pratica;
 
-import java.util.ArrayList;
-
 public class FilterSmallWords implements CriterioDeSelecao<String>{
     private int size;
 
