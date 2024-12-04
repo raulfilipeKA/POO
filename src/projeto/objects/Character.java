@@ -2,26 +2,32 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.utils.Point2D;
 
-import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
-
 public abstract class Character extends GameObject {
     private int HP;
     private int ATC;
 
     public Character(Point2D position, int health, int attack){
-        super(position, !DESTRUCTIBLE);
+        super(position, false);
         HP = health;
         ATC = attack;
     }
 
-    @Override
-    public int getLayer() {
-        return 1;
-    }
-
     protected void getsHit(int damage){
         HP = Math.max(0, HP - damage);
+        if (HP == 0) {
+            this.removeImage();
+
+            // Código ANSI para texto vermelho
+            String redText = "\u001B[31m";
+            // Código ANSI para resetar a cor
+            String resetText = "\u001B[0m";
+
+            System.out.println(redText + "KILLED" + resetText);
+
+
+        }
     }
+
 
     public void attack(Character c){
         c.getsHit(ATC);
@@ -33,6 +39,14 @@ public abstract class Character extends GameObject {
         }
         return HP == 0;
     }
+
+    public void setAttack(int attack){ATC = attack;}
+    public void setHealthBonus(int bonus){HP += bonus;}
+
+    public int getAttack(){return ATC;}
+    public int getHealth(){return HP;}
+
+
 
 
 }

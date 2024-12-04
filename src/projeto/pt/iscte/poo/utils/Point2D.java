@@ -152,7 +152,7 @@ public class Point2D implements Serializable { // Added 23-Apr-2018
 		return new Vector2D(0, Integer.signum(dy));	
 	}
 	
-	public Direction directionTo(Point2D p) {		
+	public Direction directionTo(Point2D p) {
 		return Direction.forVector(vectorTo(p));
 	}
 

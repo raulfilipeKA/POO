@@ -59,6 +59,7 @@ public enum Direction implements Serializable {
 	}
 	
 	public static Direction forVector(Vector2D v) {
+		System.out.println(v);
 		for (Direction d : values())
 			if (v.equals(d.asVector()))
 				return d;

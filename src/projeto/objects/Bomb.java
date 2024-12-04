@@ -5,8 +5,8 @@ public class Bomb extends Projectile {
     public static final int EXPLOSION_RADIUS = 1;
 
 
-    public Bomb(JumpMan jumpMan) {
-        super(jumpMan.getPosition(), DAMAGE);
+    public Bomb(Character character) {
+        super(character.getPosition(), DAMAGE);
     }
 
     @Override

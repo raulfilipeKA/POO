@@ -3,12 +3,10 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
-
 public class Stairs extends GameObject {
 
     public Stairs(Point2D position) {
-        super(position, !DESTRUCTIBLE);
+        super(position, false);
         this.createImage();
     }
 
@@ -19,6 +17,6 @@ public class Stairs extends GameObject {
     public String getName() {return "Stairs";}
 
     @Override
-    public int getLayer() {return 0;}
+    public int getLayer() {return 1;}
 
 }

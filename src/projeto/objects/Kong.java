@@ -37,14 +37,9 @@ public class Kong extends Character {
     }
 
     public void move(Point2D p) { //todo passar direcao em vez de Point 2D
-        Point2D position  = new Point2D(p.getX(), this.getPosition().getY());
-        // positon é a posicao em x do jumpman e a posicao em y do kong
-        // posicao inicial do kong this.getPosition()
-        // posicao inicial mais vetor  this.getPosition().plus(VETOR)
-        // a direcao é this.getposition().directionTo(position)
-        // o VETOR é this.directionTo(position).asVector()
-        Direction direction = this.getPosition().directionTo(position);
+        if(p.getX() == this.getPosition().getX()){return;}
+        Direction direction = this.getPosition().directionTo(p);
         setPosition(getPosition().plus(direction.asVector()));
-        //setPosition(getPosition().plus(getPosition().directionTo(position).asVector()));
+
     }
 }

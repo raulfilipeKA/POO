@@ -4,14 +4,11 @@ import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
-
 public abstract class Projectile extends GameObject {
     private int damage;
 
-
     public Projectile(Point2D position, int damage) {
-        super(position, DESTRUCTIBLE);
+        super(position, true);
         this.damage = damage;
     }
 

@@ -19,7 +19,7 @@ public class Room {
 	//private static ArrayList<Room> roomList = new ArrayList<>();
 	//private static int currentRoom = 0; todo: meter no engine
 	private ArrayList<GameObject> roomObjectsList;
-	private String doorConfig;
+	//private String doorConfig;
 	private boolean needsKey=false;
 
 	public Point2D getJumpManPosition() {
@@ -46,9 +46,12 @@ public class Room {
 		//roomList.add(this); todo meter no engine?
 	}
 
-	public void roomObjects(char object, int i, int j){
+	public void roomObjects(char object, int i, int j){ //no fim apagar isto e passar cada simbolo para  cada objeto
 		Point2D position = new Point2D(i, j);
 		GameObject obj;
+//		obj = new Floor(position);
+//		roomObjectsList.add(new Floor(position));
+
 		switch (object) {
 			case 'W':
 				obj = new Wall(position);
@@ -69,6 +72,11 @@ public class Room {
 				obj = new Key(position);
 				roomObjectsList.add(obj);
 				needsKey = true;
+				return;
+
+			case 's':
+				obj = new Sword(position);
+				roomObjectsList.add(obj);
 				return;
 
 			case 'm':
@@ -117,6 +125,7 @@ public class Room {
 //		}
 //	}
 
+
 	public void moveKong() {//if level is <4, move randomly
 		Kong kong;
 		Point2D p;
@@ -125,9 +134,12 @@ public class Room {
 				kong = (Kong) possibleKong;
 				p = kong.getPosition().plus(Direction.random().asVector());
 				//for (GameObject obstaculos : roomObjectsList) {
-				//try {
-					if (isValidMove(p)) kong.move(p);
-				//} catch (IllegalArgumentException _) {
+
+					if (isValidMove(p)){
+						kong.move(p);
+						kong.deployProjectile(new Banana(p));
+					}
+
 				//	System.out.println("Kong: THUND");
 				//}
 				//}
@@ -156,7 +168,6 @@ public class Room {
 		}
 	}
 
-
 	public void moveJumpMan(int k) {
 
 		//jumpMan.setWayIsFacing(k);
@@ -168,6 +179,12 @@ public class Room {
 		else if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
 			jumpMan.attack((Character) whatsThere(jumpMan.getPosition().plus(d.asVector())));
 			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
+		}
+
+		else if (whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Character ){
+			Character character = (Character) whatsThere(jumpMan.getPosition().plus(d.asVector()));
+			jumpMan.attack(character);
+			if(character.getHealth() <= 0) {roomObjectsList.remove(character);}
 		}
 
 		else if (isValidMove(jumpMan.getPosition().plus(d.asVector()))) {
@@ -212,7 +229,7 @@ public class Room {
 	public void catchKey() {
 		for (GameObject object : roomObjectsList) {
 			if (object instanceof Key && object.getPosition().equals(jumpMan.getPosition())) {
-				jumpMan.keyState(true);
+				jumpMan.setHasKey(true);
 				// estou a assumir que so irá existir uma chave por sala
 				// (caso contenha mais keys por sala tenho de fazer um for com o int i para
 				// obter a posição correta do objeto)
@@ -239,60 +256,6 @@ public class Room {
 		return null;
 	}
 
-	public void trocarPorta() {
-		// verificar se o atributo do jumpma.haskey é valido validos
-		if (jumpMan.hasKey()) {
-			// atribuir a door o objeto doorClosed
-			DoorClosed door = atDoor();
-			if (door != null) {
-				// susbtituir na lista na posicção onde estava o objeto pelo novo objeto
-				// (doorOpen),ao fazer o indexOf estou a assumir que só existe uma porta
-				roomObjectsList.set(roomObjectsList.indexOf(door), new DoorOpen(door.getPosition()));
-				jumpMan.keyState(false);
-				ImageGUI.getInstance().removeImage(door);
-			}
-		}
-
-	}
-
-
-//---------------------------ERA A IDEIA INICIAL------------------------------
-//----------------------------------MAS---------------------------------------
-//------------------------------NÃO FUNCIONA----------------------------------
-//----------------------------------|||---------------------------------------
-//----------------------------------VVV---------------------------------------
-
-//era a ideia inicial mas estava a repetir o metodo atdoor por isso ou deixava ficar um esta função com o metodo atdoor dentro dela ou entao fazia o que fiz acima
-	// aqui estava a repetir
-//	public void trocarporta() {
-//		//verificar se o atributo do jumpma.haskey  e atDoor sao validos
-//
-//		if(jumpMan.hasKey && atDoor()) {
-//
-//			//caso sejam validos vai fazer um for (tentei que fosse um for each,
-//				//no entanto nao estava a perceber como é que iria buscar o indice do
-//				//objeto para depois trocar o objeto no local correto da lista
-//
-//			for (int i = 0; i < roomObjectsList.size(); i++) {
-//
-//				//vou buscar objeto para o indice i
-//
-//				GameObject object = roomObjectsList.get(i);
-//
-//				//verifico se é uma porta fecada e se esta na mesma poicao que o jumpman
-//
-//				if(object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
-//
-//					//se tiver utilizo o set para trocar na lista o objeto da doorClosed por dooroOpen
-//
-//					roomObjectsList.set(i,new DoorOpen(object.getPosition()));
-//					ImageGUI.getInstance().removeImage(object);
-//					return;
-//				}
-//			}
-//		}
-//	}
-
 //o metodo atDoor funciona
 //	public boolean atDoor() {
 //	for (GameObject object : roomObjectsList) {
@@ -303,50 +266,25 @@ public class Room {
 //	return false;
 //}
 
-//-------------------------------FUNCIONA-------------------------------
-//----------------------------------|||---------------------------------
-//----------------------------------VVV---------------------------------
-// aqui era o corrigido, sem repetição FUNCIONA
 
-//	//para que os outros dois metodos possam funcionar
-//	public boolean atDoor() {
-//		for (GameObject object : roomObjectsList) {
-//			if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//
-//	public void trocarPorta() {
-//		//verificar se o atributo do jumpma.haskey é valido
-//
-//		if(jumpMan.hasKey) {
-//
-//			//caso sejam validos vai fazer um for (tentei que fosse um for each,
-//				//no entanto nao estava a perceber como é que iria buscar o indice do
-//				//objeto para depois trocar o objeto no local correto da lista
-//
-//			for (int i = 0; i < roomObjectsList.size(); i++) {
-//
-//				//vou buscar objeto para o indice i
-//
-//				GameObject object = roomObjectsList.get(i);
-//
-//				//verifico se é uma porta fecada e se esta na mesma poicao que o jumpman
-//				//aqui é a tal parte onde estaria a repetir  o codigo do atDoor()
-//
-//				if(object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
-//
-//					//se tiver utilizo o set para trocar na lista o objeto da doorClosed por dooroOpen
-//
-//					roomObjectsList.set(i,new DoorOpen(object.getPosition()));
-//					ImageGUI.getInstance().removeImage(object);
-//					return;
-//				}
-//			}
-//		}
-//	}
+
+	public void trocarPorta() {
+		// verificar se o atributo do jumpma.haskey é valido validos
+		if (jumpMan.hasKey()) {
+			// atribuir a door o objeto doorClosed
+			DoorClosed door = atDoor();
+			if (door != null) {
+				// susbtituir na lista na posicção onde estava o objeto pelo novo objeto
+				// (doorOpen),ao fazer o indexOf estou a assumir que só existe uma porta
+				roomObjectsList.set(roomObjectsList.indexOf(door), new DoorOpen(door.getPosition()));
+				jumpMan.setHasKey(false);
+				ImageGUI.getInstance().removeImage(door);
+			}
+		}
+
+	}
+
+
 
 	public JumpMan getJumpMan() {return jumpMan;}
 

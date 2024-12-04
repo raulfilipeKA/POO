@@ -10,7 +10,7 @@ public class JumpMan extends Character implements Gravity {
 	private static int HEALTH = 100;
 	private int lives = 3;
 	private boolean hasKey;
-	private int wayIsFacing;
+	//private int wayIsFacing;
 
 	public JumpMan(Point2D initialPosition) {
 		super(initialPosition, HEALTH, ATTACK);
@@ -31,9 +31,12 @@ public class JumpMan extends Character implements Gravity {
 		setPosition(getPosition().plus(direction.asVector()));
 	}
 
-	public void keyState(boolean state) {this.hasKey = state;}
+	public void setHasKey(boolean state) {this.hasKey = state;}
 
 	public boolean hasKey() {return this.hasKey;}
+
+
+
 
 	@Override
 	public void applyGravity() {this.move(Direction.DOWN);}
@@ -42,8 +45,8 @@ public class JumpMan extends Character implements Gravity {
 
 	public int getLives() {return this.lives;}
 
-	public void setWayIsFacing(int wayIsFacing) {this.wayIsFacing = wayIsFacing;}
-	public int getWayIsFacing() {return this.wayIsFacing;}
+//	public void setWayIsFacing(int wayIsFacing) {this.wayIsFacing = wayIsFacing;}
+//	public int getWayIsFacing() {return this.wayIsFacing;}
 
 
 }

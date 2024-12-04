@@ -23,6 +23,7 @@ public abstract class GameObject implements ImageTile{
 
     public boolean isDestructible(){return isDestructible;}
 
+    //public  boolean isDestructible(){return true;}
 
     @Override
     public abstract String getName();

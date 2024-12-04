@@ -2,13 +2,11 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
-
-import static projeto.pt.iscte.poo.utils.Constants.DESTRUCTIBLE;
 public class Green extends GameObject {
 
 
     public Green(Point2D position) {
-        super(position, DESTRUCTIBLE);
+        super(position, true);
         this.createImage();
     }
 
