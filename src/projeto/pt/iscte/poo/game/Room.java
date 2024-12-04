@@ -19,6 +19,8 @@ public class Room {
 	//private static ArrayList<Room> roomList = new ArrayList<>();
 	//private static int currentRoom = 0; todo: meter no engine
 	private ArrayList<GameObject> roomObjectsList;
+	private String doorConfig;
+	private boolean needsKey=false;
 
 	public Point2D getJumpManPosition() {
 		return jumpMan.getPosition();
@@ -76,9 +78,12 @@ public class Room {
 			case 't':
 				obj = new Trap(position);
 				roomObjectsList.add(obj);
-				return;
+			case 'K':
+				obj = new Key(position);
+				roomObjectsList.add(obj);
+				needsKey = true;
 
-						}
+		}
 
 
 	}
@@ -223,7 +228,8 @@ public class Room {
 // jumpman e retorna o objeto
 	public DoorClosed atDoor() {
 		for (GameObject object : roomObjectsList) {
-			if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
+			if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())
+			&& jumpMan.hasKey()) {
 				return (DoorClosed) object;
 			}
 		}

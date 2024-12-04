@@ -86,19 +86,19 @@ public class GameEngine implements Observer {
 		return n % 2 == 0;
 	}
 
-    public void explode() {
-        for (int i = -EXPLOSION_RADIUS; i <= EXPLOSION_RADIUS; i++) {
-            for (int j = -EXPLOSION_RADIUS; j <= EXPLOSION_RADIUS; j++) {
-                Point2D position = new Point2D(getPosition().getX() + i, getPosition().getY() + j);
-                if (position.equals(getPosition())) {
-                    GameObject gameObject = whatsThere(position); // ver o metodo e aplicar
-                    if (gameObject.isDestructible()) {
-                        gameObject.dispose();
-                    }
-                }
-            }
-        }
-	removeImage();
-}
+//    public void explode() {
+//        for (int i = -EXPLOSION_RADIUS; i <= EXPLOSION_RADIUS; i++) {
+//            for (int j = -EXPLOSION_RADIUS; j <= EXPLOSION_RADIUS; j++) {
+//                Point2D position = new Point2D(getPosition().getX() + i, getPosition().getY() + j);
+//                if (position.equals(getPosition())) {
+//                    GameObject gameObject = whatsThere(position); // ver o metodo e aplicar
+//                    if (gameObject.isDestructible()) {
+//                        ga*meObject.dispose();
+//                    }
+//                }
+//            }
+//        }
+//	removeImage();
+//}
 
 }
