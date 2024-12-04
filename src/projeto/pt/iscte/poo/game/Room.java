@@ -65,6 +65,11 @@ public class Room {
 				obj = new Stairs(position);
 				roomObjectsList.add(obj);
 				return;
+			case 'k':
+				obj = new Key(position);
+				roomObjectsList.add(obj);
+				needsKey = true;
+				return;
 
 			case 'm':
 				obj = new GoodMeat(position);
@@ -78,10 +83,8 @@ public class Room {
 			case 't':
 				obj = new Trap(position);
 				roomObjectsList.add(obj);
-			case 'K':
-				obj = new Key(position);
-				roomObjectsList.add(obj);
-				needsKey = true;
+				return;
+
 
 		}
 
@@ -122,11 +125,11 @@ public class Room {
 				kong = (Kong) possibleKong;
 				p = kong.getPosition().plus(Direction.random().asVector());
 				//for (GameObject obstaculos : roomObjectsList) {
-				try {
+				//try {
 					if (isValidMove(p)) kong.move(p);
-				} catch (IllegalArgumentException _) {
-					System.out.println("Kong: THUND");
-				}
+				//} catch (IllegalArgumentException _) {
+				//	System.out.println("Kong: THUND");
+				//}
 				//}
 				//kong.setPosition(p); //tinha que colocar setPosition public em GameObject
 			}
@@ -156,7 +159,7 @@ public class Room {
 
 	public void moveJumpMan(int k) {
 
-		jumpMan.setWayIsFacing(k);
+		//jumpMan.setWayIsFacing(k);
 		Direction d = Direction.directionFor(k);
 		if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
 			jumpMan.move(d);
