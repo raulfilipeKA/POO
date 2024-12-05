@@ -2,15 +2,11 @@ package projeto.pt.iscte.poo.game;
 
 import projeto.objects.GameObject;
 import projeto.pt.iscte.poo.gui.ImageGUI;
-import projeto.pt.iscte.poo.observer.Observed;
-import projeto.pt.iscte.poo.observer.Observer;
+import projeto.pt.iscte.poo.observer.*;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
-
 import java.io.File;
-
-import static projeto.objects.Bomb.EXPLOSION_RADIUS;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class GameEngine implements Observer {
 	private int roomNum=0;
@@ -21,8 +17,11 @@ public class GameEngine implements Observer {
 		//posso criar logo as salas todas ?
 		// fica tudo sobreposto com o getInstance().update
 		currentRoom = new Room(roomNum);
+
 		ImageGUI.getInstance().update();
 	}
+
+
 
 	public void changeRoom(int newRoomIndex) {
 		if (newRoomIndex >= 0 && newRoomIndex < numberOfRoomFiles()) {
@@ -56,6 +55,8 @@ public class GameEngine implements Observer {
 			currentRoom.moveKong();
 		}
 
+		if(lastTickProcessed ==2){currentRoom.deleteRoom();}
+
 		while (lastTickProcessed < t) {
 			processTick();
 		}
@@ -81,6 +82,12 @@ public class GameEngine implements Observer {
 		lastTickProcessed++;
 	}
 
+	public static int numberOfRooms(){
+		return new File("rooms").listFiles().length;
+	}
+	public static void main(String[] args) {
+		System.out.println(numberOfRoomFiles());
+	}
 
 	public static boolean isEven(int n) {
 		return n % 2 == 0;

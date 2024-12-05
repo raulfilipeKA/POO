@@ -12,15 +12,28 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Room {
-	
-	//private Point2D heroStartingPosition = new Point2D(1, 1);
+
 	private JumpMan jumpMan;
-	// config fica na porta
-	//private static ArrayList<Room> roomList = new ArrayList<>();
-	//private static int currentRoom = 0; todo: meter no engine
 	private ArrayList<GameObject> roomObjectsList;
-	//private String doorConfig;
-	private boolean needsKey=false;
+	private String doorConfig;
+	private boolean needsKey = false;
+
+
+	public Room(int n) {
+		try{
+		roomObjectsList = new ArrayList<>();
+		File[] files = new File("rooms").listFiles();
+		char[][] room = createMatrix(files[n]);
+		for (int i = 0; i < room.length; i++) {
+			for (int j = 0; j < room[i].length; j++) {
+				roomObjects(room[i][j], i, j, n);
+			}
+		}
+		}catch (FileNotFoundException _) {
+			System.out.println("Ficheiro não encontrado");
+		}
+		//roomList.add(this); todo meter no engine?
+	}
 
 	public Point2D getJumpManPosition() {
 		return jumpMan.getPosition();
@@ -30,23 +43,13 @@ public class Room {
 		return roomObjectsList;
 	}
 
-	public Room(int n) {
-		try{
-		roomObjectsList = new ArrayList<>();
-		File[] files = new File("rooms").listFiles();
-		char[][] room = createMatrix(files[n]);
-		for (int i = 0; i < room.length; i++) {
-			for (int j = 0; j < room[i].length; j++) {
-				roomObjects(room[i][j], i, j);
-			}
+	public void deleteRoom() {
+		for (GameObject object : roomObjectsList) {
+			ImageGUI.getInstance().removeImage(object);
 		}
-		}catch (FileNotFoundException _) {
-			System.out.println("Ficheiro não encontrado");
-		}
-		//roomList.add(this); todo meter no engine?
-	}
+		roomObjectsList.clear();}
 
-	public void roomObjects(char object, int i, int j){ //no fim apagar isto e passar cada simbolo para  cada objeto
+	public void roomObjects(char object, int i, int j, int roomNumber){ //no fim apagar isto e passar cada simbolo para  cada objeto
 		Point2D position = new Point2D(i, j);
 		GameObject obj;
 //		obj = new Floor(position);
@@ -100,10 +103,10 @@ public class Room {
 	}
 
 
-	public static char[][] createMatrix(File file) throws FileNotFoundException{ //matriz para imagem em xy
+	public char[][] createMatrix(File file) throws FileNotFoundException{ //matriz para imagem em xy
 		char[][] matrix = new char[10][10];
 		Scanner sc = new Scanner(file);
-		sc.nextLine(); //config.add(sc.nextLine());
+		doorConfig=sc.nextLine();
 
 
 		int y = 0;

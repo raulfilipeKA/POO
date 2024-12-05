@@ -3,10 +3,10 @@ package projeto.objects;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Point2D;
 
-public class DoorOpen extends GameObject {
+public class DoorOpen extends Door {
 
     public DoorOpen(Point2D position) {
-        super(position, false);
+        super(position);
         this.createImage();
     }
 
@@ -15,5 +15,12 @@ public class DoorOpen extends GameObject {
 
     @Override
     public String getName() {return "DoorOpen";}
+
+    public boolean isDoorOpen() {return true;}
+
+    public void closeDoor() {
+        this.removeImage();
+        DoorClosed doorClosed = new DoorClosed(this.getPosition());
+    }
 
 }
