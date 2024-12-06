@@ -23,7 +23,7 @@ public class Room {
 		try{
 		roomObjectsList = new ArrayList<>();
 		File[] files = new File("rooms").listFiles();
-		char[][] room = createMatrix(files[n]);
+		char[][] room = readFile(files[n]);
 		for (int i = 0; i < room.length; i++) {
 			for (int j = 0; j < room[i].length; j++) {
 				roomObjects(room[i][j], i, j, n);
@@ -103,7 +103,7 @@ public class Room {
 	}
 
 
-	public char[][] createMatrix(File file) throws FileNotFoundException{ //matriz para imagem em xy
+	public char[][] readFile(File file) throws FileNotFoundException{ //matriz para imagem em xy
 		char[][] matrix = new char[10][10];
 		Scanner sc = new Scanner(file);
 		doorConfig=sc.nextLine();
@@ -207,6 +207,18 @@ public class Room {
 			) {	return false;}
 		}
 		return true;
+	}
+
+	public void rotMeat() {
+		GoodMeat goodMeat;
+		for (GameObject object : roomObjectsList) {
+			if (object instanceof GoodMeat) {
+				goodMeat = (GoodMeat) object;
+				BadMeat badMeat = new BadMeat(goodMeat.getPosition(), goodMeat.getHealthBonus());
+				roomObjectsList.remove(object);
+				roomObjectsList.add(badMeat);
+			}
+		}
 	}
 
 	protected GameObject whatsThere(Point2D position) {

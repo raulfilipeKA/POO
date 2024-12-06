@@ -89,8 +89,13 @@ public class GameEngine implements Observer {
 		System.out.println(numberOfRoomFiles());
 	}
 
-	public static boolean isEven(int n) {
-		return n % 2 == 0;
+	public static boolean isEven(int n) {return n % 2 == 0;}
+
+	private void rotMeat(int tiks){
+		if(lastTickProcessed == tiks){
+			currentRoom.rotMeat();
+		}
+
 	}
 
 //    public void explode() {

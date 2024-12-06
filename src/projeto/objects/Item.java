@@ -15,4 +15,12 @@ public abstract class Item extends GameObject {
     @Override
     public int getLayer() {return 0;}
 
+    public int getHealthBonus() {return healthBonus;}
+
+    public int getAttackBonus() {return attackBonus;}
+
+    protected void setHealthBonus(int healthBonus) {this.healthBonus = healthBonus;}
+
+    protected void setAttackBonus(int attackBonus) {this.attackBonus = attackBonus;}
+
 }
