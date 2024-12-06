@@ -9,6 +9,6 @@ public abstract class Door extends GameObject {
         this.createImage();
     }
 
-    public abstract boolean isDoorOpen();
+//    public abstract boolean isDoorOpen();
 
 }

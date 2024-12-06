@@ -17,6 +17,7 @@ public class Room {
 	private ArrayList<GameObject> roomObjectsList;
 	private String doorConfig;
 	private boolean needsKey = false;
+	private boolean hasMeatToRot = false;
 
 
 	public Room(int n) {
@@ -85,6 +86,7 @@ public class Room {
 			case 'm':
 				obj = new GoodMeat(position);
 				roomObjectsList.add(obj);
+				hasMeatToRot = true;
 				return;
 			case '0':
 				obj = new DoorClosed(position);
@@ -101,6 +103,8 @@ public class Room {
 
 
 	}
+
+	public boolean hasMeatToRot() {return hasMeatToRot;}
 
 
 	public char[][] readFile(File file) throws FileNotFoundException{ //matriz para imagem em xy
@@ -136,17 +140,12 @@ public class Room {
 			if(possibleKong instanceof Kong) {
 				kong = (Kong) possibleKong;
 				p = kong.getPosition().plus(Direction.random().asVector());
-				//for (GameObject obstaculos : roomObjectsList) {
-
-					if (isValidMove(p)){
-						kong.move(p);
-						kong.deployProjectile(new Banana(p));
-					}
-
-				//	System.out.println("Kong: THUND");
-				//}
-				//}
-				//kong.setPosition(p); //tinha que colocar setPosition public em GameObject
+				System.out.println("\033[31m"+p+"\033[0m");
+				if (isValidMove(p)){
+					kong.move(p);
+					System.out.println(kong.getPosition());
+					kong.deployProjectile(new Banana(p));
+				} else{return;}
 			}
 		}
 	}
@@ -173,15 +172,15 @@ public class Room {
 
 	public void moveJumpMan(int k) {
 
-		//jumpMan.setWayIsFacing(k);
 		Direction d = Direction.directionFor(k);
 		if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
 			jumpMan.move(d);
+			System.out.println("\033[33m"+jumpMan.getPosition()+"\033[0m");
 			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
 		}
 		else if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
-			jumpMan.attack((Character) whatsThere(jumpMan.getPosition().plus(d.asVector())));
-			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
+
+			// todo jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
 		}
 
 		else if (whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Character ){
@@ -192,6 +191,7 @@ public class Room {
 
 		else if (isValidMove(jumpMan.getPosition().plus(d.asVector()))) {
 			jumpMan.move(Direction.directionFor(k));
+			System.out.println("\033[33m"+jumpMan.getPosition()+"\033[0m");
 		}
 	}
 
@@ -204,26 +204,56 @@ public class Room {
 			|| newPosition.getX() < 0 || newPosition.getX() >= 10
 			|| newPosition.getY() < 0 || newPosition.getY() >= 10
 
-			) {	return false;}
+			) {
+				System.out.println("\033[32m"+object.getPosition()+"\033[0m");
+				return false;}
 		}
 		return true;
 	}
 
+//	public void rotMeat() {
+//		GoodMeat goodMeat;
+//		for (GameObject object : roomObjectsList) {
+//			if (object instanceof GoodMeat) {
+//				goodMeat = (GoodMeat) object;
+//				BadMeat badMeat = new BadMeat(goodMeat.getPosition(), goodMeat.getHealthBonus());
+//				roomObjectsList.remove(object);
+//				roomObjectsList.add(badMeat);
+//			}
+//		}
+//	}
+
 	public void rotMeat() {
-		GoodMeat goodMeat;
+		ArrayList<GoodMeat> meatsToRot = new ArrayList<>();
 		for (GameObject object : roomObjectsList) {
 			if (object instanceof GoodMeat) {
-				goodMeat = (GoodMeat) object;
-				BadMeat badMeat = new BadMeat(goodMeat.getPosition(), goodMeat.getHealthBonus());
-				roomObjectsList.remove(object);
-				roomObjectsList.add(badMeat);
+				meatsToRot.add((GoodMeat) object);
 			}
 		}
+		for (GoodMeat goodMeat : meatsToRot) {
+			BadMeat badMeat = new BadMeat(goodMeat.getPosition(), goodMeat.getHealthBonus());
+			System.out.println("\u001B[32mMeat rotted\u001B[0m");
+			roomObjectsList.remove(goodMeat);
+			roomObjectsList.add(badMeat);
+		}
+	}
+
+	protected ArrayList<GameObject> whatsThereList(Point2D position) {
+		ArrayList<GameObject> objects = new ArrayList<>();
+		for (GameObject object : roomObjectsList) {
+			if (object.getPosition().equals(position)) {
+				objects.add(object);
+			}
+		}
+		return objects;
 	}
 
 	protected GameObject whatsThere(Point2D position) {
 		for (GameObject object : roomObjectsList) {
-			if (object.getPosition().equals(position)) {
+			if (object.getPosition().equals(position) &&
+				//	!(object instanceof JumpMan) &&
+					!(object instanceof Stairs) &&
+					!(object instanceof Floor)) {
 				return object;
 			}
 		}
@@ -245,11 +275,8 @@ public class Room {
 		for (GameObject object : roomObjectsList) {
 			if (object instanceof Key && object.getPosition().equals(jumpMan.getPosition())) {
 				jumpMan.setHasKey(true);
-				// estou a assumir que so irá existir uma chave por sala
-				// (caso contenha mais keys por sala tenho de fazer um for com o int i para
-				// obter a posição correta do objeto)
 				roomObjectsList.remove(object);
-				ImageGUI.getInstance().removeImage(object);
+				object.removeImage();
 				return;
 			}
 		}
@@ -272,20 +299,38 @@ public class Room {
 	}
 
 //o metodo atDoor funciona
-//	public boolean atDoor() {
-//	for (GameObject object : roomObjectsList) {
-//		if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
-//			return true;
-//		}
-//	}
-//	return false;
-//}
+	public boolean atDoor1() {
+	for (GameObject object : roomObjectsList) {
+		if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
+			System.out.println("\u001B[32mAt door\u001B[0m");
+			System.out.println(needsKey);
+			return true;
+		}
+	}
+	return false;
+}
+
+	public void trocarPorta1(){
+		if (((atDoor1() && !needsKey) || (atDoor1() && jumpMan.hasKey()))
+				&& whatsThere(jumpMan.getPosition()) instanceof DoorClosed) {
+			System.out.println("\u001B[32mChanging door\u001B[0m");
+			ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
+			for (GameObject object : objects) {
+				if (object instanceof DoorClosed) {
+					roomObjectsList.remove(object);
+					roomObjectsList.add(new DoorOpen(object.getPosition()));
+					object.removeImage();
+					jumpMan.setHasKey(false);
+				}
+			}
+		}
+	}
 
 
 
 	public void trocarPorta() {
 		// verificar se o atributo do jumpma.haskey é valido validos
-		if (jumpMan.hasKey()) {
+		if (jumpMan.hasKey() || !needsKey) {
 			// atribuir a door o objeto doorClosed
 			DoorClosed door = atDoor();
 			if (door != null) {

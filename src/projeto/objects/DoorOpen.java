@@ -18,9 +18,9 @@ public class DoorOpen extends Door {
 
     public boolean isDoorOpen() {return true;}
 
-    public void closeDoor() {
-        this.removeImage();
-        DoorClosed doorClosed = new DoorClosed(this.getPosition());
-    }
+//    public void closeDoor() {
+//        this.removeImage();
+//        DoorClosed doorClosed = new DoorClosed(this.getPosition());
+//    }
 
 }

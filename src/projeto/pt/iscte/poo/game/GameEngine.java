@@ -12,6 +12,7 @@ public class GameEngine implements Observer {
 	private int roomNum=0;
 	private Room currentRoom;
 	private int lastTickProcessed = 0;
+	private int ticksProcessedInCurrentRoom = 0;
 
 	public GameEngine()  {
 		//posso criar logo as salas todas ?
@@ -25,8 +26,11 @@ public class GameEngine implements Observer {
 
 	public void changeRoom(int newRoomIndex) {
 		if (newRoomIndex >= 0 && newRoomIndex < numberOfRoomFiles()) {
+			currentRoom.deleteRoom();
 			roomNum = newRoomIndex;
-			new Room(roomNum);
+			currentRoom = new Room(roomNum);
+			//totalTicksProcessed+=lastTickProcessed;
+			lastTickProcessed = 0;
 		} else {
 			throw new IllegalArgumentException("Índice de sala inválido!");
 		}
@@ -50,24 +54,40 @@ public class GameEngine implements Observer {
 			}
 		}
 		int t = ImageGUI.getInstance().getTicks();
+		System.out.println("T: " + t);
 
 		if(isEven(lastTickProcessed)) {
 			currentRoom.moveKong();
 		}
 
-		if(lastTickProcessed ==2){currentRoom.deleteRoom();}
+		if (lastTickProcessed == 15 && currentRoom.hasMeatToRot()) {currentRoom.rotMeat();}
 
-		while (lastTickProcessed < t) {
-			processTick();
-		}
+		//if(lastTickProcessed ==2){currentRoom.deleteRoom();}
+
+		while (lastTickProcessed < t) {processTick();}
 		ImageGUI.getInstance().update();
 		 // Testar coleta de chave
         currentRoom.catchKey();
-        System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan());
+        System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan().hasKey());
 
-        // Testar troca de porta
-        currentRoom.trocarPorta();
-        System.out.println("Porta aberta? " + currentRoom.isFinished());
+		if(currentRoom.atDoor1()){
+			currentRoom.trocarPorta1();
+			changeRoom(roomNum+1);
+			lastTickProcessed = 0;
+			ImageGUI.getInstance().update();
+
+		}
+
+//		if(lastTickProcessed == 24){
+//			for(GameObject obj : currentRoom.getRoomObjectsList()){
+//				System.out.println(obj.getName());
+//
+//			}
+//		}
+
+//        // Testar troca de porta
+//        currentRoom.trocarPorta();
+//        System.out.println("Porta aberta? " + currentRoom.isFinished());
 	}
 
 	private boolean gameFinished() {
@@ -82,6 +102,11 @@ public class GameEngine implements Observer {
 		lastTickProcessed++;
 	}
 
+	private void processRoomTick() {
+		System.out.println("Tic Tac : " + lastTickProcessed);
+		lastTickProcessed++;
+	}
+
 	public static int numberOfRooms(){
 		return new File("rooms").listFiles().length;
 	}
@@ -91,12 +116,7 @@ public class GameEngine implements Observer {
 
 	public static boolean isEven(int n) {return n % 2 == 0;}
 
-	private void rotMeat(int tiks){
-		if(lastTickProcessed == tiks){
-			currentRoom.rotMeat();
-		}
 
-	}
 
 //    public void explode() {
 //        for (int i = -EXPLOSION_RADIUS; i <= EXPLOSION_RADIUS; i++) {
