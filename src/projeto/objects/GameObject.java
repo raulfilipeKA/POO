@@ -33,10 +33,10 @@ public abstract class GameObject implements ImageTile{
 
     @Override
     public int getLayer() {
-        return 1;
+        return 5;
     }
 
-    protected void setPosition(Point2D newPosition){
+    public void setPosition(Point2D newPosition){
         position = newPosition;
     }
 

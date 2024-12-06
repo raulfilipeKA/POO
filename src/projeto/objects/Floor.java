@@ -19,4 +19,7 @@ public class Floor extends GameObject {
         return "Floor";
     }
 
+    @Override
+    public int getLayer() {return 0;}
+
 }

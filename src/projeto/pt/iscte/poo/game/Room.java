@@ -53,8 +53,8 @@ public class Room {
 	public void roomObjects(char object, int i, int j, int roomNumber){ //no fim apagar isto e passar cada simbolo para  cada objeto
 		Point2D position = new Point2D(i, j);
 		GameObject obj;
-//		obj = new Floor(position);
-//		roomObjectsList.add(new Floor(position));
+		//obj = new Floor(position);
+		//roomObjectsList.add(new Floor(position));
 
 		switch (object) {
 			case 'W':
@@ -62,40 +62,51 @@ public class Room {
 				roomObjectsList.add(obj);
 				return;
 			case 'H':
+				roomObjectsList.add(new Floor(position));
 				jumpMan = new JumpMan(position);
 				return;
 			case 'G':
+				roomObjectsList.add(new Floor(position));
 				obj = new Kong(position);
 				roomObjectsList.add(obj);
 				return;
 			case 'S':
+				roomObjectsList.add(new Floor(position));
 				obj = new Stairs(position);
 				roomObjectsList.add(obj);
 				return;
 			case 'k':
+				roomObjectsList.add(new Floor(position));
 				obj = new Key(position);
 				roomObjectsList.add(obj);
 				needsKey = true;
 				return;
 
 			case 's':
+				roomObjectsList.add(new Floor(position));
 				obj = new Sword(position);
 				roomObjectsList.add(obj);
 				return;
 
 			case 'm':
+				roomObjectsList.add(new Floor(position));
 				obj = new GoodMeat(position);
 				roomObjectsList.add(obj);
 				hasMeatToRot = true;
 				return;
 			case '0':
+				roomObjectsList.add(new Floor(position));
 				obj = new DoorClosed(position);
 				roomObjectsList.add(obj);
 				return;
 
 			case 't':
+				roomObjectsList.add(new Floor(position));
 				obj = new Trap(position);
 				roomObjectsList.add(obj);
+				return;
+			case ' ':
+				roomObjectsList.add(new Floor(position));
 				return;
 
 
@@ -105,6 +116,7 @@ public class Room {
 	}
 
 	public boolean hasMeatToRot() {return hasMeatToRot;}
+	public boolean needsKey() {return needsKey;}
 
 
 	public char[][] readFile(File file) throws FileNotFoundException{ //matriz para imagem em xy
@@ -131,6 +143,8 @@ public class Room {
 //			} //todo isValidMove
 //		}
 //	}
+
+	public void fall(GameObject object) {object.setPosition(object.getPosition().plus(Direction.DOWN.asVector()));}
 
 
 	public void moveKong() {//if level is <4, move randomly
@@ -298,12 +312,32 @@ public class Room {
 		return null;
 	}
 
+	public boolean atDoor2(){
+		ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
+		for (GameObject object : objects) {
+			if (object instanceof DoorClosed) {
+				System.out.println("\u001B[32mAt door\u001B[0m");
+				System.out.println(needsKey);
+				System.out.println("--------------------");
+				for (GameObject object1 : roomObjectsList) {
+					System.out.println(object1.getName());
+				}
+				return true;
+			}
+		}return false;
+	}
+
 //o metodo atDoor funciona
 	public boolean atDoor1() {
 	for (GameObject object : roomObjectsList) {
 		if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
 			System.out.println("\u001B[32mAt door\u001B[0m");
 			System.out.println(needsKey);
+			System.out.println("--------------------");
+			for (GameObject object1 : roomObjectsList) {
+				System.out.println(object1.getName());
+
+			}
 			return true;
 		}
 	}

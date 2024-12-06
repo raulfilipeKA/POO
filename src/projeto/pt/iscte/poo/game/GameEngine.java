@@ -1,5 +1,6 @@
 package projeto.pt.iscte.poo.game;
 
+import projeto.objects.DoorOpen;
 import projeto.objects.GameObject;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.*;
@@ -69,14 +70,25 @@ public class GameEngine implements Observer {
 		 // Testar coleta de chave
         currentRoom.catchKey();
         System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan().hasKey());
+		System.out.println("Porta precisa de chave? " + currentRoom.needsKey());
 
 		if(currentRoom.atDoor1()){
-			currentRoom.trocarPorta1();
+			//currentRoom.trocarPorta1(); como change room é mais lento, ele executa esta acao tres vezes
 			changeRoom(roomNum+1);
 			lastTickProcessed = 0;
-			ImageGUI.getInstance().update();
+			//ImageGUI.getInstance().update();
 
 		}
+//
+//		if(currentRoom.atDoor2()){
+//			currentRoom.trocarPorta(); //como change room é mais lento, ele executa esta acao tres vezes
+//			//ImageGUI.getInstance().update();
+//		}
+//		if(currentRoom.whatsThere(currentRoom.getJumpMan().getPosition()) instanceof DoorOpen){
+//			changeRoom(roomNum+1);
+//			lastTickProcessed = 0;
+//			ImageGUI.getInstance().update();
+//		}
 
 //		if(lastTickProcessed == 24){
 //			for(GameObject obj : currentRoom.getRoomObjectsList()){
