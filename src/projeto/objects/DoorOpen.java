@@ -7,7 +7,7 @@ public class DoorOpen extends Door {
 
     public DoorOpen(Point2D position) {
         super(position);
-        this.createImage();
+        //this.createImage();
     }
 
     @Override
@@ -17,10 +17,5 @@ public class DoorOpen extends Door {
     public String getName() {return "DoorOpen";}
 
     public boolean isDoorOpen() {return true;}
-
-//    public void closeDoor() {
-//        this.removeImage();
-//        DoorClosed doorClosed = new DoorClosed(this.getPosition());
-//    }
 
 }

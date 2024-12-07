@@ -249,6 +249,7 @@ public class Room {
 			System.out.println("\u001B[32mMeat rotted\u001B[0m");
 			roomObjectsList.remove(goodMeat);
 			roomObjectsList.add(badMeat);
+			System.out.println("\u001B[32mMeat rotted\u001B[0m");
 		}
 	}
 
@@ -358,6 +359,22 @@ public class Room {
 				}
 			}
 		}
+	}
+
+	public boolean unlockDoor(){
+		if (((atDoor1() && !needsKey) || (atDoor1() && jumpMan.hasKey()))
+				&& whatsThere(jumpMan.getPosition()) instanceof DoorClosed) {
+			ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
+			for (GameObject object : objects) {
+				if (object instanceof DoorClosed) {
+					roomObjectsList.remove(object);
+					object.removeImage();
+					jumpMan.setHasKey(false);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 

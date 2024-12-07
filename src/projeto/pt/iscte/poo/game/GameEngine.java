@@ -14,12 +14,10 @@ public class GameEngine implements Observer {
 	private Room currentRoom;
 	private int lastTickProcessed = 0;
 	private int ticksProcessedInCurrentRoom = 0;
+	private boolean gameIsFinished = false;
 
 	public GameEngine()  {
-		//posso criar logo as salas todas ?
-		// fica tudo sobreposto com o getInstance().update
 		currentRoom = new Room(roomNum);
-
 		ImageGUI.getInstance().update();
 	}
 
@@ -31,7 +29,7 @@ public class GameEngine implements Observer {
 			roomNum = newRoomIndex;
 			currentRoom = new Room(roomNum);
 			//totalTicksProcessed+=lastTickProcessed;
-			lastTickProcessed = 0;
+			ticksProcessedInCurrentRoom = 0;
 		} else {
 			throw new IllegalArgumentException("Índice de sala inválido!");
 		}
@@ -50,83 +48,56 @@ public class GameEngine implements Observer {
 				System.out.println("Direction! ");
 				currentRoom.moveJumpMan(k);
 			}
-			if(k == 98 || k == 66) {
+			if (k == 98 || k == 66) {
 				currentRoom.getJumpMan().deployBomb();
 			}
 		}
 		int t = ImageGUI.getInstance().getTicks();
 		System.out.println("T: " + t);
 
-		if(isEven(lastTickProcessed)) {
-			currentRoom.moveKong();
+		if (isEven(lastTickProcessed)) {currentRoom.moveKong();}
+
+		if (ticksProcessedInCurrentRoom == 15 && currentRoom.hasMeatToRot()) {currentRoom.rotMeat();}
+
+		if(lastTickProcessed<t){
+			processTick();
 		}
 
-		if (lastTickProcessed == 15 && currentRoom.hasMeatToRot()) {currentRoom.rotMeat();}
+//		while (lastTickProcessed < t) {
+//			processTick();
+//		}
 
-		//if(lastTickProcessed ==2){currentRoom.deleteRoom();}
-
-		while (lastTickProcessed < t) {processTick();}
 		ImageGUI.getInstance().update();
-		 // Testar coleta de chave
-        currentRoom.catchKey();
-        System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan().hasKey());
+		// Testar coleta de chave
+		currentRoom.catchKey();
+		System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan().hasKey());
 		System.out.println("Porta precisa de chave? " + currentRoom.needsKey());
 
-		if(currentRoom.atDoor1()){
+		if (currentRoom.atDoor1()) {
 			//currentRoom.trocarPorta1(); como change room é mais lento, ele executa esta acao tres vezes
-			changeRoom(roomNum+1);
+			changeRoom(roomNum + 1);
 			lastTickProcessed = 0;
 			//ImageGUI.getInstance().update();
 
 		}
-//
-//		if(currentRoom.atDoor2()){
-//			currentRoom.trocarPorta(); //como change room é mais lento, ele executa esta acao tres vezes
-//			//ImageGUI.getInstance().update();
-//		}
-//		if(currentRoom.whatsThere(currentRoom.getJumpMan().getPosition()) instanceof DoorOpen){
-//			changeRoom(roomNum+1);
-//			lastTickProcessed = 0;
-//			ImageGUI.getInstance().update();
-//		}
 
-//		if(lastTickProcessed == 24){
-//			for(GameObject obj : currentRoom.getRoomObjectsList()){
-//				System.out.println(obj.getName());
-//
-//			}
-//		}
+		if (currentRoom.unlockDoor()) {
+			changeRoom(roomNum + 1);
 
-//        // Testar troca de porta
-//        currentRoom.trocarPorta();
-//        System.out.println("Porta aberta? " + currentRoom.isFinished());
+		}
 	}
 
-	private boolean gameFinished() {
-		//if(manel.getposition() == portaAberta) || manelIsDead()) {
-			//inserir logica
-		//}
-		return false;
-	}
 
 	private void processTick() {
 		System.out.println("Tic Tac : " + lastTickProcessed);
 		lastTickProcessed++;
-	}
+		ticksProcessedInCurrentRoom++;}
 
-	private void processRoomTick() {
-		System.out.println("Tic Tac : " + lastTickProcessed);
-		lastTickProcessed++;
-	}
-
-	public static int numberOfRooms(){
-		return new File("rooms").listFiles().length;
-	}
-	public static void main(String[] args) {
-		System.out.println(numberOfRoomFiles());
-	}
 
 	public static boolean isEven(int n) {return n % 2 == 0;}
+
+	public boolean isGameFinished() {return gameIsFinished;}
+	public void setGameIsFinished(boolean gameIsFinished) {this.gameIsFinished = gameIsFinished;}
 
 
 
