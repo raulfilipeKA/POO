@@ -16,4 +16,7 @@ public class Trap extends GameObject {
     @Override
     public String getName() {return "Trap";}
 
+    @Override
+    public boolean canGoThrough() {return true;}
+
 }

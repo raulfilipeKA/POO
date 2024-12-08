@@ -28,6 +28,8 @@ public abstract class Character extends GameObject {
         }
     }
 
+    @Override
+    public boolean canGoThrough() {return false;}
 
     public void attack(Character c){
         c.getsHit(ATC);

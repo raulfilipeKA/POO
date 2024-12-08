@@ -27,6 +27,7 @@ public abstract class Projectile extends GameObject {
             //ou deixa se continuar a cair? indiferente mas senao é apagar removeImage();
         }
     }
-
+    @Override
+    public boolean canGoThrough() {return false;}
 
 }

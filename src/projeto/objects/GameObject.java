@@ -40,6 +40,8 @@ public abstract class GameObject implements ImageTile{
         position = newPosition;
     }
 
+    public boolean canGoThrough(){return true;}
+
 }
 
 

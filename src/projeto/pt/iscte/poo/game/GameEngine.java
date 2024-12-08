@@ -22,7 +22,6 @@ public class GameEngine implements Observer {
 	}
 
 
-
 	public void changeRoom(int newRoomIndex) {
 		if (newRoomIndex >= 0 && newRoomIndex < numberOfRoomFiles()) {
 			currentRoom.deleteRoom();
@@ -51,9 +50,12 @@ public class GameEngine implements Observer {
 			if (k == 98 || k == 66) {
 				currentRoom.getJumpMan().deployBomb();
 			}
+		} else{
+			currentRoom.applyGravity();
 		}
 		int t = ImageGUI.getInstance().getTicks();
-		System.out.println("T: " + t);
+
+		  System.out.println("T: " + t);
 
 		if (isEven(lastTickProcessed)) {currentRoom.moveKong();}
 
@@ -66,6 +68,7 @@ public class GameEngine implements Observer {
 //		while (lastTickProcessed < t) {
 //			processTick();
 //		}
+		//if(isEven(lastTickProcessed)){		currentRoom.applyGravity();}
 
 		ImageGUI.getInstance().update();
 		// Testar coleta de chave
@@ -85,8 +88,16 @@ public class GameEngine implements Observer {
 			changeRoom(roomNum + 1);
 
 		}
+		if(isGameFinished()){
+			System.out.println("Game is finished! Score: " + lastTickProcessed);
+			System.out.println("Updating leaderboards...");
+			updateLeaderboards();
+		}
 	}
 
+	public void updateLeaderboards() {
+		//inserir logica para guardar score
+	}
 
 	private void processTick() {
 		System.out.println("Tic Tac : " + lastTickProcessed);
@@ -96,8 +107,17 @@ public class GameEngine implements Observer {
 
 	public static boolean isEven(int n) {return n % 2 == 0;}
 
-	public boolean isGameFinished() {return gameIsFinished;}
-	public void setGameIsFinished(boolean gameIsFinished) {this.gameIsFinished = gameIsFinished;}
+	public boolean isGameFinished() {
+		if(roomNum == numberOfRoomFiles()-1 && currentRoom.atDoor1()
+				&& (currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())) {
+			return true;
+			//gameIsFinished = true;
+		}
+		return false;
+		//return gameIsFinished;
+	}
+
+
 
 
 

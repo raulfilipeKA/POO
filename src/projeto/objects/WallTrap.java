@@ -20,4 +20,7 @@ public class WallTrap extends GameObject {
 
     @Override
     public int getLayer() {return 0;}
+
+    @Override
+    public boolean canGoThrough() {return false;}
 }

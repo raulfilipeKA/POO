@@ -18,6 +18,7 @@ public class Room {
 	private String doorConfig;
 	private boolean needsKey = false;
 	private boolean hasMeatToRot = false;
+	private ArrayList<Character> characters = new ArrayList<>();
 
 
 	public Room(int n) {
@@ -52,7 +53,7 @@ public class Room {
 
 	public void roomObjects(char object, int i, int j, int roomNumber){ //no fim apagar isto e passar cada simbolo para  cada objeto
 		Point2D position = new Point2D(i, j);
-		GameObject obj;
+		GameObject obj = null;
 		//obj = new Floor(position);
 		//roomObjectsList.add(new Floor(position));
 
@@ -68,6 +69,7 @@ public class Room {
 			case 'G':
 				roomObjectsList.add(new Floor(position));
 				obj = new Kong(position);
+				characters.add((Character) obj);
 				roomObjectsList.add(obj);
 				return;
 			case 'S':
@@ -112,8 +114,23 @@ public class Room {
 
 		}
 
+		if(obj instanceof Character){
+			roomObjectsList.add(obj);
+		}
+
+
 
 	}
+
+	public static void main(String[] args) {
+		Room room = new Room(0);
+		ArrayList<Character> objects = room.getCharacters();
+		for (GameObject object : objects) {
+			System.out.println(object.getName());
+		}
+	}
+
+	public ArrayList<Character> getCharacters() {return characters;}
 
 	public boolean hasMeatToRot() {return hasMeatToRot;}
 	public boolean needsKey() {return needsKey;}
@@ -153,13 +170,14 @@ public class Room {
 		for (GameObject possibleKong : roomObjectsList) {
 			if(possibleKong instanceof Kong) {
 				kong = (Kong) possibleKong;
-				p = kong.getPosition().plus(Direction.random().asVector());
-				System.out.println("\033[31m"+p+"\033[0m");
-				if (isValidMove(p)){
-					kong.move(p);
+				Point2D newPosition = kong.getPosition().plus(leftRight().asVector());
+				System.out.println("\033[31m"+newPosition+"\033[0m");
+				//if (isValidMove(p)){
+				if (validMove(newPosition)){
+					kong.move(newPosition);
 					System.out.println(kong.getPosition());
-					kong.deployProjectile(new Banana(p));
-				} else{return;}
+					kong.deployProjectile(new Banana(newPosition));
+				}
 			}
 		}
 	}
@@ -184,6 +202,16 @@ public class Room {
 		}
 	}
 
+	public void applyGravity(){
+		if(validMove(jumpMan.getPosition().plus(Direction.DOWN.asVector()))){
+		jumpMan.applyGravity();}
+		for(GameObject object : roomObjectsList){
+			if(object instanceof Projectile){
+				((Projectile) object).movement(Direction.DOWN);
+			}
+		}
+	}
+
 	public void moveJumpMan(int k) {
 
 		Direction d = Direction.directionFor(k);
@@ -196,20 +224,35 @@ public class Room {
 
 			// todo jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
 		}
-
 		else if (whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Character ){
 			Character character = (Character) whatsThere(jumpMan.getPosition().plus(d.asVector()));
 			jumpMan.attack(character);
 			if(character.getHealth() <= 0) {roomObjectsList.remove(character);}
 		}
-
 		else if (isValidMove(jumpMan.getPosition().plus(d.asVector()))) {
 			jumpMan.move(Direction.directionFor(k));
 			System.out.println("\033[33m"+jumpMan.getPosition()+"\033[0m");
 		}
 	}
 
+	public Direction leftRight(){return Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;}
 
+
+	public boolean withinBounds(Point2D newPosition){
+		return newPosition.getX() >= 0 && newPosition.getX() < 10 && newPosition.getY() >= 0 && newPosition.getY() < 10;
+	}
+
+	protected boolean validMove(Point2D newPosition){
+		if(!withinBounds(newPosition)){return false;}
+		ArrayList<GameObject> objects = whatsThereList(newPosition);
+		for (GameObject object : objects) {
+			if (!object.canGoThrough() || object instanceof Stairs) {
+				return false;
+			}
+		}
+		return true;
+
+	}
 
 	protected boolean isValidMove(Point2D newPosition){
 		for(GameObject object : roomObjectsList){
@@ -224,18 +267,6 @@ public class Room {
 		}
 		return true;
 	}
-
-//	public void rotMeat() {
-//		GoodMeat goodMeat;
-//		for (GameObject object : roomObjectsList) {
-//			if (object instanceof GoodMeat) {
-//				goodMeat = (GoodMeat) object;
-//				BadMeat badMeat = new BadMeat(goodMeat.getPosition(), goodMeat.getHealthBonus());
-//				roomObjectsList.remove(object);
-//				roomObjectsList.add(badMeat);
-//			}
-//		}
-//	}
 
 	public void rotMeat() {
 		ArrayList<GoodMeat> meatsToRot = new ArrayList<>();
@@ -274,6 +305,7 @@ public class Room {
 		}
 		return null;
 	}
+
 
 	public boolean isFinished() {
 		for (GameObject object : roomObjectsList) {
