@@ -16,7 +16,7 @@ public class JumpMan extends Character {
 
 	@Override
 	public String getName() {
-		return "santa";
+		return "JumpMan";
 	}
 
 	public void move(Direction direction) {
