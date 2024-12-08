@@ -19,4 +19,7 @@ public class Stairs extends GameObject {
     @Override
     public int getLayer() {return 1;}
 
+    @Override
+    public boolean isClimbable() {return true;}
+
 }

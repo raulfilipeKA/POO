@@ -42,6 +42,8 @@ public abstract class GameObject implements ImageTile{
 
     public boolean canGoThrough(){return true;}
 
+    public boolean isClimbable(){return false;}
+
 }
 
 

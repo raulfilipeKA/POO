@@ -212,26 +212,40 @@ public class Room {
 		}
 	}
 
+
+
 	public void moveJumpMan(int k) {
 
 		Direction d = Direction.directionFor(k);
-		if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
+		if (isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item) {
 			jumpMan.move(d);
-			System.out.println("\033[33m"+jumpMan.getPosition()+"\033[0m");
+			System.out.println("\033[33m" + jumpMan.getPosition() + "\033[0m");
 			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
-		}
-		else if(isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item){
+		} else if (isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item) {
 
 			// todo jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
-		}
-		else if (whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Character ){
+		} else if (whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Character) {
 			Character character = (Character) whatsThere(jumpMan.getPosition().plus(d.asVector()));
 			jumpMan.attack(character);
-			if(character.getHealth() <= 0) {roomObjectsList.remove(character);}
+			if (character.getHealth() <= 0) {
+				roomObjectsList.remove(character);
+			}
+		} else if (isValidMove(jumpMan.getPosition().plus(d.asVector()))) {
+			if (d.equals(Direction.UP)) {
+				climb();
+				return;
+			} else
+				jumpMan.move(Direction.directionFor(k));
+				System.out.println("\033[33m" + jumpMan.getPosition() + "\033[0m");
 		}
-		else if (isValidMove(jumpMan.getPosition().plus(d.asVector()))) {
-			jumpMan.move(Direction.directionFor(k));
-			System.out.println("\033[33m"+jumpMan.getPosition()+"\033[0m");
+	}
+
+	public void climb(){
+		ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
+		for (GameObject object : objects) {
+			if (object.isClimbable()) {
+				jumpMan.move(Direction.UP);
+			}
 		}
 	}
 
