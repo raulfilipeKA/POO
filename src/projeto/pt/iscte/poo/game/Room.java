@@ -176,7 +176,7 @@ public class Room {
 				if (validMove(newPosition)){
 					kong.move(newPosition);
 					System.out.println(kong.getPosition());
-					kong.deployProjectile(new Banana(newPosition));
+					kong.deployProjectile(new Banana(new Point2D(kong.getPosition().getX(), kong.getPosition().getY()+1)));
 				}
 			}
 		}
@@ -205,9 +205,17 @@ public class Room {
 	public void applyGravity(){
 		if(validMove(jumpMan.getPosition().plus(Direction.DOWN.asVector()))){
 		jumpMan.applyGravity();}
+//		for(GameObject object : roomObjectsList){
+//			if(object instanceof Projectile){
+//				((Projectile) object).movement(Direction.DOWN);
+//			}
+//		}
+	}
+
+	public void moveProjectile(){
 		for(GameObject object : roomObjectsList){
 			if(object instanceof Projectile){
-				((Projectile) object).movement(Direction.DOWN);
+				((Projectile) object).move();
 			}
 		}
 	}
@@ -301,7 +309,7 @@ public class Room {
 	protected ArrayList<GameObject> whatsThereList(Point2D position) {
 		ArrayList<GameObject> objects = new ArrayList<>();
 		for (GameObject object : roomObjectsList) {
-			if (object.getPosition().equals(position)) {
+			if (object.getPosition().equals(position) && !(object instanceof Floor)) {
 				objects.add(object);
 			}
 		}

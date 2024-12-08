@@ -63,6 +63,8 @@ public class GameEngine implements Observer {
 			processTick();
 		}
 
+		if(isEven(lastTickProcessed)){currentRoom.moveProjectile();}
+
 //		while (lastTickProcessed < t) {
 //			processTick();
 //		}

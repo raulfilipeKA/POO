@@ -9,13 +9,6 @@ public class Banana extends Projectile {
 
     public Banana(Point2D position) {
         super(position, DAMAGE);
-        this.applyGravity();
-    }
-
-
-
-    public void trajectory(Direction direction) {
-        applyGravity();
     }
 
     @Override
@@ -28,10 +21,6 @@ public class Banana extends Projectile {
         return 0;
     }
 
-    public void applyGravity() {
-        setPosition(getPosition().plus(Direction.DOWN.asVector()));
-        if(getPosition().getY() == 9) {
-            removeImage();
-        }
-    }
+    @Override
+    public void move() {setPosition(getPosition().plus(Direction.DOWN.asVector()));}
 }

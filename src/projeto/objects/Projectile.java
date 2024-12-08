@@ -24,4 +24,6 @@ public abstract class Projectile extends GameObject {
     @Override
     public boolean canGoThrough() {return false;}
 
+    public abstract void move();
+
 }
