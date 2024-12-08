@@ -1,23 +1,23 @@
 package projeto.objects;
 
-public class Bomb extends Projectile {
+public class Bomb extends GameObject {
     public static final int DAMAGE = 99999;
     public static final int EXPLOSION_RADIUS = 1;
+    public static final int TIMER = 5;
+    private boolean armed = false;
 
 
     public Bomb(Character character) {
-        super(character.getPosition(), DAMAGE);
+        super(character.getPosition(), false);
     }
 
     @Override
     public String getName() {return "Bomb";}
 
     @Override
-    public void removeImage() {this.removeImage();}
+    public int getLayer() {return 10;}
 
-    @Override
-    public int getLayer() {return 7;}
-
+    public void arm() {armed = true;}
 
 
 

@@ -1,6 +1,5 @@
 package projeto.objects;
 
-import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
@@ -12,13 +11,8 @@ public class Kong extends Character {
     public Kong(Point2D initialPosition) {
         //podemos multiplicar o numero da sala aos atributos de alguns personagens
         super(initialPosition, HP, ATK);
-        this.createImage();
     }
 
-    @Override
-    public void createImage(){
-        ImageGUI.getInstance().addImage(this);
-    }
 
     @Override
     public String getName() {

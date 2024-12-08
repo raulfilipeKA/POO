@@ -12,14 +12,13 @@ public abstract class GameObject implements ImageTile{
     public GameObject(Point2D initialPosition, boolean isDestructible){
         position = initialPosition;
         this.isDestructible = isDestructible;
+        this.createImage();
     }
 
-    public abstract void createImage();
+    public void createImage(){ImageGUI.getInstance().addImage(this);} //nao invoco no construtor super
+    //porque como depende do getName(), tenho que invocar na subclasse onde ja o implementei
 
-    public void removeImage(){
-        ImageGUI.getInstance().removeImage(this);
-        //remover a imagem e ( todo apagar o objeto? removendo todas as referências a ele?)
-    }
+    public void removeImage(){ImageGUI.getInstance().removeImage(this);}
 
     public boolean isDestructible(){return isDestructible;}
 

@@ -1,6 +1,5 @@
 package projeto.objects;
 
-import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
@@ -12,12 +11,7 @@ public abstract class Projectile extends GameObject {
         this.damage = damage;
     }
 
-    @Override
-    public void createImage() {ImageGUI.getInstance().addImage(this);}
-
     public void movement(Direction d){this.setPosition(this.getPosition().plus(d.asVector()));}
-
-    public abstract void removeImage();
 
 
     public void hit(JumpMan j) {

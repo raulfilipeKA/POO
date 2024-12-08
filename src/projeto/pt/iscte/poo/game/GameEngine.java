@@ -1,13 +1,11 @@
 package projeto.pt.iscte.poo.game;
 
-import projeto.objects.DoorOpen;
-import projeto.objects.GameObject;
 import projeto.pt.iscte.poo.gui.ImageGUI;
-import projeto.pt.iscte.poo.observer.*;
+import projeto.pt.iscte.poo.observer.Observed;
+import projeto.pt.iscte.poo.observer.Observer;
 import projeto.pt.iscte.poo.utils.Direction;
-import projeto.pt.iscte.poo.utils.Point2D;
+
 import java.io.File;
-import java.util.ArrayList;
 
 public class GameEngine implements Observer {
 	private int roomNum=0;
@@ -76,7 +74,8 @@ public class GameEngine implements Observer {
 		System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan().hasKey());
 		System.out.println("Porta precisa de chave? " + currentRoom.needsKey());
 
-		if (currentRoom.atDoor1()) {
+		if (currentRoom.atDoor1() &&
+				(currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())) {
 			//currentRoom.trocarPorta1(); como change room é mais lento, ele executa esta acao tres vezes
 			changeRoom(roomNum + 1);
 			lastTickProcessed = 0;
@@ -84,10 +83,10 @@ public class GameEngine implements Observer {
 
 		}
 
-		if (currentRoom.unlockDoor()) {
-			changeRoom(roomNum + 1);
-
-		}
+//		if (currentRoom.unlockDoor()) {
+//			changeRoom(roomNum + 1);
+//
+//		}
 		if(isGameFinished()){
 			System.out.println("Game is finished! Score: " + lastTickProcessed);
 			System.out.println("Updating leaderboards...");
