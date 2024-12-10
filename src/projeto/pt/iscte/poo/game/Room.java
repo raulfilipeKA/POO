@@ -196,7 +196,7 @@ public class Room {
 	public void moveProjectile(){
 		for(Projectile projectile : projectiles){
 				projectile.move();
-				if (!withinBounds(projectile.getPosition())) {       // REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
+				if (!withinBounds(projectile.getPosition())) {       // todo REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
 					deleteObject(projectile);
 				}
 				else if (whatsThere(projectile.getPosition()) instanceof Character) {
