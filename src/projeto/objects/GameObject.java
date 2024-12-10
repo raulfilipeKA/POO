@@ -2,6 +2,7 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.gui.ImageTile;
+import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
 public abstract class GameObject implements ImageTile{
@@ -42,6 +43,9 @@ public abstract class GameObject implements ImageTile{
     public boolean canGoThrough(){return true;}
 
     public boolean isClimbable(){return false;}
+
+    public boolean movableObject(){return false;}
+
 
 }
 

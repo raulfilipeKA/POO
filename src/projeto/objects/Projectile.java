@@ -24,6 +24,10 @@ public abstract class Projectile extends GameObject {
     @Override
     public boolean canGoThrough() {return false;}
 
-    public abstract void move();
+    public void move(){
+        System.out.println("BANANA MOVE");
+    }
+
+    public int getDamage() {return damage;}
 
 }

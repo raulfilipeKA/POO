@@ -27,6 +27,12 @@ public class Kong extends Character {
 //    }
 
     public void deployProjectile(Projectile proj){
+        //posso criar o maximo de bananas na room
+        //depois um atributo boolean para saber se esta em jogo
+        // se estiver out of bounds o kong pode voltar a lançar
+        // se estiver em jogo cai ate acertar em alguem ou sair do jogo
+        // isto para prevenir que o kong fique a lançar bananas sem parar
+        //e que tenhamos que remover as bananas a meio da itercacao do move do kong
 
     }
 

@@ -19,6 +19,7 @@ public class Room {
 	private boolean needsKey = false;
 	private boolean hasMeatToRot = false;
 	private ArrayList<Character> characters = new ArrayList<>();
+	private ArrayList<Projectile> projectiles = new ArrayList<>();
 
 
 	public Room(int n) {
@@ -176,74 +177,66 @@ public class Room {
 				if (validMove(newPosition)){
 					kong.move(newPosition);
 					System.out.println(kong.getPosition());
-					kong.deployProjectile(new Banana(new Point2D(kong.getPosition().getX(), kong.getPosition().getY()+1)));
+					if(projectiles.size() < 7) {
+						Banana banana = new Banana(new Point2D(kong.getPosition().getX(), kong.getPosition().getY() + 1));
+						projectiles.add(banana);
+					}
+
 				}
 			}
 		}
 	}
 
-
-	public void moveKong(Point2D p) {
-		Kong kong;
-		for (GameObject possibleKong : roomObjectsList) {
-			if(possibleKong instanceof Kong) {
-				kong = (Kong) possibleKong;
-				//for (GameObject obstaculos : roomObjectsList) {
-				//todo fazer a mesma logica do movimento em cima com o try catch para nao rebentar com o movimento invalido
-				try {
-					if (isValidMove(p)) kong.move(p);
-				} catch (IllegalArgumentException _) {
-					System.out.println("O Kong bateu com a cabeça");
-				}
-				//}
-				kong.move(p);
-				//kong.setPosition(p); //tinha que colocar setPosition public em GameObject
-			}
-		}
-	}
 
 	public void applyGravity(){
 		if(validMove(jumpMan.getPosition().plus(Direction.DOWN.asVector()))){
 		jumpMan.applyGravity();}
-//		for(GameObject object : roomObjectsList){
-//			if(object instanceof Projectile){
-//				((Projectile) object).movement(Direction.DOWN);
-//			}
-//		}
 	}
 
 	public void moveProjectile(){
-		for(GameObject object : roomObjectsList){
-			if(object instanceof Projectile){
-				((Projectile) object).move();
-			}
+		for(Projectile projectile : projectiles){
+				projectile.move();
+				if (!withinBounds(projectile.getPosition())) {       // REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
+					deleteObject(projectile);
+				}
+				else if (whatsThere(projectile.getPosition()) instanceof Character) {
+					Character character = (Character) whatsThere(projectile.getPosition());
+					character.getsHit(projectile.getDamage());
+					if (character.isDead()) {deleteObject(character);}
+				}
 		}
+		System.out.println(projectiles.size());
+	}
+
+	private void deleteObject(GameObject object){
+		object.removeImage();
+		roomObjectsList.remove(object);
 	}
 
 
 
 	public void moveJumpMan(int k) {
-
 		Direction d = Direction.directionFor(k);
-		if (isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item) {
+		Point2D newPosition = jumpMan.getPosition().plus(d.asVector());
+		if (isValidMove(newPosition) && whatsThere(newPosition) instanceof Item) {
 			jumpMan.move(d);
 			System.out.println("\033[33m" + jumpMan.getPosition() + "\033[0m");
 			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
-		} else if (isValidMove(jumpMan.getPosition().plus(d.asVector())) && whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Item) {
+		} else if (isValidMove(newPosition) && whatsThere(newPosition) instanceof Item) {
 
 			// todo jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
-		} else if (whatsThere(jumpMan.getPosition().plus(d.asVector())) instanceof Character) {
+		} else if (whatsThere(newPosition) instanceof Character) {
 			Character character = (Character) whatsThere(jumpMan.getPosition().plus(d.asVector()));
 			jumpMan.attack(character);
 			if (character.getHealth() <= 0) {
 				roomObjectsList.remove(character);
 			}
-		} else if (isValidMove(jumpMan.getPosition().plus(d.asVector()))) {
+		} else if (isValidMove(newPosition)) {
 			if (d.equals(Direction.UP)) {
 				climb();
 				return;
 			} else
-				jumpMan.move(Direction.directionFor(k));
+				jumpMan.move(d);
 				System.out.println("\033[33m" + jumpMan.getPosition() + "\033[0m");
 		}
 	}
@@ -260,8 +253,8 @@ public class Room {
 	public Direction leftRight(){return Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;}
 
 
-	public boolean withinBounds(Point2D newPosition){
-		return newPosition.getX() >= 0 && newPosition.getX() < 10 && newPosition.getY() >= 0 && newPosition.getY() < 10;
+	public boolean withinBounds(Point2D position){
+		return position.getX() >= 0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10;
 	}
 
 	protected boolean validMove(Point2D newPosition){
@@ -452,5 +445,36 @@ public class Room {
 
 
 	public JumpMan getJumpMan() {return jumpMan;}
+
+	//NOVO
+	public void catchItem() {
+		for(GameObject object : roomObjectsList) {
+			if (object instanceof Item && object.getPosition().equals(jumpMan.getPosition())) {
+				Item item = (Item) object;
+				jumpMan.pickUp(item);
+				roomObjectsList.remove(object);
+				object.removeImage();
+				return;
+			}
+		}
+	}
+
+//	//NOVO
+//	public void moveBat() {//if level is <4, move randomly
+//		Bat bat;
+//		Point2D p;
+//		for (GameObject possibleKong : roomObjectsList) {
+//			if(possibleKong instanceof Kong) {
+//				bat = (BAt) possibleKong;
+//				p = bat.getPosition().plus(Direction.random().asVector());
+//				System.out.println("\033[31m"+p+"\033[0m");
+//				if (isValidMove(p)){
+//					bat.move(p);
+//					System.out.println(kong.getPosition());
+//					kong.deployProjectile(new Banana(p));
+//				} else{return;}
+//			}
+//		}
+//	}
 
 }

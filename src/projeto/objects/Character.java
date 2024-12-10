@@ -12,35 +12,32 @@ public abstract class Character extends GameObject {
         ATC = attack;
     }
 
-    protected void getsHit(int damage){
+    public void getsHit(int damage){
         HP = Math.max(0, HP - damage);
-        if (HP == 0) {
-            this.removeImage();
-
-            // Código ANSI para texto vermelho
-            String redText = "\u001B[31m";
-            // Código ANSI para resetar a cor
-            String resetText = "\u001B[0m";
-
-            System.out.println(redText + "KILLED" + resetText);
-
-
-        }
+//        if (HP == 0) {
+//            // Código ANSI para texto vermelho
+//            String redText = "\u001B[31m";
+//            // Código ANSI para resetar a cor
+//            String resetText = "\u001B[0m";
+//
+//            System.out.println(redText + "KILLED" + resetText);
+//
+//
+//        }
     }
 
     @Override
     public boolean canGoThrough() {return false;}
 
+    @Override
+    public boolean movableObject() {return true;}
+
     public void attack(Character c){
         c.getsHit(ATC);
     }
 
-    public boolean isDead(){
-        if(HP == 0) {
-            this.removeImage();
-        }
-        return HP == 0;
-    }
+    public boolean isDead(){return HP <= 0;}
+
 
     public void setAttack(int attack){ATC = attack;}
     public void setHealthBonus(int bonus){HP += bonus;}

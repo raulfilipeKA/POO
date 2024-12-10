@@ -35,5 +35,12 @@ public class JumpMan extends Character {
 
 	public void loseLife() {this.lives--;}
 
+	public void pickUp(Item item) {
+		if (item instanceof Item && item.getPosition().equals(getPosition())) {
+			if(item.getAttackBonus() > 0) {setAttack(getAttack() + item.getAttackBonus());}
+			if(item.getHealthBonus() > 0) {setHealthBonus(getHealth()+item.getHealthBonus());}
+		}
+	}
+
 
 }

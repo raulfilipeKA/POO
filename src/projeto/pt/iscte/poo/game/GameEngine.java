@@ -6,6 +6,10 @@ import projeto.pt.iscte.poo.observer.Observer;
 import projeto.pt.iscte.poo.utils.Direction;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class GameEngine implements Observer {
 	private int roomNum=0;
@@ -93,6 +97,7 @@ public class GameEngine implements Observer {
 			System.out.println("Game is finished! Score: " + lastTickProcessed);
 			System.out.println("Updating leaderboards...");
 			updateLeaderboards();
+			criarFicheiro();
 		}
 	}
 
@@ -136,5 +141,47 @@ public class GameEngine implements Observer {
 //        }
 //	removeImage();
 //}
+
+	//NOVO
+	public void wait(int nTicks) {
+		int tickFinal = lastTickProcessed + nTicks;
+		while(lastTickProcessed <= tickFinal) {
+			processTick();
+			ImageGUI.getInstance().update();
+		}
+	}
+
+	//NOVO
+	private ArrayList<Integer> leaderBoard = new ArrayList<>();
+
+	//NOVO
+	public void atualizarLeaderBoard() {
+		int tempoAtual = lastTickProcessed;
+		if (leaderBoard.size() < 10) {
+			leaderBoard.add(tempoAtual);
+		} else {
+			for (int i = 0; i < leaderBoard.size(); i++) {
+				if (tempoAtual < leaderBoard.get(i)) {
+					leaderBoard.remove(i);
+					leaderBoard.add(tempoAtual);
+					break;
+				}
+			}
+		}
+
+		Collections.sort(leaderBoard, Collections.reverseOrder());
+	}
+
+	//NOVO
+	public void criarFicheiro() {
+		try(PrintWriter fileWriter = new PrintWriter(("leaderBoard.txt"))) {
+			for(Integer tempo : leaderBoard) {
+				fileWriter.println(tempo);
+			}
+			fileWriter.close();
+		} catch (FileNotFoundException _) {
+			System.err.println("Erro na criação do ficheiro");
+		}
+	}
 
 }

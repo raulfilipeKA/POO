@@ -21,6 +21,8 @@ public class Banana extends Projectile {
         return 0;
     }
 
-    @Override
-    public void move() {setPosition(getPosition().plus(Direction.DOWN.asVector()));}
+
+    public void move() {
+        System.out.println("Banana move na banana");
+        setPosition(getPosition().plus(Direction.DOWN.asVector()));}
 }
