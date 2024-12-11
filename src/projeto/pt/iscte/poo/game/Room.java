@@ -18,7 +18,7 @@ public class Room {
 	private String doorConfig;
 	private boolean needsKey = false;
 	private boolean hasMeatToRot = false;
-	private ArrayList<Character> characters = new ArrayList<>();
+	//private ArrayList<Character> characters = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
 
 
@@ -48,7 +48,7 @@ public class Room {
 
 	public void deleteRoom() {
 		for (GameObject object : roomObjectsList) {
-			ImageGUI.getInstance().removeImage(object);
+			object.removeImage();
 		}
 		roomObjectsList.clear();}
 
@@ -70,7 +70,7 @@ public class Room {
 			case 'G':
 				roomObjectsList.add(new Floor(position));
 				obj = new Kong(position);
-				characters.add((Character) obj);
+				//characters.add((Character) obj);
 				roomObjectsList.add(obj);
 				return;
 			case 'S':
@@ -123,15 +123,15 @@ public class Room {
 
 	}
 
-	public static void main(String[] args) {
-		Room room = new Room(0);
-		ArrayList<Character> objects = room.getCharacters();
-		for (GameObject object : objects) {
-			System.out.println(object.getName());
-		}
-	}
+//	public static void main(String[] args) {
+//		Room room = new Room(0);
+//		ArrayList<Character> objects = room.getCharacters();
+//		for (GameObject object : objects) {
+//			System.out.println(object.getName());
+//		}
+//	}
 
-	public ArrayList<Character> getCharacters() {return characters;}
+	//public ArrayList<Character> getCharacters() {return characters;}
 
 	public boolean hasMeatToRot() {return hasMeatToRot;}
 	public boolean needsKey() {return needsKey;}
@@ -196,26 +196,31 @@ public class Room {
 	public void moveProjectile(){
 		for(Projectile projectile : projectiles){
 				projectile.move();
-				if (!withinBounds(projectile.getPosition())) {       // todo REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
-					deleteObject(projectile);
-				}
-				else if (whatsThere(projectile.getPosition()) instanceof Character) {
-					Character character = (Character) whatsThere(projectile.getPosition());
-					character.getsHit(projectile.getDamage());
-					if (character.isDead()) {deleteObject(character);}
-				}
+				 if (whatsThere(projectile.getPosition()) instanceof Character) {
+					 Character character = (Character) whatsThere(projectile.getPosition());
+					 character.getsHit(projectile.getDamage());
+					 deleteObject(projectile);
+					 if (character.isDead()) {
+						 deleteObject(character);
+					 }
+				 }
+				 if (!withinBounds(projectile.getPosition())) {       // todo REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
+					  deleteObject(projectile);
+			}
 		}
-		System.out.println(projectiles.size());
+		System.out.println("projeteis ativos: " + projectiles.size());
 	}
 
 	private void deleteObject(GameObject object){
+		object.removeImage();
+		roomObjectsList.remove(object);
 
-		if (object instanceof Character) {
-			characters.remove(object);
-			object.removeImage();
-
-		}else {roomObjectsList.remove(object);
-			object.removeImage();}
+//		if (object instanceof Character) {
+//			characters.remove(object);
+//			object.removeImage();
+//
+//		}else {roomObjectsList.remove(object);
+//			object.removeImage();}
 	}
 
 
@@ -233,8 +238,8 @@ public class Room {
 		} else if (whatsThere(newPosition) instanceof Character) {
 			Character character = (Character) whatsThere(jumpMan.getPosition().plus(d.asVector()));
 			jumpMan.attack(character);
-			if (character.getHealth() <= 0) {
-				roomObjectsList.remove(character);
+			if (character.isDead()) {
+				deleteObject(character);
 			}
 		} else if (isValidMove(newPosition)) {
 			if (d.equals(Direction.UP)) {
@@ -270,6 +275,9 @@ public class Room {
 				return false;
 			}
 		}
+		if(jumpMan.getPosition().equals(newPosition)){
+			return false;
+		}
 		return true;
 
 	}
@@ -277,7 +285,8 @@ public class Room {
 	protected boolean isValidMove(Point2D newPosition){
 		for(GameObject object : roomObjectsList){
 			if(((object instanceof Wall || object instanceof Character || object instanceof Trap)
-					&& object.getPosition().equals(newPosition))
+					&& object.getPosition().equals(newPosition) &&
+					jumpMan.getPosition().equals(newPosition))
 			|| newPosition.getX() < 0 || newPosition.getX() >= 10
 			|| newPosition.getY() < 0 || newPosition.getY() >= 10
 
