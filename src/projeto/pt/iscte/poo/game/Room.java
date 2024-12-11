@@ -209,8 +209,13 @@ public class Room {
 	}
 
 	private void deleteObject(GameObject object){
-		object.removeImage();
-		roomObjectsList.remove(object);
+
+		if (object instanceof Character) {
+			characters.remove(object);
+			object.removeImage();
+
+		}else {roomObjectsList.remove(object);
+			object.removeImage();}
 	}
 
 
