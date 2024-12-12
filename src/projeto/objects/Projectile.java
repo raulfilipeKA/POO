@@ -7,7 +7,7 @@ public abstract class Projectile extends GameObject {
     private int damage;
 
     public Projectile(Point2D position, int damage) {
-        super(position, true);
+        super(position);
         this.damage = damage;
     }
 

@@ -7,7 +7,7 @@ public abstract class Item extends GameObject {
     private int attackBonus;
 
     public Item(Point2D position, int healthBonus, int attackBonus) {
-        super(position, true);
+        super(position);
         this.attackBonus = attackBonus;
         this.healthBonus = healthBonus;
     }

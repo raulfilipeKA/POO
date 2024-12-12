@@ -2,17 +2,15 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.gui.ImageTile;
-import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
 public abstract class GameObject implements ImageTile{
 
     private Point2D position;
-    private final boolean isDestructible;
+    //private final boolean isDestructible;
 
-    public GameObject(Point2D initialPosition, boolean isDestructible){
+    public GameObject(Point2D initialPosition){
         position = initialPosition;
-        this.isDestructible = isDestructible;
         this.createImage();
     }
 
@@ -21,7 +19,8 @@ public abstract class GameObject implements ImageTile{
 
     public void removeImage(){ImageGUI.getInstance().removeImage(this);}
 
-    public boolean isDestructible(){return isDestructible;}
+
+    public boolean isDestroyable() {return true;}
 
     //public  boolean isDestructible(){return true;}
 
@@ -45,6 +44,8 @@ public abstract class GameObject implements ImageTile{
     public boolean isClimbable(){return false;}
 
     public boolean movableObject(){return false;}
+
+    public boolean canTeleport(){return false;}
 
 
 }

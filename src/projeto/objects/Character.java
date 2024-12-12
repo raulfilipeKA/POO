@@ -7,7 +7,7 @@ public abstract class Character extends GameObject {
     private int ATC;
 
     public Character(Point2D position, int health, int attack){
-        super(position, false);
+        super(position);
         HP = health;
         ATC = attack;
     }
@@ -25,6 +25,9 @@ public abstract class Character extends GameObject {
 //
 //        }
     }
+
+    @Override
+    public boolean isDestroyable() {return false;}
 
     @Override
     public boolean canGoThrough() {return false;}

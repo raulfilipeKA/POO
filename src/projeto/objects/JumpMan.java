@@ -42,5 +42,8 @@ public class JumpMan extends Character {
 		}
 	}
 
+	@Override
+	public boolean canTeleport() {return true;}
+
 
 }

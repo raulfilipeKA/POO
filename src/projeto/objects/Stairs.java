@@ -5,7 +5,7 @@ import projeto.pt.iscte.poo.utils.Point2D;
 public class Stairs extends GameObject {
 
     public Stairs(Point2D position) {
-        super(position, false);
+        super(position);
     }
 
 
@@ -17,5 +17,8 @@ public class Stairs extends GameObject {
 
     @Override
     public boolean isClimbable() {return true;}
+
+    @Override
+    public boolean isDestroyable() {return false;}
 
 }

@@ -6,7 +6,7 @@ public class Wall extends GameObject {
 
 
     public Wall(Point2D position) {
-        super(position, false);
+        super(position);
     }
 
     @Override
@@ -20,6 +20,8 @@ public class Wall extends GameObject {
     @Override
     public boolean canGoThrough() {return false;}
 
+    @Override
+    public boolean isDestroyable() {return false;}
 
 
 }

@@ -6,7 +6,7 @@ import projeto.pt.iscte.poo.utils.Point2D;
 public class Princess extends GameObject {
 
     public Princess(Point2D position) {
-        super(position, true);
+        super(position);
         this.createImage();
     }
 
@@ -20,5 +20,7 @@ public class Princess extends GameObject {
     public int getLayer() {
         return 20;
     }
+
+
 
 }

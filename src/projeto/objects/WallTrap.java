@@ -5,7 +5,7 @@ import projeto.pt.iscte.poo.utils.Point2D;
 public class WallTrap extends GameObject {
 
     public WallTrap(Point2D position) {
-        super(position, false);
+        super(position);
         this.createImage();
     }
 
@@ -17,4 +17,7 @@ public class WallTrap extends GameObject {
 
     @Override
     public boolean canGoThrough() {return false;}
+
+    @Override
+    public boolean isDestroyable() {return false;}
 }

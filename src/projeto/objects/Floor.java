@@ -5,7 +5,7 @@ import projeto.pt.iscte.poo.utils.Point2D;
 public class Floor extends GameObject {
 
     public Floor(Point2D position) {
-        super(position, false);
+        super(position);
     }
 
     @Override
@@ -16,4 +16,6 @@ public class Floor extends GameObject {
     @Override
     public int getLayer() {return 0;}
 
+    @Override
+    public boolean isDestroyable() {return false;}
 }

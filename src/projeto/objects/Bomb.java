@@ -8,7 +8,7 @@ public class Bomb extends GameObject {
 
 
     public Bomb(Character character) {
-        super(character.getPosition(), false);
+        super(character.getPosition());
     }
 
     @Override
@@ -19,6 +19,7 @@ public class Bomb extends GameObject {
 
     public void arm() {armed = true;}
 
-
+    @Override
+    public boolean isDestroyable() {return false;}
 
 }
