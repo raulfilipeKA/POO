@@ -20,7 +20,7 @@ public class Room {
 	private boolean hasMeatToRot = false;
 	private ArrayList<Character> characters = new ArrayList<>();
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
-
+	//WARNING: o jumpMan nao esta a ser adicionado à lista de objetos da sala
 
 	public Room(int n) {
 		try{
