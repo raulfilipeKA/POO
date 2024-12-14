@@ -169,7 +169,7 @@ public class GameEngine implements Observer {
 					break;
 				}
 			}
-		}
+		} //JOPTIONPANE para escrever no ecra
 
 		Collections.sort(leaderBoard, Collections.reverseOrder());
 	}

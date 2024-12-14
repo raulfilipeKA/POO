@@ -202,8 +202,8 @@ public class Room {
 	public void moveProjectile(){
 		for(Projectile projectile : projectiles){
 				projectile.move();
-				if (!withinBounds(projectile.getPosition())) {       // todo REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
-					deleteObject(projectile);
+				if (outOfBounds(projectile.getPosition())) {       // todo REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
+					projectile.setOutOfBounds(true);
 				}
 				else if (whatsThere(projectile.getPosition()) instanceof Character) {
 					Character character = (Character) whatsThere(projectile.getPosition());
@@ -211,14 +211,13 @@ public class Room {
 					if (character.isDead()) {deleteObject(character);}
 				}
 		}
-		//System.out.println(projectiles.size());
+		projectiles.removeIf(projectile -> projectile.getOutOfBounds());
 	}
 
 	private void deleteObject(GameObject object){
+		if (object instanceof Projectile) {projectiles.remove(object);}
+		if (object instanceof Character) {characters.remove(object);}
 
-		if (object instanceof Character) {
-			characters.remove(object);
-		}
 		roomObjectsList.remove(object);
 		object.removeImage();
 	}
@@ -238,9 +237,8 @@ public class Room {
 		} else if (whatsThere(newPosition) instanceof Character) {
 			Character character = (Character) whatsThere(jumpMan.getPosition().plus(d.asVector()));
 			jumpMan.attack(character);
-			if (character.getHealth() <= 0) {
-				roomObjectsList.remove(character);
-			}
+			if (character.getHealth() <= 0) {deleteObject(character);}
+
 		} else if (isValidMove(newPosition)) {
 			if (d.equals(Direction.UP)) {
 				climb();
@@ -263,12 +261,12 @@ public class Room {
 	public Direction leftRight(){return Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;}
 
 
-	public boolean withinBounds(Point2D position){
-		return position.getX() >= 0 && position.getX() < 10 && position.getY() >= 0 && position.getY() < 10;
+	public boolean outOfBounds(Point2D position){
+		return position.getX() < 0 || position.getX() >= 10 || position.getY() < 0 || position.getY() >= 10;
 	}
 
 	protected boolean validMove(Point2D newPosition){
-		if(!withinBounds(newPosition)){return false;}
+		if(outOfBounds(newPosition)){return false;}
 		ArrayList<GameObject> objects = whatsThereList(newPosition);
 		for (GameObject object : objects) {
 			if (!object.canGoThrough() || object instanceof Stairs) {
