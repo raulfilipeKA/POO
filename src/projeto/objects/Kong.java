@@ -19,17 +19,9 @@ public class Kong extends Character {
         return "DonkeyKong";
     }
 
-//    public void move() { //move randomly lvl 1-4 //todo Point2D ou Direction? É indiferente?
-//        //Direction d = Direction.random();
-//        Point2D p = this.getPosition().plus(Direction.random().asVector());
-//        this.move(p);
-//        //setPosition(getPosition().plus(d.asVector()));
-//    }
-
-    public void move(Point2D p) { //todo passar direcao em vez de Point 2D
+    public void move(Point2D p) {
         if(p.getX() == this.getPosition().getX()){return;}
         Direction direction = this.getPosition().directionTo(p);
         setPosition(getPosition().plus(direction.asVector()));
-
     }
 }

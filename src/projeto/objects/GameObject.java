@@ -14,8 +14,7 @@ public abstract class GameObject implements ImageTile{
         this.createImage();
     }
 
-    public void createImage(){ImageGUI.getInstance().addImage(this);} //nao invoco no construtor super
-    //porque como depende do getName(), tenho que invocar na subclasse onde ja o implementei
+    public void createImage(){ImageGUI.getInstance().addImage(this);}
 
     public void removeImage(){ImageGUI.getInstance().removeImage(this);}
 

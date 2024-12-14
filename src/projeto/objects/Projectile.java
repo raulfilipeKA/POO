@@ -37,4 +37,7 @@ public abstract class Projectile extends GameObject {
 
     public int getDamage() {return damage;}
 
+    @Override
+    public int getLayer() {return 50;}
+
 }

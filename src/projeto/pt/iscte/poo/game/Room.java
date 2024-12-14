@@ -51,11 +51,13 @@ public class Room {
 	public ArrayList<GameObject> getRoomObjectsList() {return roomObjectsList;}
 
 	public void deleteRoom() {
-		for (GameObject object : roomObjectsList) {
-			ImageGUI.getInstance().removeImage(object);
-		}
+		for (GameObject object : roomObjectsList) {ImageGUI.getInstance().removeImage(object);}
+		for (Projectile projectile : projectiles) {projectile.removeImage();}
 		ImageGUI.getInstance().removeImage(jumpMan);
-		roomObjectsList.clear();}
+		roomObjectsList.clear();
+		characters.clear();
+		projectiles.clear();
+	}
 
 	public void roomObjects(char object, int i, int j, int roomNumber){ //no fim apagar isto e passar cada simbolo para  cada objeto
 		Point2D position = new Point2D(i, j);
@@ -184,12 +186,18 @@ public class Room {
 
 	public void jumpManGetsHit(int damage){
 		jumpMan.getsHit(damage);
+		System.out.println(jumpMan.getHealth());
 		if(jumpMan.isDead() && jumpMan.getLives() > 0){
 			jumpMan.loseLife();
-			jumpMan.teleport(jumpManInitialPosition);
+			if(!jumpMan.getPosition().equals(jumpManInitialPosition)) {
+				ImageGUI.getInstance().removeImage(jumpMan);
+				jumpMan.teleport(jumpManInitialPosition);
+				//ImageGUI.getInstance().addImage(jumpMan);
+			}
 		}
 		if(jumpMan.isDead() && jumpMan.getLives() == 0){
 			// todo RESTART GAME
+			System.out.println("DEDEDEDEDEDEAD");
 			deleteRoom();
 			new Room(0);
 		}
@@ -211,9 +219,10 @@ public class Room {
 				}
 				//podia implementar para ver se atinge Characters caso o JumpMan venha a lançar projeteis tambem
 				else if (projectile.getPosition().equals(jumpMan.getPosition())) {
-					jumpMan.getsHit(projectile.getDamage());
 					projectile.hit(true);
-					if (jumpMan.isDead()) {deleteObject(jumpMan);}
+					jumpManGetsHit(projectile.getDamage());
+					//jumpMan.getsHit(projectile.getDamage());
+					//if (jumpMan.isDead()) {deleteObject(jumpMan);}
 					projectile.removeImage();
 				}
 		}

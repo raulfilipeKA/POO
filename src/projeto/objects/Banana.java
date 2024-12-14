@@ -16,11 +16,6 @@ public class Banana extends Projectile {
         return "Banana";
     }
 
-    @Override
-    public int getLayer() {
-        return 0;
-    }
-
 
     public void move() {
         System.out.println("Banana move na banana");

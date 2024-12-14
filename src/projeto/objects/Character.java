@@ -48,6 +48,8 @@ public abstract class Character extends GameObject {
     public int getAttack(){return ATC;}
     public int getHealth(){return HP;}
 
+    @Override
+    public int getLayer() {return 7;}
 
 
 

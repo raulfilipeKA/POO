@@ -8,7 +8,6 @@ public class JumpMan extends Character {
 	private static int HEALTH = 100;
 	private int lives = 3;
 	private boolean hasKey;
-	//private int wayIsFacing;
 
 	public JumpMan(Point2D initialPosition) {
 		super(initialPosition, HEALTH, ATTACK);
@@ -20,9 +19,7 @@ public class JumpMan extends Character {
 	}
 
 	@Override
-	public String getName() {
-		return "JumpMan";
-	}
+	public String getName() {return "JumpMan";}
 
 	public void move(Direction direction) {
 		setPosition(getPosition().plus(direction.asVector()));
@@ -41,7 +38,7 @@ public class JumpMan extends Character {
 	public void loseLife() {this.lives--;}
 
 	public void pickUp(Item item) {
-		if (item instanceof Item && item.getPosition().equals(getPosition())) {
+		if (item != null && item.getPosition().equals(getPosition())) {
 			if(item.getAttackBonus() > 0) {setAttack(getAttack() + item.getAttackBonus());}
 			if(item.getHealthBonus() > 0) {setHealthBonus(getHealth()+item.getHealthBonus());}
 		}

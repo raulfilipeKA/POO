@@ -10,12 +10,10 @@ public class Wall extends GameObject {
     }
 
     @Override
-    public String getName() {
-        return "Wall";
-    }
+    public String getName() {return "Wall";}
 
     @Override
-    public int getLayer() {return 0;}
+    public int getLayer() {return 1;}
 
     @Override
     public boolean canGoThrough() {return false;}
