@@ -36,7 +36,9 @@ public abstract class GameObject implements ImageTile{
     }
 
     public void setPosition(Point2D newPosition){
+        this.removeImage();
         position = newPosition;
+        this.createImage();
     }
 
     public boolean canGoThrough(){return true;}
@@ -46,6 +48,14 @@ public abstract class GameObject implements ImageTile{
     public boolean movableObject(){return false;}
 
     public boolean canTeleport(){return false;}
+
+    public void teleport(Point2D newPosition){
+        if(canTeleport()){
+            this.removeImage();
+            position = newPosition;
+            this.createImage();
+        } else { System.out.println("This object cannot be teleported");}
+    }
 
 
 }

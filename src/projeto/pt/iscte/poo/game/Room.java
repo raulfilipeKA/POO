@@ -50,6 +50,7 @@ public class Room {
 		for (GameObject object : roomObjectsList) {
 			ImageGUI.getInstance().removeImage(object);
 		}
+		ImageGUI.getInstance().removeImage(jumpMan);
 		roomObjectsList.clear();}
 
 	public void roomObjects(char object, int i, int j, int roomNumber){ //no fim apagar isto e passar cada simbolo para  cada objeto
@@ -123,13 +124,13 @@ public class Room {
 
 	}
 
-	public static void main(String[] args) {
-		Room room = new Room(0);
-		ArrayList<Character> objects = room.getCharacters();
-		for (GameObject object : objects) {
-			System.out.println(object.getName());
-		}
-	}
+//	public static void main(String[] args) {
+//		Room room = new Room(0);
+//		ArrayList<Character> objects = room.getCharacters();
+//		for (GameObject object : objects) {
+//			System.out.println(object.getName());
+//		}
+//	}
 
 	public ArrayList<Character> getCharacters() {return characters;}
 
@@ -210,7 +211,7 @@ public class Room {
 					if (character.isDead()) {deleteObject(character);}
 				}
 		}
-		System.out.println(projectiles.size());
+		//System.out.println(projectiles.size());
 	}
 
 	private void deleteObject(GameObject object){
@@ -219,7 +220,7 @@ public class Room {
 			characters.remove(object);
 		}
 		roomObjectsList.remove(object);
-			object.removeImage();
+		object.removeImage();
 	}
 
 
@@ -323,6 +324,7 @@ public class Room {
 			if (object.getPosition().equals(position) &&
 				//	!(object instanceof JumpMan) &&
 					!(object instanceof Stairs) &&
+					//!(object instanceof Door) &&
 					!(object instanceof Floor)) {
 				return object;
 			}
@@ -391,10 +393,10 @@ public class Room {
 			System.out.println("\u001B[32mAt door\u001B[0m");
 			System.out.println(needsKey);
 			System.out.println("--------------------");
-			for (GameObject object1 : roomObjectsList) {
-				System.out.println(object1.getName());
-
-			}
+//			for (GameObject object1 : roomObjectsList) {
+//				System.out.println(object1.getName());
+//
+//			}
 			return true;
 		}
 	}
