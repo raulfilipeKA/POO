@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class Room {
 
 	private JumpMan jumpMan;
+	private Point2D jumpManInitialPosition;
 	private ArrayList<GameObject> roomObjectsList;
 	private String doorConfig;
 	private boolean needsKey = false;
@@ -23,28 +24,31 @@ public class Room {
 	//WARNING: o jumpMan nao esta a ser adicionado à lista de objetos da sala
 
 	public Room(int n) {
-		try{
+		setupRoom(n);
+		ImageGUI.getInstance().update();
+
+	}
+
+
+	public void setupRoom(int n) {
 		roomObjectsList = new ArrayList<>();
-		File[] files = new File("rooms").listFiles();
-		char[][] room = readFile(files[n]);
-		for (int i = 0; i < room.length; i++) {
-			for (int j = 0; j < room[i].length; j++) {
-				roomObjects(room[i][j], i, j, n);
+		try {
+			char[][] matrix = readFile(new File("rooms/room" + n + ".txt"));
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix[i].length; j++) {
+					roomObjects(matrix[i][j], i, j, n);
+				}
 			}
+		} catch (FileNotFoundException e) {
+			throw new IllegalArgumentException("Ficheiro não encontrado");
 		}
-		}catch (FileNotFoundException _) {
-			System.out.println("Ficheiro não encontrado");
-		}
-		//roomList.add(this); todo meter no engine?
 	}
 
 //	public Point2D getJumpManPosition() {
 //		return jumpMan.getPosition();
 //	}
 
-	public ArrayList<GameObject> getRoomObjectsList() {
-		return roomObjectsList;
-	}
+	public ArrayList<GameObject> getRoomObjectsList() {return roomObjectsList;}
 
 	public void deleteRoom() {
 		for (GameObject object : roomObjectsList) {
@@ -55,7 +59,7 @@ public class Room {
 
 	public void roomObjects(char object, int i, int j, int roomNumber){ //no fim apagar isto e passar cada simbolo para  cada objeto
 		Point2D position = new Point2D(i, j);
-		GameObject obj = null;
+		GameObject obj;
 		//obj = new Floor(position);
 		//roomObjectsList.add(new Floor(position));
 
@@ -67,7 +71,13 @@ public class Room {
 			case 'H':
 				roomObjectsList.add(new Floor(position));
 				jumpMan = new JumpMan(position);
+				jumpManInitialPosition = position;
 				return;
+			case 'P':
+				roomObjectsList.add(new Floor(position));
+				roomObjectsList.add(new Princess(position));
+				return;
+
 			case 'G':
 				roomObjectsList.add(new Floor(position));
 				obj = new Kong(position);
@@ -113,15 +123,7 @@ public class Room {
 				roomObjectsList.add(new Floor(position));
 				return;
 
-
 		}
-
-		if(obj instanceof Character){
-			roomObjectsList.add(obj);
-		}
-
-
-
 	}
 
 //	public static void main(String[] args) {
@@ -143,7 +145,6 @@ public class Room {
 		Scanner sc = new Scanner(file);
 		doorConfig=sc.nextLine();
 
-
 		int y = 0;
 		while (sc.hasNextLine() && y < matrix.length) {
 				String line = sc.nextLine();
@@ -155,20 +156,13 @@ public class Room {
 		return matrix;
 	}
 
-//	public void moveKong() {//if level is <4, move randomly
-//		for (GameObject possibleKong : roomObjectsList) {
-//			if(possibleKong instanceof Kong) {
-//				((Kong) possibleKong).move(); //se tiver assim, nao da para aceder a posicao e nao consigo invocar isValidMove
-//			} //todo isValidMove
-//		}
-//	}
 
 	public void fall(GameObject object) {object.setPosition(object.getPosition().plus(Direction.DOWN.asVector()));}
 
 
 	public void moveKong() {//if level is <4, move randomly
 		Kong kong;
-		Point2D p;
+		//Point2D p;
 		for (GameObject possibleKong : roomObjectsList) {
 			if(possibleKong instanceof Kong) {
 				kong = (Kong) possibleKong;
@@ -189,8 +183,16 @@ public class Room {
 	}
 
 	public void jumpManGetsHit(int damage){
-		if(jumpMan.isDead())
 		jumpMan.getsHit(damage);
+		if(jumpMan.isDead() && jumpMan.getLives() > 0){
+			jumpMan.loseLife();
+			jumpMan.teleport(jumpManInitialPosition);
+		}
+		if(jumpMan.isDead() && jumpMan.getLives() == 0){
+			// todo RESTART GAME
+			deleteRoom();
+			new Room(0);
+		}
 	}
 
 
@@ -201,17 +203,23 @@ public class Room {
 
 	public void moveProjectile(){
 		for(Projectile projectile : projectiles){
+
 				projectile.move();
 				if (outOfBounds(projectile.getPosition())) {       // todo REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
 					projectile.setOutOfBounds(true);
+					projectile.removeImage();
 				}
-				else if (whatsThere(projectile.getPosition()) instanceof Character) {
-					Character character = (Character) whatsThere(projectile.getPosition());
-					character.getsHit(projectile.getDamage());
-					if (character.isDead()) {deleteObject(character);}
+				//podia implementar para ver se atinge Characters caso o JumpMan venha a lançar projeteis tambem
+				else if (projectile.getPosition().equals(jumpMan.getPosition())) {
+					jumpMan.getsHit(projectile.getDamage());
+					projectile.hit(true);
+					if (jumpMan.isDead()) {deleteObject(jumpMan);}
+					projectile.removeImage();
 				}
 		}
 		projectiles.removeIf(projectile -> projectile.getOutOfBounds());
+		projectiles.removeIf(projectile -> projectile.getHit());
+
 	}
 
 	private void deleteObject(GameObject object){

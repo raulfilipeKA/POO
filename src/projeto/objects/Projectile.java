@@ -6,6 +6,7 @@ import projeto.pt.iscte.poo.utils.Point2D;
 public abstract class Projectile extends GameObject {
     private int damage;
     private boolean outOfBounds=false;
+    private boolean hit=false;
 
     public Projectile(Point2D position, int damage) {
         super(position);
@@ -16,6 +17,8 @@ public abstract class Projectile extends GameObject {
 
     public void setOutOfBounds(boolean outOfBounds) {this.outOfBounds = outOfBounds;}
     public boolean getOutOfBounds() {return outOfBounds;}
+    public void hit(boolean hit) {this.hit = hit;}
+    public boolean getHit() {return hit;}
 
 
     public void hit(JumpMan j) {

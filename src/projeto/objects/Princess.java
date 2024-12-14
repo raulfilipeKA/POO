@@ -18,7 +18,7 @@ public class Princess extends GameObject {
 
     @Override
     public int getLayer() {
-        return 20;
+        return 4;
     }
 
 
