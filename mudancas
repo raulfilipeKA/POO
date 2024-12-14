@@ -5,3 +5,5 @@ na cena ver a m«imagem do kong e apagar
 verificar o comportamento do attack quadno o kong esta sobreposto com a porta -> roomObjList e procurar por character
 
 temos que arranjar maneira de nao perder o jumpman quando mudamos de sala (talvez retirá-lo do delete room , apaga se so a imagem e nao o objeto)
+
+ver a cena das bananas, apagar bem os objetos e verificar se o jumpman esta a ser atacado por elas
