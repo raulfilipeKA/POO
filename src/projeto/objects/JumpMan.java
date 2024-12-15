@@ -45,5 +45,8 @@ public class JumpMan extends Character {
 	@Override
 	public boolean canTeleport() {return true;}
 
+	@Override
+	public boolean canCatchItem(){return true;}
+
 
 }

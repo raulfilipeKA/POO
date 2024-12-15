@@ -57,5 +57,14 @@ public abstract class Character extends GameObject {
 
     public void setHealth(int health) {this.HP = health;}
 
+    public boolean canCatchItem(){return false;}
+
+    public void catchItem(Item item) {
+        if (canCatchItem()) {
+            HP += item.getHealthBonus();
+            ATC += item.getAttackBonus();
+        }
+    }
+
 
 }

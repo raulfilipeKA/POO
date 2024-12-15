@@ -268,7 +268,9 @@ public class Room {
 		if (isValidMove(newPosition) && whatsThere(newPosition) instanceof Item) {
 			jumpMan.move(d);
 			System.out.println("\033[33m" + jumpMan.getPosition() + "\033[0m");
-			//jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
+			Item item = whatsThere(newPosition, Item.class);  //todo acho q fiz magia
+			jumpMan.catchItem(whatsThere(newPosition, Item.class));
+			deleteObject(item);
 		} else if (isValidMove(newPosition) && whatsThere(newPosition) instanceof Item) {
 
 			// todo jumpMan.pickUp(whatsThere(jumpMan.getPosition().plus(d.asVector())));
@@ -412,6 +414,16 @@ public class Room {
 	return false;
 }
 
+public <T> T whatsThere(Point2D position, Class<T> type) {  //todo ver se funciona
+    for (GameObject object : roomObjectsList) {
+        if (type.isInstance(object) && object.getPosition().equals(position)) {
+            return type.cast(object);
+        }
+    }
+    return null;
+}
+
+
 
 
 
@@ -429,6 +441,7 @@ public class Room {
 			}
 		}
 	}
+
 
 	//NOVO
 	protected boolean isValidMoveBat(Point2D newPosition){
