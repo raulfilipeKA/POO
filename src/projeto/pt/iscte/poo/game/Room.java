@@ -25,20 +25,20 @@ public class Room {
 	private ArrayList<Projectile> projectiles = new ArrayList<>();
 	//WARNING: o jumpMan nao esta a ser adicionado à lista de objetos da sala
 
-	public Room(int n) {
-		setupRoom(n);
+	public Room(int n, JumpMan jumpMan) {
+		setupRoom(n, jumpMan);
 		ImageGUI.getInstance().update();
 
 	}
 
 
-	public void setupRoom(int n) {
+	public void setupRoom(int n, JumpMan jumpMan) {
 		roomObjectsList = new ArrayList<>();
 		try {
 			char[][] matrix = readFile(new File("rooms/room" + n + ".txt"));
 			for (int i = 0; i < matrix.length; i++) {
 				for (int j = 0; j < matrix[i].length; j++) {
-					roomObjects(matrix[i][j], i, j, n);
+					roomObjects(matrix[i][j], i, j, n, jumpMan);
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -61,7 +61,7 @@ public class Room {
 		projectiles.clear();
 	}
 
-	public void roomObjects(char object, int i, int j, int roomNumber){ //no fim apagar isto e passar cada simbolo para  cada objeto
+	public void roomObjects(char object, int i, int j, int roomNumber, JumpMan jumpMan){
 		Point2D position = new Point2D(i, j);
 		GameObject obj;
 		//obj = new Floor(position);
@@ -74,7 +74,12 @@ public class Room {
 				return;
 			case 'H':
 				roomObjectsList.add(new Floor(position));
-				jumpMan = new JumpMan(position);
+				if(roomNumber == 0 || jumpMan == null) {
+					this.jumpMan = new JumpMan(position);
+				} else {
+					this.jumpMan = jumpMan;
+					this.jumpMan.teleport(position);
+				}
 				jumpManInitialPosition = position;
 				return;
 			case 'P':
@@ -202,7 +207,7 @@ public class Room {
 			// todo RESTART GAME
 			System.out.println("DEDEDEDEDEDEAD");
 			deleteRoom();
-			new Room(0);
+			new Room(0, null);
 		}
 	}
 

@@ -22,7 +22,7 @@ public class GameEngine implements Observer {
 	private boolean gameOver = false;
 
 	public GameEngine()  {
-		currentRoom = new Room(roomNum);
+		currentRoom = new Room(roomNum, null);
 		ImageGUI.getInstance().update();
 	}
 
@@ -30,9 +30,10 @@ public class GameEngine implements Observer {
 	public void changeRoom(int newRoomIndex) {
 		if (newRoomIndex >= 0 && newRoomIndex < numberOfRoomFiles()) {
 			System.out.println(currentRoom.getJumpMan().getAttack());
+			JumpMan jumpMan = currentRoom.getJumpMan();
 			currentRoom.deleteRoom();
 			roomNum = newRoomIndex;
-			currentRoom = new Room(roomNum);
+			currentRoom = new Room(roomNum, jumpMan);
 			System.out.println(currentRoom.getJumpMan().getAttack());
 			//totalTicksProcessed+=lastTickProcessed;
 			ticksProcessedInCurrentRoom = 0;
