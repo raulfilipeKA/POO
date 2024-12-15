@@ -62,6 +62,7 @@ public class GameEngine implements Observer {
 		System.out.println("T: " + t);
 
 		if (isEven(lastTickProcessed)) {currentRoom.moveKong();}
+		currentRoom.moveBat();
 
 		if (ticksProcessedInCurrentRoom == GoodMeat.TIME_TO_ROT && currentRoom.hasMeatToRot()) {currentRoom.rotMeat();}
 

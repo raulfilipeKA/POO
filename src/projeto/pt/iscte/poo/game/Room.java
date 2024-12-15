@@ -126,7 +126,12 @@ public class Room {
 				obj = new DoorClosed(position);
 				roomObjectsList.add(obj);
 				return;
-
+			case 'B':
+				roomObjectsList.add(new Floor(position));
+				obj = new Bat(position);
+				roomObjectsList.add(obj);
+				characters.add((Character) obj);
+				return;
 			case 't':
 				roomObjectsList.add(new Floor(position));
 				obj = new Trap(position);
