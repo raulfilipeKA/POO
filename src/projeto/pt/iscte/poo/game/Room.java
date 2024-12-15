@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static projeto.objects.Bomb.EXPLOSION_RADIUS;
+
 public class Room {
 
 	private JumpMan jumpMan;
@@ -162,10 +164,10 @@ public class Room {
 	public void fall(GameObject object) {object.setPosition(object.getPosition().plus(Direction.DOWN.asVector()));}
 
 
-	public void moveKong() {//if level is <4, move randomly
+	public void moveKong() {
 		Kong kong;
-		//Point2D p;
 		for (GameObject possibleKong : roomObjectsList) {
+
 			if(possibleKong instanceof Kong) {
 				kong = (Kong) possibleKong;
 				Point2D newPosition = kong.getPosition().plus(leftRight().asVector());
@@ -175,6 +177,7 @@ public class Room {
 				}
 				if (newPosition.equals(jumpMan.getPosition())) {
 					jumpMan.getsHit(kong.getAttack());
+					System.out.println("\033[34mVida"+jumpMan.getHealth()+"\033[0m");
 				} else if (validMove(newPosition)){
 					kong.move(newPosition);
 					System.out.println(kong.getPosition());
@@ -184,7 +187,7 @@ public class Room {
 		}
 	}
 
-	public void jumpManGetsHit(int damage){
+	public void jumpManCheckPulse(int damage){
 		jumpMan.getsHit(damage);
 		System.out.println(jumpMan.getHealth());
 		if(jumpMan.isDead() && jumpMan.getLives() > 0){
@@ -203,24 +206,29 @@ public class Room {
 		}
 	}
 
+	public Point2D getJumpManInitialPosition() {return jumpManInitialPosition;}
 
-	public void applyGravity(){
-		if(validMove(jumpMan.getPosition().plus(Direction.DOWN.asVector()))){
-		jumpMan.applyGravity();}
+	public void applyGravity(){  //podiamos acrescentar os outros metodos de gravidade inclusive para os projeteis
+		if(validMove(jumpMan.getPosition().plus(Direction.DOWN.asVector()))){jumpMan.fall();}
+		for(GameObject object : roomObjectsList){
+			if(object.canApplyGravity() && validMove(object.getPosition().plus(Direction.DOWN.asVector()))){
+				object.fall();
+			}
+		}
 	}
 
 	public void moveProjectile(){
 		for(Projectile projectile : projectiles){
 
 				projectile.move();
-				if (outOfBounds(projectile.getPosition())) {       // todo REVER ESTE CODIGO PARA VERIFICAR SE ESTA OUTOFBOUNDS
+				if (outOfBounds(projectile.getPosition())) {
 					projectile.setOutOfBounds(true);
 					projectile.removeImage();
 				}
 				//podia implementar para ver se atinge Characters caso o JumpMan venha a lançar projeteis tambem
 				else if (projectile.getPosition().equals(jumpMan.getPosition())) {
 					projectile.hit(true);
-					jumpManGetsHit(projectile.getDamage());
+					jumpManCheckPulse(projectile.getDamage());
 					//jumpMan.getsHit(projectile.getDamage());
 					//if (jumpMan.isDead()) {deleteObject(jumpMan);}
 					projectile.removeImage();
@@ -266,11 +274,24 @@ public class Room {
 		}
 	}
 
+
+
 	public void climb(){
 		ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
 		for (GameObject object : objects) {
-			if (object.isClimbable()) {
-				jumpMan.move(Direction.UP);
+			if (object.isClimbable()) {jumpMan.move(Direction.UP);}
+		}
+	}
+
+	public void explode(Bomb bomb){
+		for (int i = -EXPLOSION_RADIUS; i <= EXPLOSION_RADIUS; i++) {
+			for (int j = -EXPLOSION_RADIUS; j <= EXPLOSION_RADIUS; j++) {
+				Point2D position = new Point2D(bomb.getPosition().getX() + i, bomb.getPosition().getY() + j);
+				ArrayList<GameObject> gameObjects = whatsThereList(position);
+				for (GameObject gameObject : gameObjects) {
+					if (gameObject.isDestroyable()) {deleteObject(gameObject);}
+				}
+				if(position.equals(jumpMan.getPosition())){jumpManCheckPulse(bomb.getDamage());}
 			}
 		}
 	}
@@ -282,7 +303,7 @@ public class Room {
 		return position.getX() < 0 || position.getX() >= 10 || position.getY() < 0 || position.getY() >= 10;
 	}
 
-	protected boolean validMove(Point2D newPosition){
+	protected boolean validMove(Point2D newPosition){  //util para a gravidade
 		if(outOfBounds(newPosition)){return false;}
 		ArrayList<GameObject> objects = whatsThereList(newPosition);
 		for (GameObject object : objects) {
@@ -296,14 +317,10 @@ public class Room {
 
 	protected boolean isValidMove(Point2D newPosition){
 		for(GameObject object : roomObjectsList){
-			if(((object instanceof Wall || object instanceof Character || object instanceof Trap)
+			if((!object.canGoThrough()
 					&& object.getPosition().equals(newPosition))
-			|| newPosition.getX() < 0 || newPosition.getX() >= 10
-			|| newPosition.getY() < 0 || newPosition.getY() >= 10
-
-			) {
-				System.out.println("\033[32m"+object.getPosition()+"\033[0m");
-				return false;}
+					|| outOfBounds(newPosition))
+			{return false;}
 		}
 		return true;
 	}
@@ -311,9 +328,7 @@ public class Room {
 	public void rotMeat() {
 		ArrayList<GoodMeat> meatsToRot = new ArrayList<>();
 		for (GameObject object : roomObjectsList) {
-			if (object instanceof GoodMeat) {
-				meatsToRot.add((GoodMeat) object);
-			}
+			if (object instanceof GoodMeat) {meatsToRot.add((GoodMeat) object);}
 		}
 		for (GoodMeat goodMeat : meatsToRot) {
 			BadMeat badMeat = new BadMeat(goodMeat.getPosition(), goodMeat.getHealthBonus());
@@ -339,7 +354,7 @@ public class Room {
 			if (object.getPosition().equals(position) &&
 				//	!(object instanceof JumpMan) &&
 					!(object instanceof Stairs) &&
-					//!(object instanceof Door) &&
+					!(object instanceof Door) &&
 					!(object instanceof Floor)) {
 				return object;
 			}
@@ -370,103 +385,18 @@ public class Room {
 		}
 	}
 
-//-------------------------------FUNCIONA-------------------------------
-//----------------------------------|||---------------------------------
-//----------------------------------VVV---------------------------------
-
-// verficar se o objeto é uma doorClosed e se esta na mesma posição que o
-// jumpman e retorna o objeto
-	public DoorClosed atDoor() {
-		for (GameObject object : roomObjectsList) {
-			if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())
-			&& jumpMan.hasKey()) {
-				return (DoorClosed) object;
-			}
-		}
-		return null;
-	}
-
-	public boolean atDoor2(){
-		ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
-		for (GameObject object : objects) {
-			if (object instanceof DoorClosed) {
-				System.out.println("\u001B[32mAt door\u001B[0m");
-				System.out.println(needsKey);
-				System.out.println("--------------------");
-				for (GameObject object1 : roomObjectsList) {
-					System.out.println(object1.getName());
-				}
-				return true;
-			}
-		}return false;
-	}
-
-//o metodo atDoor funciona
-	public boolean atDoor1() {
+	public boolean atDoor() {
 	for (GameObject object : roomObjectsList) {
 		if (object instanceof DoorClosed && object.getPosition().equals(jumpMan.getPosition())) {
 			System.out.println("\u001B[32mAt door\u001B[0m");
 			System.out.println(needsKey);
 			System.out.println("--------------------");
-//			for (GameObject object1 : roomObjectsList) {
-//				System.out.println(object1.getName());
-//
-//			}
 			return true;
 		}
 	}
 	return false;
 }
 
-	public void trocarPorta1(){
-		if (((atDoor1() && !needsKey) || (atDoor1() && jumpMan.hasKey()))
-				&& whatsThere(jumpMan.getPosition()) instanceof DoorClosed) {
-			System.out.println("\u001B[32mChanging door\u001B[0m");
-			ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
-			for (GameObject object : objects) {
-				if (object instanceof DoorClosed) {
-					roomObjectsList.remove(object);
-					roomObjectsList.add(new DoorOpen(object.getPosition()));
-					object.removeImage();
-					jumpMan.setHasKey(false);
-				}
-			}
-		}
-	}
-
-	public boolean unlockDoor(){
-		if (((atDoor1() && !needsKey) || (atDoor1() && jumpMan.hasKey()))
-				&& whatsThere(jumpMan.getPosition()) instanceof DoorClosed) {
-			ArrayList<GameObject> objects = whatsThereList(jumpMan.getPosition());
-			for (GameObject object : objects) {
-				if (object instanceof DoorClosed) {
-					roomObjectsList.remove(object);
-					object.removeImage();
-					jumpMan.setHasKey(false);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-
-
-	public void trocarPorta() {
-		// verificar se o atributo do jumpma.haskey é valido validos
-		if (jumpMan.hasKey() || !needsKey) {
-			// atribuir a door o objeto doorClosed
-			DoorClosed door = atDoor();
-			if (door != null) {
-				// susbtituir na lista na posicção onde estava o objeto pelo novo objeto
-				// (doorOpen),ao fazer o indexOf estou a assumir que só existe uma porta
-				roomObjectsList.set(roomObjectsList.indexOf(door), new DoorOpen(door.getPosition()));
-				jumpMan.setHasKey(false);
-				ImageGUI.getInstance().removeImage(door);
-			}
-		}
-
-	}
 
 
 
@@ -485,22 +415,65 @@ public class Room {
 		}
 	}
 
-//	//NOVO
-//	public void moveBat() {//if level is <4, move randomly
-//		Bat bat;
-//		Point2D p;
-//		for (GameObject possibleKong : roomObjectsList) {
-//			if(possibleKong instanceof Kong) {
-//				bat = (BAt) possibleKong;
-//				p = bat.getPosition().plus(Direction.random().asVector());
-//				System.out.println("\033[31m"+p+"\033[0m");
-//				if (isValidMove(p)){
-//					bat.move(p);
-//					System.out.println(kong.getPosition());
-//					kong.deployProjectile(new Banana(p));
-//				} else{return;}
-//			}
-//		}
-//	}
+	//NOVO
+	protected boolean isValidMoveBat(Point2D newPosition){
+		for(GameObject object : roomObjectsList){
+			if(((object instanceof Wall || object instanceof Trap || object instanceof WallTrap)
+					&& object.getPosition().equals(newPosition))
+					|| newPosition.getX() < 0 || newPosition.getX() >= 10
+					|| newPosition.getY() < 0 || newPosition.getY() >= 10
+
+			) {
+				System.out.println("\033[32m"+object.getPosition()+"\033[0m");
+				return false;}
+		}
+		return true;
+	}
+
+	//NOVO
+	public Stairs checkForStairs(Point2D point2d) {
+		ArrayList<GameObject> objects= whatsThereList(point2d);
+		for(GameObject object : objects) {
+			if(object instanceof Stairs) {return ((Stairs) object);}
+		}
+		System.err.println("NAO FOI ENCONTRADo");
+		return null;
+	}
+
+	//NOVO
+	public void moveBat() {
+		Bat bat;
+		Point2D newPosition;
+		for (GameObject possibleBat : roomObjectsList) {
+			if(possibleBat instanceof Bat) {
+				bat = (Bat) possibleBat;
+				newPosition = bat.getPosition().plus(Direction.DOWN.asVector());
+				if(isValidMoveBat(newPosition) && checkForStairs(newPosition) instanceof Stairs /*implementar a cena da gravidade para caso nao ter nado em baixo o morcego cair*/ ) {
+					System.out.println("\033[31m"+newPosition+"\033[0m testessssssss");
+					bat.move(newPosition);
+				}else {
+					newPosition = bat.getPosition().plus(leftRight().asVector());
+					System.out.println("\033[31m"+newPosition+"\033[0m");
+					if (isValidMoveBat(newPosition)){
+						bat.move(newPosition);
+						System.out.println(bat.getPosition());
+						System.out.println("\033[31m"+newPosition+"\033[0m twfewfeewss");
+					} else{
+						return;
+					}
+				}
+				if(bat.getPosition().equals(jumpMan.getPosition())) {
+					bat.attack(jumpMan);
+					System.out.println("adafew");
+					System.out.println("vida" + jumpMan.getHealth());
+					if (jumpMan.getHealth() <= 0) {
+						roomObjectsList.remove(jumpMan);
+						jumpMan.removeImage();
+					}
+				}
+
+			}
+		}
+	}
 
 }

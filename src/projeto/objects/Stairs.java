@@ -21,4 +21,7 @@ public class Stairs extends GameObject {
     @Override
     public boolean isDestroyable() {return false;}
 
+    @Override
+    public boolean canGoThrough() {return true;}
+
 }

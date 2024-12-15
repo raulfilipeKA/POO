@@ -1,5 +1,7 @@
 package projeto.pt.iscte.poo.game;
 
+import projeto.objects.GoodMeat;
+import projeto.objects.JumpMan;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.Observed;
 import projeto.pt.iscte.poo.observer.Observer;
@@ -17,6 +19,7 @@ public class GameEngine implements Observer {
 	private int lastTickProcessed = 0;
 	private int ticksProcessedInCurrentRoom = 0;
 	private boolean gameIsFinished = false;
+	private boolean gameOver = false;
 
 	public GameEngine()  {
 		currentRoom = new Room(roomNum);
@@ -51,38 +54,28 @@ public class GameEngine implements Observer {
 				System.out.println("Direction! ");
 				currentRoom.moveJumpMan(k);
 			}
-			if (k == 98 || k == 66) {
-				currentRoom.getJumpMan().deployBomb();
-			}
-		} else{
-			currentRoom.applyGravity();
-		}
-		int t = ImageGUI.getInstance().getTicks();
+			if (k == 98 || k == 66) {currentRoom.getJumpMan().deployBomb();}
 
-		  System.out.println("T: " + t);
+		} else{currentRoom.applyGravity();}
+
+		int t = ImageGUI.getInstance().getTicks();
+		System.out.println("T: " + t);
 
 		if (isEven(lastTickProcessed)) {currentRoom.moveKong();}
 
-		if (ticksProcessedInCurrentRoom == 15 && currentRoom.hasMeatToRot()) {currentRoom.rotMeat();}
+		if (ticksProcessedInCurrentRoom == GoodMeat.TIME_TO_ROT && currentRoom.hasMeatToRot()) {currentRoom.rotMeat();}
 
-		if(lastTickProcessed<t){
-			processTick();
-		}
+		if(lastTickProcessed<t){processTick();}
 
 		if(isEven(lastTickProcessed)){currentRoom.moveProjectile();}
 
-//		while (lastTickProcessed < t) {
-//			processTick();
-//		}
-		//if(isEven(lastTickProcessed)){		currentRoom.applyGravity();}
+//		while (lastTickProcessed < t) {processTick();} //o loop nao funciona bem ao alterar o valor dos ticks
 
-		ImageGUI.getInstance().update();
-		// Testar coleta de chave
 		currentRoom.catchKey();
 		System.out.println("JumpMan tem a chave? " + currentRoom.getJumpMan().hasKey());
 		System.out.println("Porta precisa de chave? " + currentRoom.needsKey());
 
-		if (currentRoom.atDoor1() &&
+		if (currentRoom.atDoor() &&
 				(currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())) {
 			//currentRoom.trocarPorta1(); como change room é mais lento, ele executa esta acao tres vezes
 			changeRoom(roomNum + 1);
@@ -90,11 +83,12 @@ public class GameEngine implements Observer {
 			//ImageGUI.getInstance().update();
 
 		}
+		if (currentRoom.getJumpMan().getHealth() <= 0) {resetJumpMan(currentRoom.getJumpMan());
+			System.out.println(currentRoom.getJumpMan().getLives());}
+		if (currentRoom.getJumpMan().getLives() == 0) {gameOver = true;}
 
-//		if (currentRoom.unlockDoor()) {
-//			changeRoom(roomNum + 1);
-//
-//		}
+		ImageGUI.getInstance().update();
+
 		if(isGameFinished()){
 			System.out.println("Game is finished! Score: " + lastTickProcessed);
 			System.out.println("Updating leaderboards...");
@@ -116,7 +110,7 @@ public class GameEngine implements Observer {
 	public static boolean isEven(int n) {return n % 2 == 0;}
 
 	public boolean isGameFinished() {
-		if(roomNum == numberOfRoomFiles()-1 && currentRoom.atDoor1()
+		if(roomNum == numberOfRoomFiles()-1 && currentRoom.atDoor()
 				&& (currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())) {
 			return true;
 			//gameIsFinished = true;
@@ -125,24 +119,12 @@ public class GameEngine implements Observer {
 		//return gameIsFinished;
 	}
 
+	public void resetJumpMan(JumpMan jumpMan) {
+		jumpMan.loseLife();
+		jumpMan.setPosition(currentRoom.getJumpManInitialPosition());
+		jumpMan.setHealth(JumpMan.HEALTH);
 
-
-
-
-//    public void explode() {
-//        for (int i = -EXPLOSION_RADIUS; i <= EXPLOSION_RADIUS; i++) {
-//            for (int j = -EXPLOSION_RADIUS; j <= EXPLOSION_RADIUS; j++) {
-//                Point2D position = new Point2D(getPosition().getX() + i, getPosition().getY() + j);
-//                if (position.equals(getPosition())) {
-//                    GameObject gameObject = whatsThere(position); // ver o metodo e aplicar
-//                    if (gameObject.isDestructible()) {
-//                        ga*meObject.dispose();
-//                    }
-//                }
-//            }
-//        }
-//	removeImage();
-//}
+	}
 
 	//NOVO
 	public void wait(int nTicks) {
@@ -185,5 +167,7 @@ public class GameEngine implements Observer {
 			System.err.println("Erro na criação do ficheiro");
 		}
 	}
+
+	public boolean gameOver() {return gameOver;}
 
 }

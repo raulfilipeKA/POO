@@ -17,7 +17,7 @@ public class Banana extends Projectile {
     }
 
 
-    public void move() {
-        System.out.println("Banana move na banana");
-        setPosition(getPosition().plus(Direction.DOWN.asVector()));}
+    public void move() {setPosition(getPosition().plus(Direction.DOWN.asVector()));}
+
+
 }

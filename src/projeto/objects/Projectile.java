@@ -40,4 +40,10 @@ public abstract class Projectile extends GameObject {
     @Override
     public int getLayer() {return 50;}
 
+    @Override
+    public boolean isDestroyable() {return true;}
+
+    @Override
+    public boolean canApplyGravity() {return true;}
+
 }

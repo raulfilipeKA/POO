@@ -6,10 +6,7 @@ public class Bomb extends GameObject {
     public static final int TIMER = 5;
     private boolean armed = false;
 
-
-    public Bomb(Character character) {
-        super(character.getPosition());
-    }
+    public Bomb(Character character) {super(character.getPosition());}
 
     @Override
     public String getName() {return "Bomb";}
@@ -21,5 +18,10 @@ public class Bomb extends GameObject {
 
     @Override
     public boolean isDestroyable() {return false;}
+
+    public int getDamage() {return DAMAGE;}
+    public int getExplosionRadius() {return EXPLOSION_RADIUS;}
+    public int getTimer() {return TIMER;}
+
 
 }

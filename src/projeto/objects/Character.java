@@ -1,5 +1,6 @@
 package projeto.objects;
 
+import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
 public abstract class Character extends GameObject {
@@ -30,6 +31,9 @@ public abstract class Character extends GameObject {
     public boolean isDestroyable() {return false;}
 
     @Override
+    public boolean canApplyGravity() {return true;}
+
+    @Override
     public boolean canGoThrough() {return false;}
 
     @Override
@@ -51,6 +55,7 @@ public abstract class Character extends GameObject {
     @Override
     public int getLayer() {return 7;}
 
+    public void setHealth(int health) {this.HP = health;}
 
 
 }

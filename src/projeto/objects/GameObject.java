@@ -2,6 +2,7 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.gui.ImageTile;
+import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
 public abstract class GameObject implements ImageTile{
@@ -39,6 +40,9 @@ public abstract class GameObject implements ImageTile{
         position = newPosition;
         this.createImage();
     }
+
+    public void fall(){setPosition(getPosition().plus(Direction.DOWN.asVector()));}
+    public boolean canApplyGravity(){return false;}
 
     public boolean canGoThrough(){return true;}
 
