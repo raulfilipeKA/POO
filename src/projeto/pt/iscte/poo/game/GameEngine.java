@@ -19,10 +19,9 @@ public class GameEngine implements Observer {
 	private int lastTickProcessed = 0;
 	private int ticksProcessedInCurrentRoom = 0;
 	private boolean gameIsFinished = false;
-	private boolean gameOver = false;
 
 	public GameEngine()  {
-		currentRoom = new Room(roomNum, null);
+		currentRoom = new Room();
 		ImageGUI.getInstance().update();
 	}
 
@@ -84,9 +83,11 @@ public class GameEngine implements Observer {
 			//ImageGUI.getInstance().update();
 
 		}
-		if (currentRoom.getJumpMan().getHealth() <= 0) {resetJumpMan(currentRoom.getJumpMan());
-			System.out.println(currentRoom.getJumpMan().getLives());}
-		if (currentRoom.getJumpMan().getLives() == 0) {gameOver = true;}
+		if (currentRoom.getJumpMan().getHealth() <= 0) {
+			resetJumpMan(currentRoom.getJumpMan());
+			System.out.println(currentRoom.getJumpMan().getLives());
+		}
+		if (currentRoom.getJumpMan().getLives() == 0) {resetGame();}
 
 		ImageGUI.getInstance().update();
 
@@ -124,7 +125,15 @@ public class GameEngine implements Observer {
 		jumpMan.loseLife();
 		jumpMan.setPosition(currentRoom.getJumpManInitialPosition());
 		jumpMan.setHealth(JumpMan.HEALTH);
+	}
 
+	public void resetGame() {
+		currentRoom.deleteRoom();
+		roomNum = 0;
+		currentRoom = new Room();
+		lastTickProcessed = 0;
+		ticksProcessedInCurrentRoom = 0;
+		gameIsFinished = false;
 	}
 
 	//NOVO
@@ -169,6 +178,5 @@ public class GameEngine implements Observer {
 		}
 	}
 
-	public boolean gameOver() {return gameOver;}
 
 }

@@ -28,7 +28,11 @@ public class Room {
 	public Room(int n, JumpMan jumpMan) {
 		setupRoom(n, jumpMan);
 		ImageGUI.getInstance().update();
+	}
 
+	public Room() {
+		setupRoom(0, null);
+		ImageGUI.getInstance().update();
 	}
 
 
@@ -233,9 +237,8 @@ public class Room {
 				//podia implementar para ver se atinge Characters caso o JumpMan venha a lançar projeteis tambem
 				else if (projectile.getPosition().equals(jumpMan.getPosition())) {
 					projectile.hit(true);
-					jumpManCheckPulse(projectile.getDamage());
-					//jumpMan.getsHit(projectile.getDamage());
-					//if (jumpMan.isDead()) {deleteObject(jumpMan);}
+					//jumpManCheckPulse(projectile.getDamage());
+					jumpMan.getsHit(projectile.getDamage());
 					projectile.removeImage();
 				}
 		}
@@ -296,7 +299,9 @@ public class Room {
 				for (GameObject gameObject : gameObjects) {
 					if (gameObject.isDestroyable()) {deleteObject(gameObject);}
 				}
-				if(position.equals(jumpMan.getPosition())){jumpManCheckPulse(bomb.getDamage());}
+				if(position.equals(jumpMan.getPosition())){
+					//jumpManCheckPulse(bomb.getDamage());
+				}
 			}
 		}
 	}
