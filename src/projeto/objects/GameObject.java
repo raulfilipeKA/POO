@@ -8,6 +8,7 @@ import projeto.pt.iscte.poo.utils.Point2D;
 public abstract class GameObject implements ImageTile{
 
     private Point2D position;
+    private boolean destroyed = false;
     //private final boolean isDestructible;
 
     public GameObject(Point2D initialPosition){
@@ -52,8 +53,15 @@ public abstract class GameObject implements ImageTile{
 
     public boolean canTeleport(){return false;}
 
-    public void teleport(Point2D newPosition){
-        if(canTeleport()){
+    public void destroy(){  //vai servir para apagar os objetos que forem rebentados
+        //this.removeImage();
+        destroyed = true;
+    }
+
+    public boolean isDestroyed(){return destroyed;}
+
+    public void teleport(Point2D newPosition){ //podíamos criar dois objetos que serviam como portais
+        if(canTeleport()){                     //mas é usado só para quando o jumpMan morre e tem que voltar ao início da sala
             this.removeImage();
             position = newPosition;
             this.createImage();

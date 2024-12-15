@@ -66,5 +66,10 @@ public abstract class Character extends GameObject {
         }
     }
 
+    public void move(Point2D p) {
+        Direction direction = this.getPosition().directionTo(p);
+        setPosition(getPosition().plus(direction.asVector()));
+    }
+
 
 }

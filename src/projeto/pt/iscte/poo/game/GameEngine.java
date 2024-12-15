@@ -1,7 +1,6 @@
 package projeto.pt.iscte.poo.game;
 
-import projeto.objects.GoodMeat;
-import projeto.objects.JumpMan;
+import projeto.objects.*;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.Observed;
 import projeto.pt.iscte.poo.observer.Observer;
@@ -12,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 public class GameEngine implements Observer {
 	private int roomNum=0;
@@ -54,12 +54,17 @@ public class GameEngine implements Observer {
 				System.out.println("Direction! ");
 				currentRoom.moveJumpMan(k);
 			}
-			if (k == 98 || k == 66) {currentRoom.getJumpMan().deployBomb();}
+			if (k == 98 || k == 66) {
+				currentRoom.deployBomb(lastTickProcessed);
+				//currentRoom.getJumpMan().deployBomb(lastTickProcessed);
+			}
 
 		} else{currentRoom.applyGravity();}
 
 		int t = ImageGUI.getInstance().getTicks();
 		System.out.println("T: " + t);
+
+		currentRoom.checkForDetonation(lastTickProcessed);
 
 		if (isEven(lastTickProcessed)) {currentRoom.moveKong();}
 		currentRoom.moveBat();
@@ -97,6 +102,7 @@ public class GameEngine implements Observer {
 			System.out.println("Updating leaderboards...");
 			updateLeaderboards();
 			criarFicheiro();
+			ImageGUI.getInstance().dispose(); // acho eu mas esta coisa funciona
 		}
 	}
 
@@ -114,7 +120,9 @@ public class GameEngine implements Observer {
 
 	public boolean isGameFinished() {
 		if(roomNum == numberOfRoomFiles()-1 && currentRoom.atDoor()
-				&& (currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())) {
+				&& (currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())
+		|| roomNum == numberOfRoomFiles()-1 &&
+				(currentRoom.whatsThere(currentRoom.getJumpMan().getPosition(), Princess.class)) != null) {
 			return true;
 			//gameIsFinished = true;
 		}
@@ -135,6 +143,10 @@ public class GameEngine implements Observer {
 		lastTickProcessed = 0;
 		ticksProcessedInCurrentRoom = 0;
 		gameIsFinished = false;
+	}
+
+	public void blowBomb(){
+
 	}
 
 	//NOVO
@@ -173,7 +185,6 @@ public class GameEngine implements Observer {
 			for(Integer tempo : leaderBoard) {
 				fileWriter.println(tempo);
 			}
-			fileWriter.close();
 		} catch (FileNotFoundException _) {
 			System.err.println("Erro na criação do ficheiro");
 		}

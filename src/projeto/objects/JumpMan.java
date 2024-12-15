@@ -29,7 +29,8 @@ public class JumpMan extends Character {
 
 	public boolean hasKey() {return this.hasKey;}
 
-	public void deployBomb(){new Bomb(this);}
+	public void deployBomb(int time){
+		new Bomb(this, time);}
 
 	public int getLives() {return this.lives;}
 

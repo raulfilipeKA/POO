@@ -13,11 +13,4 @@ public class Bat extends Character {
     @Override
     public String getName() {return "Bat";}
 
-    public void move(Point2D position) {
-        Direction dir = getPosition().directionTo(position);
-        setPosition(getPosition().plus(dir.asVector()));
-    }
-
-    public void move(Direction d){setPosition(getPosition().plus(d.asVector()));}
-
 }

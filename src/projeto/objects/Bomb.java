@@ -4,17 +4,23 @@ public class Bomb extends GameObject {
     public static final int DAMAGE = 99999;
     public static final int EXPLOSION_RADIUS = 1;
     public static final int TIMER = 5;
-    private boolean armed = false;
+    private boolean blow = false;
+    private int blowAt;
 
-    public Bomb(Character character) {super(character.getPosition());}
+    public Bomb(JumpMan jumpMan, int time) {
+        super(jumpMan.getPosition());
+        blowAt = time+TIMER;
+    }
+
+    public int getBlowAt() {return blowAt;}
+    public void blow() {blow = true;}
+    public boolean isBlown() {return blow;}
 
     @Override
     public String getName() {return "Bomb";}
 
     @Override
-    public int getLayer() {return 10;}
-
-    public void arm() {armed = true;}
+    public int getLayer() {return 2;}
 
     @Override
     public boolean isDestroyable() {return false;}

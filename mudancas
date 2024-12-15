@@ -1,4 +1,3 @@
-na funcao do deleteRoom adicionei o remove JumpMan image que ele nao pertence à lista de objetos todo DONE
 implemetnei a funcao teleport porque set position so muda a posicao do jumpman mas nao muda a imagem
 
 
@@ -21,3 +20,16 @@ era usar o quê? AWT? todo
 senao escrevemos so no ficheiro e fazemos print para a consola, para o programa e tá nice todo
 
 catchItem magia feito DONE BUE FIXE
+
+o bat nao esta a atacar o jumpman DONE
+
+a bomba está feita so tinha que verificar onde é que está a rebentar com os chars que nao o jumpman
+
+copiar a WallTrap como deve ser e testar
+
+todo FAZER O UML ATUALIZADO
+EXPORTAR PARA O ECLIPSE E DO ECLIPSE
+e tentar abrir
+MUDAR O NOME DO ZIP
+INCLUIR OS FICHEIROS TXT
+e SUBMETER NO MOODLE /*)

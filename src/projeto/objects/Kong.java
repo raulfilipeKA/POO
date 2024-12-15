@@ -19,9 +19,4 @@ public class Kong extends Character {
         return "DonkeyKong";
     }
 
-    public void move(Point2D p) {
-        if(p.getX() == this.getPosition().getX()){return;}
-        Direction direction = this.getPosition().directionTo(p);
-        setPosition(getPosition().plus(direction.asVector()));
-    }
 }
