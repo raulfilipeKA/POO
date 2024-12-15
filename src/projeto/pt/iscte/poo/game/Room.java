@@ -414,7 +414,7 @@ public class Room {
 	return false;
 }
 
-public <T> T whatsThere(Point2D position, Class<T> type) {  //todo ver se funciona
+public <T> T whatsThere(Point2D position, Class<T> type) {  //todo ver se funciona  FIZ MAGIA
     for (GameObject object : roomObjectsList) {
         if (type.isInstance(object) && object.getPosition().equals(position)) {
             return type.cast(object);
