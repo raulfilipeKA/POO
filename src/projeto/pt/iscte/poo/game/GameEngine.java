@@ -85,6 +85,8 @@ public class GameEngine implements Observer {
 			currentRoom.rotMeat();
 		}
 
+		currentRoom.removeDeadCharacters();
+
 		if (lastTickProcessed < t) {
 			processTick();
 		}

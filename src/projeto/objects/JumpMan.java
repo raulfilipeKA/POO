@@ -13,11 +13,6 @@ public class JumpMan extends Character {
 		super(initialPosition, HEALTH, ATTACK);
 	}
 
-	public JumpMan(Point2D inicialPosition, JumpMan jumpMan) {
-		super(inicialPosition, jumpMan.getHealth(), jumpMan.getAttack());
-		lives = jumpMan.getLives();
-	}
-
 	@Override
 	public String getName() {return "JumpMan";}
 

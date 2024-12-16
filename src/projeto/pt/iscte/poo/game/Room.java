@@ -186,6 +186,7 @@ public class Room {
 	public void moveBat() {
 		Bat bat;
 		Point2D newPosition;
+		ArrayList<Bat> bats = new ArrayList<>();
 		for (Character possibleBat : characters) {
 			if(possibleBat instanceof Bat) {
 				bat = (Bat) possibleBat;
@@ -200,6 +201,12 @@ public class Room {
 				} else {
 					newPosition = bat.getPosition().plus(leftRight().asVector());
 					if (isValidMoveBat(newPosition)){
+						if(whatsThere(newPosition, Bomb.class)!= null) {
+							Bomb bomb = whatsThere(newPosition, Bomb.class);
+							bomb.destroy();
+							bats.add(bat);
+							bomb.removeImage();
+						}
 						bat.move(newPosition);
 						if(newPosition.equals(jumpMan.getPosition())){
 							jumpMan.getsHit(bat.getAttack());
@@ -210,10 +217,14 @@ public class Room {
 				}
 			}
 		}
+		for (Bat bat1 : bats) {
+			detonateBomb(whatsThere(bat1.getPosition(), Bomb.class));
+		}
 	}
 
 	public void moveKong() {
 		Kong kong;
+		ArrayList<Bomb> bombsTodetonate = new ArrayList<>();
 		for (GameObject possibleKong : roomObjectsList) {
 
 			if (possibleKong instanceof Kong) {
@@ -227,14 +238,19 @@ public class Room {
 					jumpMan.getsHit(kong.getAttack());
 					System.out.println("\033[34mVida" + jumpMan.getHealth() + "\033[0m");
 				} else if (isValidMove(newPosition)) {
-					kong.move(newPosition);
 					if(whatsThere(newPosition, Bomb.class)!= null){
 						Bomb bomb = whatsThere(newPosition, Bomb.class);
-						detonateBomb(bomb);
+						bomb.destroy();
+						bombsTodetonate.add(bomb);
 						bomb.removeImage();
+					}else {
+						kong.move(newPosition);
 					}
 				}
 			}
+		}
+		for (Bomb bomb : bombsTodetonate) {
+			detonateBomb(bomb);
 		}
 	}
 
@@ -264,6 +280,17 @@ public class Room {
 		return true;
 	}
 
+	void removeDeadCharacters() {
+		ArrayList<Character> deadCharacters = new ArrayList<>();
+		for (Character character : characters) {
+			if (character.getHealth() <= 0) {
+				deadCharacters.add(character);
+			}
+		}
+		for (Character deadCharacter : deadCharacters) {
+			deleteObject(deadCharacter);
+		}
+	}
 
 	public void moveProjectile() {
 		for (Projectile projectile : projectiles) {
@@ -365,6 +392,15 @@ public class Room {
 		}
 	}
 
+	public void removeDestroyedObjects1(ArrayList<GameObject> objects) {
+		ArrayList<GameObject> arr = new ArrayList<>(objects);
+		for(GameObject object : arr){
+			if(object.isDestroyed()){
+				deleteObject(object);
+			}
+		}
+	}
+
 
 	public void detonateBomb(Bomb bomb){
 		bomb.destroy();
@@ -379,12 +415,11 @@ public class Room {
 					}
 					if (gameObject.isDestroyable()) {gameObject.destroy();}
 				}
-				if(position.equals(jumpMan.getPosition())){
-					jumpMan.getsHit(bomb.getDamage());
-				}
+				if(position.equals(jumpMan.getPosition())){jumpMan.getsHit(bomb.getDamage());}
+
 			}
 		}
-		removeDestroyedObjects();
+		removeDestroyedObjects1(roomObjectsList);
 	}
 
 	public Direction leftRight(){return Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;}

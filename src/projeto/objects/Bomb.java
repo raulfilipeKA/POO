@@ -3,7 +3,7 @@ package projeto.objects;
 public class Bomb extends GameObject {
     public static final int DAMAGE = 99999;
     public static final int EXPLOSION_RADIUS = 1;
-    public static final int TIMER = 5;
+    public static final int TIMER = 20;
     private boolean blow = false;
     private int blowAt;
 
