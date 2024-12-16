@@ -1,6 +1,5 @@
 package projeto.objects;
 
-import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
 public class Bat extends Character {

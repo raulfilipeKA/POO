@@ -392,16 +392,6 @@ public class Room {
 		}
 	}
 
-	public void removeDestroyedObjects1(ArrayList<GameObject> objects) {
-		ArrayList<GameObject> arr = new ArrayList<>(objects);
-		for(GameObject object : arr){
-			if(object.isDestroyed()){
-				deleteObject(object);
-			}
-		}
-	}
-
-
 	public void detonateBomb(Bomb bomb){
 		bomb.destroy();
 		for (int i = -EXPLOSION_RADIUS; i <= EXPLOSION_RADIUS; i++) {
@@ -419,7 +409,7 @@ public class Room {
 
 			}
 		}
-		removeDestroyedObjects1(roomObjectsList);
+		removeDestroyedObjects();
 	}
 
 	public Direction leftRight(){return Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;}

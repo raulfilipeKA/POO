@@ -1,6 +1,8 @@
 package projeto.pt.iscte.poo.game;
 
-import projeto.objects.*;
+import projeto.objects.GoodMeat;
+import projeto.objects.JumpMan;
+import projeto.objects.Princess;
 import projeto.pt.iscte.poo.gui.ImageGUI;
 import projeto.pt.iscte.poo.observer.Observed;
 import projeto.pt.iscte.poo.observer.Observer;
@@ -13,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class GameEngine implements Observer {
