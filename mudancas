@@ -9,15 +9,14 @@ fazer reset ao jogo quando fica sem vidas DONE
 funcao para o config da porta DONE
 implementar o config para mudanca de sala DONE
 
-todo implementar o fim de jogo com base em nao haver config e usar a plataforma par escrever no ecra
-todo era usar o quê? JOPtionPane?
-todo senao escrevemos so no ficheiro e fazemos print para a consola, para o programa e tá nice
+ implementar o fim de jogo com base em nao haver config e usar a plataforma par escrever no ecra DONE
+senao escrevemos so no ficheiro e fazemos print para a consola, para o programa e tá nice DONE
 
 catchItem magia feito DONE BUE FIXE
 o bat nao esta a atacar o jumpman DONE
 
 todo a bomba está feita so tinha que verificar onde é que está a rebentar com os chars que nao o jumpman
-todo copiar a WallTrap como deve ser e testar
+copiar de outra versao antiga a WallTrap como deve ser e testar
 todo FAZER O UML ATUALIZADO
 EXPORTAR PARA O ECLIPSE E DO ECLIPSE
 e tentar abrir

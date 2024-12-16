@@ -6,6 +6,8 @@ import projeto.pt.iscte.poo.observer.Observed;
 import projeto.pt.iscte.poo.observer.Observer;
 import projeto.pt.iscte.poo.utils.Direction;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -15,14 +17,15 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class GameEngine implements Observer {
-	private int roomNum=0;
+	public static final String LEADERBOARD_FILE = "leaderBoard.txt";
+	private int roomNum = 0;
 	private Room currentRoom;
 	private int lastTickProcessed = 0;
 	private int ticksProcessedInCurrentRoom = 0;
 	private boolean gameIsFinished = false;
 	private ArrayList<Integer> leaderBoard = new ArrayList<>();
 
-	public GameEngine()  {
+	public GameEngine() {
 		currentRoom = new Room();
 		ImageGUI.getInstance().update();
 	}
@@ -43,7 +46,9 @@ public class GameEngine implements Observer {
 		}
 	}
 
-	public static int numberOfRoomFiles() {return new File("rooms").listFiles().length;}
+	public static int numberOfRoomFiles() {
+		return new File("rooms").listFiles().length;
+	}
 
 	@Override
 	public void update(Observed source) {
@@ -62,21 +67,31 @@ public class GameEngine implements Observer {
 				//currentRoom.getJumpMan().deployBomb(lastTickProcessed);
 			}
 
-		} else{currentRoom.applyGravity();}
+		} else {
+			currentRoom.applyGravity();
+		}
 
 		int t = ImageGUI.getInstance().getTicks();
 		System.out.println("T: " + t);
 
 		currentRoom.checkForDetonation(lastTickProcessed);
 
-		if (isEven(lastTickProcessed)) {currentRoom.moveKong();}
+		if (isEven(lastTickProcessed)) {
+			currentRoom.moveKong();
+		}
 		currentRoom.moveBat();
 
-		if (ticksProcessedInCurrentRoom == GoodMeat.TIME_TO_ROT && currentRoom.hasMeatToRot()) {currentRoom.rotMeat();}
+		if (ticksProcessedInCurrentRoom == GoodMeat.TIME_TO_ROT && currentRoom.hasMeatToRot()) {
+			currentRoom.rotMeat();
+		}
 
-		if(lastTickProcessed<t){processTick();}
+		if (lastTickProcessed < t) {
+			processTick();
+		}
 
-		if(isEven(lastTickProcessed)){currentRoom.moveProjectile();}
+		if (isEven(lastTickProcessed)) {
+			currentRoom.moveProjectile();
+		}
 
 //		while (lastTickProcessed < t) {processTick();} //o loop nao funciona bem ao alterar o valor dos ticks
 
@@ -96,31 +111,40 @@ public class GameEngine implements Observer {
 			resetJumpMan(currentRoom.getJumpMan());
 			System.out.println(currentRoom.getJumpMan().getLives());
 		}
-		if (currentRoom.getJumpMan().getLives() == 0) {resetGame();}
+		if (currentRoom.getJumpMan().getLives() == 0) {
+			resetGame();
+		}
 
 		ImageGUI.getInstance().update();
 
-		if(isGameFinished()){
+		if (isGameFinished()) {
 			currentRoom.deleteRoom();
+			currentRoom=null;
 			System.out.println("Game is finished! Score: " + lastTickProcessed);
 			System.out.println("Updating leaderboards...");
-			updateLeaderboards();
+			updateLeaderboards(lastTickProcessed);
+			System.out.println("Leaderboards updated!");
+			printOnScreen();
 			ImageGUI.getInstance().dispose(); // acho eu mas esta coisa funciona
+			return;
 		}
 	}
 
 	private void processTick() {
 		System.out.println("Tic Tac : " + lastTickProcessed);
 		lastTickProcessed++;
-		ticksProcessedInCurrentRoom++;}
+		ticksProcessedInCurrentRoom++;
+	}
 
 
-	public static boolean isEven(int n) {return n % 2 == 0;}
+	public static boolean isEven(int n) {
+		return n % 2 == 0;
+	}
 
 	public boolean isGameFinished() {
-		if(roomNum == numberOfRoomFiles()-1 && currentRoom.atDoor()
+		if (roomNum == numberOfRoomFiles() - 1 && currentRoom.atDoor()
 				&& (currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())
-		|| roomNum == numberOfRoomFiles()-1 &&
+				|| roomNum == numberOfRoomFiles() - 1 &&
 				(currentRoom.whatsThere(currentRoom.getJumpMan().getPosition(), Princess.class)) != null) {
 			return true;
 			//gameIsFinished = true;
@@ -145,31 +169,48 @@ public class GameEngine implements Observer {
 	}
 
 
-	public void updateLeaderboards() {
+	public void updateLeaderboards(int score) {
 		try {
-			Scanner sc = new Scanner(new File("leaderboard.txt"));
+			Scanner sc = new Scanner(new File(LEADERBOARD_FILE));
 			while (sc.hasNextInt()) {
 				leaderBoard.add(sc.nextInt());
-				atualizarLeaderBoard();
-				criarFicheiro();
+				addToLeaderBoard(score);
+				createFile();
 			}
 
 		} catch (FileNotFoundException e) {
-			criarFicheiro();
+			leaderBoard.add(lastTickProcessed);
+			createFile();
 		}
 	}
 
-	public void atualizarLeaderBoard() {
-		int tempoAtual = lastTickProcessed;
+	public void printOnScreen() {
+		String conteudo = "";
+		try {
+			File arquivo = new File(LEADERBOARD_FILE);
+			Scanner scanner = new Scanner(arquivo);
+			while (scanner.hasNextLine()) {
+				String linha = scanner.nextLine();
+				conteudo += linha + "\n";
+			}
+			scanner.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		JLabel label = new JLabel(conteudo);
+		label.setForeground(Color.RED);
+		JOptionPane.showMessageDialog(null, conteudo);
+	}
+
+
+	public void addToLeaderBoard(int score) {
 		if (leaderBoard.size() < 10) {
-			leaderBoard.add(tempoAtual);
+			leaderBoard.add(score);
 		} else {
-			for (int i = 0; i < leaderBoard.size(); i++) {
-				if (tempoAtual < leaderBoard.get(i)) {
-					leaderBoard.remove(i);
-					leaderBoard.add(tempoAtual);
-					break;
-				}
+			int worstTime = Collections.max(leaderBoard);
+			if (score < worstTime) {
+				leaderBoard.remove((Integer) worstTime);
+				leaderBoard.add(score);
 			}
 		} //JOPTIONPANE para escrever no ecra
 
@@ -177,10 +218,10 @@ public class GameEngine implements Observer {
 	}
 
 	//NOVO
-	public void criarFicheiro() {
-		try(PrintWriter fileWriter = new PrintWriter(("leaderBoard.txt"))) {
-			for(Integer tempo : leaderBoard) {
-				fileWriter.println(tempo);
+	public void createFile() {
+		try (PrintWriter fileWriter = new PrintWriter(LEADERBOARD_FILE)) {
+			for (int time : leaderBoard) {
+				fileWriter.println(time);
 			}
 		} catch (FileNotFoundException _) {
 			System.err.println("Erro na criação do ficheiro");
@@ -188,4 +229,10 @@ public class GameEngine implements Observer {
 	}
 
 
+	public void waitForTicks(int ticksToWait) {
+		int initialTick = lastTickProcessed;
+		while (lastTickProcessed < initialTick + ticksToWait) {
+			processTick();
+		}
+	}
 }

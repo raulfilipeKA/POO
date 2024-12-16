@@ -66,6 +66,7 @@ public class Room {
 		roomObjectsList.clear();
 		characters.clear();
 		projectiles.clear();
+		bombs.clear();
 	}
 
 	public void roomObjects(char object, int i, int j, int roomNumber, JumpMan jumpMan) {
