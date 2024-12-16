@@ -26,13 +26,9 @@ public abstract class Door extends GameObject {
         } else {
             config = config.substring(1);
             String[] parts = config.split(";");
-            try{
-                nextRoom = Integer.parseInt(parts[0]);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Invalid room number");
-            }
             if(!parts[1].startsWith("room")){throw new IllegalArgumentException("Invalid file name");}
             nextFileRoom = parts[1];
+            nextRoom = Integer.parseInt(parts[1].substring(parts[1].length()-5, parts[1].length() - 4));
         }
 
     }

@@ -2,7 +2,8 @@ package projeto.objects;
 
 import projeto.pt.iscte.poo.utils.Point2D;
 
-public class WallTrap extends GameObject {
+public class WallTrap extends Trap {
+    private boolean isSet = false;
 
     public WallTrap(Point2D position) {
         super(position);
@@ -13,11 +14,11 @@ public class WallTrap extends GameObject {
     public String getName() {return "Wall";}
 
     @Override
-    public int getLayer() {return 0;}
+    public int getLayer() {return 1;}
 
     @Override
-    public boolean canGoThrough() {return false;}
+    public boolean isSet(){return isSet;}
 
-    @Override
-    public boolean isDestroyable() {return false;}
+    public void setTrap(){isSet = true;}
+
 }

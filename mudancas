@@ -1,32 +1,23 @@
-implemetnei a funcao teleport porque set position so muda a posicao do jumpman mas nao muda a imagem
-
-
-verificar o comportamento do attack quadno o kong esta sobreposto com a porta -> roomObjList e procurar por character
-
-temos que arranjar maneira de nao perder o jumpman quando mudamos de sala (talvez retirá-lo do delete room , apaga se so a imagem e nao o objeto)
-
-ver a cena das bananas, apagar bem os objetos e verificar se o jumpman esta a ser atacado por elas todo DONE
-
+implemetnei a funcao teleport porque set position so muda a posicao do jumpman mas nao muda a imagem DONE
+verificar o comportamento do attack quadno o kong esta sobreposto com a porta -> roomObjList e procurar por character DONE
+temos que arranjar maneira de nao perder o jumpman quando mudamos de sala (talvez retirá-lo do delete room , apaga se so a imagem e nao o objeto) DONE
+ver a cena das bananas, apagar bem os objetos e verificar se o jumpman esta a ser atacado por elas DONE
 verificar o comportamento do jumpman quando ele esta a ser atacado por um inimigo DONE
-
 garantir que o jumpman é o mesmo apos mudanca de sala DONE
 fazer reset à posicao do jumpman quando ele morre e restaurar-lhe a vida DONE
 fazer reset ao jogo quando fica sem vidas DONE
-
 funcao para o config da porta DONE
-implementar o config para mudanca de sala todo
-implementar o fim de jogo com base em nao haver config e usar a plataforma par escrever no ecra todo
-era usar o quê? AWT? todo
-senao escrevemos so no ficheiro e fazemos print para a consola, para o programa e tá nice todo
+implementar o config para mudanca de sala DONE
+
+todo implementar o fim de jogo com base em nao haver config e usar a plataforma par escrever no ecra
+todo era usar o quê? JOPtionPane?
+todo senao escrevemos so no ficheiro e fazemos print para a consola, para o programa e tá nice
 
 catchItem magia feito DONE BUE FIXE
-
 o bat nao esta a atacar o jumpman DONE
 
-a bomba está feita so tinha que verificar onde é que está a rebentar com os chars que nao o jumpman
-
-copiar a WallTrap como deve ser e testar
-
+todo a bomba está feita so tinha que verificar onde é que está a rebentar com os chars que nao o jumpman
+todo copiar a WallTrap como deve ser e testar
 todo FAZER O UML ATUALIZADO
 EXPORTAR PARA O ECLIPSE E DO ECLIPSE
 e tentar abrir

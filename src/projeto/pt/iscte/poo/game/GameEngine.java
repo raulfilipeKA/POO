@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class GameEngine implements Observer {
 	private int roomNum=0;
@@ -19,6 +20,7 @@ public class GameEngine implements Observer {
 	private int lastTickProcessed = 0;
 	private int ticksProcessedInCurrentRoom = 0;
 	private boolean gameIsFinished = false;
+	private ArrayList<Integer> leaderBoard = new ArrayList<>();
 
 	public GameEngine()  {
 		currentRoom = new Room();
@@ -53,6 +55,7 @@ public class GameEngine implements Observer {
 			if (Direction.isDirection(k)) {
 				System.out.println("Direction! ");
 				currentRoom.moveJumpMan(k);
+				currentRoom.checkTrap();
 			}
 			if (k == 98 || k == 66) {
 				currentRoom.deployBomb(lastTickProcessed);
@@ -84,7 +87,7 @@ public class GameEngine implements Observer {
 		if (currentRoom.atDoor() &&
 				(currentRoom.getJumpMan().hasKey() || !currentRoom.needsKey())) {
 			//currentRoom.trocarPorta1(); como change room é mais lento, ele executa esta acao tres vezes
-			changeRoom(roomNum + 1);
+			changeRoom(currentRoom.getDoor().getNextRoom());
 			lastTickProcessed = 0;
 			//ImageGUI.getInstance().update();
 
@@ -98,16 +101,12 @@ public class GameEngine implements Observer {
 		ImageGUI.getInstance().update();
 
 		if(isGameFinished()){
+			currentRoom.deleteRoom();
 			System.out.println("Game is finished! Score: " + lastTickProcessed);
 			System.out.println("Updating leaderboards...");
 			updateLeaderboards();
-			criarFicheiro();
 			ImageGUI.getInstance().dispose(); // acho eu mas esta coisa funciona
 		}
-	}
-
-	public void updateLeaderboards() {
-		//inserir logica para guardar score
 	}
 
 	private void processTick() {
@@ -145,23 +144,21 @@ public class GameEngine implements Observer {
 		gameIsFinished = false;
 	}
 
-	public void blowBomb(){
 
-	}
+	public void updateLeaderboards() {
+		try {
+			Scanner sc = new Scanner(new File("leaderboard.txt"));
+			while (sc.hasNextInt()) {
+				leaderBoard.add(sc.nextInt());
+				atualizarLeaderBoard();
+				criarFicheiro();
+			}
 
-	//NOVO
-	public void wait(int nTicks) {
-		int tickFinal = lastTickProcessed + nTicks;
-		while(lastTickProcessed <= tickFinal) {
-			processTick();
-			ImageGUI.getInstance().update();
+		} catch (FileNotFoundException e) {
+			criarFicheiro();
 		}
 	}
 
-	//NOVO
-	private ArrayList<Integer> leaderBoard = new ArrayList<>();
-
-	//NOVO
 	public void atualizarLeaderBoard() {
 		int tempoAtual = lastTickProcessed;
 		if (leaderBoard.size() < 10) {
