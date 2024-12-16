@@ -67,7 +67,7 @@ public class GameEngine implements Observer {
 				//currentRoom.getJumpMan().deployBomb(lastTickProcessed);
 			}
 
-		} else {
+		} else if (currentRoom!=null) {
 			currentRoom.applyGravity();
 		}
 
@@ -126,6 +126,7 @@ public class GameEngine implements Observer {
 			System.out.println("Leaderboards updated!");
 			printOnScreen();
 			ImageGUI.getInstance().dispose(); // acho eu mas esta coisa funciona
+			System.exit(0);
 			return;
 		}
 	}
@@ -135,7 +136,6 @@ public class GameEngine implements Observer {
 		lastTickProcessed++;
 		ticksProcessedInCurrentRoom++;
 	}
-
 
 	public static boolean isEven(int n) {
 		return n % 2 == 0;
@@ -174,9 +174,9 @@ public class GameEngine implements Observer {
 			Scanner sc = new Scanner(new File(LEADERBOARD_FILE));
 			while (sc.hasNextInt()) {
 				leaderBoard.add(sc.nextInt());
-				addToLeaderBoard(score);
-				createFile();
 			}
+			addToLeaderBoard(score);
+			createFile();
 
 		} catch (FileNotFoundException e) {
 			leaderBoard.add(lastTickProcessed);
@@ -228,11 +228,4 @@ public class GameEngine implements Observer {
 		}
 	}
 
-
-	public void waitForTicks(int ticksToWait) {
-		int initialTick = lastTickProcessed;
-		while (lastTickProcessed < initialTick + ticksToWait) {
-			processTick();
-		}
-	}
 }

@@ -183,7 +183,6 @@ public class Room {
 		object.setPosition(object.getPosition().plus(Direction.DOWN.asVector()));
 	}
 
-	//NOVO
 	public void moveBat() {
 		Bat bat;
 		Point2D newPosition;
@@ -447,6 +446,7 @@ public class Room {
 				//	!(object instanceof JumpMan) &&
 					!(object instanceof Stairs) &&
 					!(object instanceof Door) &&
+					!(object instanceof Princess) &&
 					!(object instanceof Floor)) {
 				return object;
 			}
