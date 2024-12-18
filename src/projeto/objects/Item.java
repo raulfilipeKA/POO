@@ -20,7 +20,6 @@ public abstract class Item extends GameObject {
     public int getAttackBonus() {return attackBonus;}
 
     protected void setHealthBonus(int healthBonus) {this.healthBonus = healthBonus;}
-
     protected void setAttackBonus(int attackBonus) {this.attackBonus = attackBonus;}
 
 }

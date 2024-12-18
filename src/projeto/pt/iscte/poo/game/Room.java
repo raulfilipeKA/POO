@@ -140,7 +140,7 @@ public class Room {
 				return;
 			case 't':
 				roomObjectsList.add(new Floor(position));
-				obj = new Trap(position);
+				obj = new WallTrap(position);
 				roomObjectsList.add(obj);
 				return;
 			case ' ':
@@ -343,6 +343,17 @@ public class Room {
 				jumpMan.move(d);
 				System.out.println("\033[33m" + jumpMan.getPosition() + "\033[0m");
 			}
+			Object object = whatsThere(jumpMan.getPosition().plus(Direction.DOWN.asVector()));
+			if (object instanceof WallTrap) {
+				WallTrap trapWall = (WallTrap) object;
+				jumpMan.getsHit(trapWall.getDamage());
+				Trap trap = new Trap(trapWall.getPosition());
+				roomObjectsList.set(roomObjectsList.indexOf(object), trap);
+				roomObjectsList.remove(trapWall);
+				roomObjectsList.add(trap);
+				trapWall.removeImage();
+				System.out.println("VIDAAAAAAAAAAAAAAAAAAAAAAA:" + jumpMan.getHealth());
+			}
 		}
 	}
 
@@ -535,12 +546,7 @@ public class Room {
 	return false;
 }
 
-
 	public Point2D getJumpManInitialPosition() {return jumpManInitialPosition;}
 	public JumpMan getJumpMan() {return jumpMan;}
-
-
-
-
 
 }
