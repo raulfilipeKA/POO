@@ -112,7 +112,11 @@ public class Room {
 				roomObjectsList.add(obj);
 				needsKey = true;
 				return;
-
+			case  'T':
+				roomObjectsList.add(new Floor(position));
+				obj = new Thief(position);
+				roomObjectsList.add(obj);
+				return;
 			case 's':
 				roomObjectsList.add(new Floor(position));
 				obj = new Sword(position);
@@ -251,6 +255,47 @@ public class Room {
 		}
 		for (Bomb bomb : bombsTodetonate) {
 			detonateBomb(bomb);
+		}
+	}
+
+	public void moveThief() {
+		Thief thief;
+		for (GameObject possibleThief : roomObjectsList) {
+			if (possibleThief instanceof Thief) {
+				thief = (Thief) possibleThief;
+				if ((thief.getPosition().getY() == jumpMan.getPosition().getY()) || thief.stole()) {
+					thief.move(jumpMan);
+				} else if (thief.getPosition().getY() < jumpMan.getPosition().getY() ) { //se o jumpman estiver em baixo
+					Point2D newPosition=null;
+					for (int i = 0; i < 10; i++) {
+						if (checkForStairs(new Point2D(i, thief.getPosition().getY()+1))) {
+							newPosition = new Point2D(i, thief.getPosition().getY()+1);
+							if(newPosition.getX()== thief.getPosition().getX()){
+								thief.move(thief.getPosition().plus(Direction.DOWN.asVector()));
+								break;
+							}else {
+								thief.moveTowards(newPosition);
+							}
+						}
+					}
+				} else{ //se o jumpman estiver em cima do thief
+					Point2D newPosition=null;
+					if (checkForStairs(thief.getPosition()))
+					{thief.move(thief.getPosition().plus(Direction.UP.asVector()));}
+					else {
+						for (int i = 0; i < 10; i++) {
+							if (checkForStairs(new Point2D(i, thief.getPosition().getY() - 1))) {
+								newPosition = new Point2D(i, thief.getPosition().getY() - 1);
+								thief.moveTowards(newPosition);
+								break;
+							}
+							else {
+								thief.moveTowards(newPosition);
+						}
+						}
+					}
+				}
+			}
 		}
 	}
 

@@ -81,6 +81,7 @@ public class GameEngine implements Observer {
 			currentRoom.moveKong();
 		}
 		currentRoom.moveBat();
+		currentRoom.moveThief();
 
 		if (ticksProcessedInCurrentRoom == GoodMeat.TIME_TO_ROT && currentRoom.hasMeatToRot()) {
 			currentRoom.rotMeat();

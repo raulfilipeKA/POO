@@ -3,6 +3,8 @@ package projeto.objects;
 import projeto.pt.iscte.poo.utils.Direction;
 import projeto.pt.iscte.poo.utils.Point2D;
 
+import java.util.ArrayList;
+
 public class JumpMan extends Character {
 	public static final int ATTACK = 10;
 	public static final int HEALTH = 100;
@@ -16,9 +18,7 @@ public class JumpMan extends Character {
 	@Override
 	public String getName() {return "JumpMan";}
 
-	public void move(Direction direction) {
-		setPosition(getPosition().plus(direction.asVector()));
-	}
+	public void move(Direction direction) {setPosition(getPosition().plus(direction.asVector()));}
 
 	public void setHasKey(boolean state) {this.hasKey = state;}
 
@@ -28,13 +28,6 @@ public class JumpMan extends Character {
 	public int getLives() {return this.lives;}
 
 	public void loseLife() {this.lives--;}
-
-	public void pickUp(Item item) {
-		if (item != null && item.getPosition().equals(getPosition())) {
-			if(item.getAttackBonus() > 0) {setAttack(getAttack() + item.getAttackBonus());}
-			if(item.getHealthBonus() > 0) {setHealthBonus(getHealth()+item.getHealthBonus());}
-		}
-	}
 
 	@Override
 	public boolean canTeleport() {return true;}
